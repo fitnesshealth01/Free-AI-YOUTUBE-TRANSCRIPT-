@@ -1496,22 +1496,45 @@ export default function App() {
   };
 
   // Submit Support Ticket / Contact Message (AdSense compliance requirement)
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) {
       showToast("Please fill in all required fields!");
       return;
     }
     setIsSubmittingContact(true);
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: contactName,
+          email: contactEmail,
+          subject: contactSubject,
+          message: contactMessage,
+        }),
+      });
+
+      if (response.ok) {
+        showToast("Message sent successfully! We will get back to you soon.");
+        // Reset support form
+        setContactName("");
+        setContactEmail("");
+        setContactSubject("general");
+        setContactMessage("");
+        setShowContactSupport(false);
+      } else {
+        const data = await response.json().catch(() => ({}));
+        showToast(data.error || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      showToast("Network error. Please try again later.");
+    } finally {
       setIsSubmittingContact(false);
-      showToast("Message sent successfully! Our support team will reply within 24 hours.");
-      // Reset support form
-      setContactName("");
-      setContactEmail("");
-      setContactMessage("");
-      setShowContactSupport(false);
-    }, 700);
+    }
   };
 
   return (

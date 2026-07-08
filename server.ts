@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
+import nodemailer from 'nodemailer';
 import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
@@ -314,6 +315,89 @@ app.get('/ads.txt', (req, res) => {
   }
   res.type('text/plain');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0`);
+});
+
+// API endpoint to handle real contact form submissions using Hostinger SMTP
+app.post('/api/contact', async (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'Name, email, and message are required.' });
+  }
+
+  // Retrieve SMTP credentials from environment variables
+  const smtpHost = process.env.SMTP_HOST || 'smtp.hostinger.com';
+  const smtpPort = parseInt(process.env.SMTP_PORT || '465');
+  const smtpUser = process.env.SMTP_USER || 'yt@transcriptg.com';
+  const smtpPass = process.env.SMTP_PASS; // Should be set in .env / dashboard
+
+  if (!smtpPass) {
+    console.warn('SMTP password is not set in environment variables. Falling back to console logging.');
+    console.log('Received contact message:', { name, email, subject, message });
+    return res.status(200).json({ 
+      success: true, 
+      message: 'Message received (Development mode). Configure SMTP_PASS on Hostinger dashboard to send actual emails.' 
+    });
+  }
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465, // true for 465, false for 587
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    const mailOptions = {
+      from: `"${name}" <${smtpUser}>`, // SMTP authentication user email is sender
+      replyTo: email, // Direct replies back to the sender's actual email
+      to: 'yt@transcriptg.com',
+      subject: `[TranscriptG Contact] ${subject || 'New Support/Partnership Inquiry'}`,
+      text: `You have received a new contact submission from TranscriptG.
+
+Name: ${name}
+Email: ${email}
+Subject: ${subject || 'N/A'}
+
+Message:
+------------------------------------------
+${message}
+------------------------------------------`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
+          <h2 style="color: #ef4444; margin-top: 0;">New Contact Submission</h2>
+          <p style="font-size: 14px; color: #334155;">You have received a new support or partnership inquiry from <strong>TranscriptG</strong>.</p>
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold; width: 120px; color: #475569;">Name:</td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b;">${name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #475569;">Email:</td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b;"><a href="mailto:${email}" style="color: #ef4444; text-decoration: none;">${email}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #475569;">Subject:</td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b;">${subject || 'N/A'}</td>
+            </tr>
+          </table>
+          <div style="background-color: #ffffff; padding: 15px; border-left: 4px solid #ef4444; border-radius: 4px; font-size: 14px; color: #1e293b; line-height: 1.6; white-space: pre-wrap;">${message}</div>
+          <p style="font-size: 12px; color: #64748b; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+            This email was sent from the contact form on TranscriptG.com. You can reply directly to this email to contact <strong>${name}</strong>.
+          </p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    return res.status(200).json({ success: true, message: 'Message sent successfully.' });
+  } catch (error: any) {
+    console.error('Error sending email via Nodemailer:', error);
+    return res.status(500).json({ error: error.message || 'Failed to send message.' });
+  }
 });
 
 // API endpoint to analyze a YouTube video
