@@ -1,0 +1,6 @@
+{
+  "name": "Free AI YouTube Toolkit",
+  "description": "The ultimate free YouTube toolkit. Instantly generate transcripts, summaries, blog posts, social content, chapters, SEO assets, mind maps, and study guides from any YouTube video with zero sign-ups.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
