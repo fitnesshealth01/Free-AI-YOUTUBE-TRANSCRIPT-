@@ -1,0 +1,19 @@
+# TranscriptG Toolkit
+
+> 100% Free YouTube Transcript Generator, AI Summarizer, and Content Repurposing Toolkit.
+
+TranscriptG is an optimized full-stack suite of tools to extract high-accuracy text transcripts from public YouTube videos, generate structural chapter indexes, produce clean AI-powered article drafts, and manage metadata.
+
+## Core Capabilities
+
+- **YouTube Transcript Grabber**: High-precision frame-synchronized subtitle fetching for public video assets.
+- **AI Summarization & Chapters**: Structured key takeaways, summaries, and timestamped chapter indexes.
+- **YouTube to Blog Post**: Conversion of speech into SEO-optimized long-form articles.
+- **Shorts Clipper & Hooks**: Identify virality triggers, high-retention hooks, and video segmentation logs.
+- **SEO & Keyword Extraction**: Parse high-impact search keywords and semantic concepts.
+
+## Key Resources
+
+- [Home Page](https://transcriptg.com/)
+- [Sitemap](https://transcriptg.com/sitemap.xml)
+- [AdSense Compliance](https://transcriptg.com/ads.txt)

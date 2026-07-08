@@ -1645,6 +1645,9 @@ export default function App() {
         </div>
       </header>
 
+      {/* Main Content Landmark */}
+      <main className="flex-grow">
+
       {/* Conditional Rendering: Homepage vs Workspace */}
       {isLoading ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -3133,28 +3136,28 @@ export default function App() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className={`p-4 rounded-xl border ${theme === "dark" ? "bg-slate-900/30 border-slate-800" : "bg-gray-50 border-slate-200"}`}>
                       <h4 className="font-bold text-sm mb-1.5 flex items-center gap-1.5"><Zap className="w-4 h-4 text-amber-500 shrink-0" /> Turbocharge SEO</h4>
-                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-505" : "text-slate-600"}`}>
+                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
                         Search engine crawlers cannot "watch" videos. Restructuring video audio into punctuated long-form blog articles allows you to capture secondary long-tail keywords effortlessly.
                       </p>
                     </div>
 
                     <div className={`p-4 rounded-xl border ${theme === "dark" ? "bg-slate-900/30 border-slate-800" : "bg-gray-50 border-slate-200"}`}>
                       <h4 className="font-bold text-sm mb-1.5 flex items-center gap-1.5"><Languages className="w-4 h-4 text-emerald-500 shrink-0" /> Multilingual Reach</h4>
-                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-505" : "text-slate-600"}`}>
+                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
                         With our built-in AI Translation Engine, convert transcripts to Spanish, French, German, Japanese, and more. Upload them back as native YouTube Subtitle files (.SRT) to double your viewer base.
                       </p>
                     </div>
 
                     <div className={`p-4 rounded-xl border ${theme === "dark" ? "bg-slate-900/30 border-slate-800" : "bg-gray-50 border-slate-200"}`}>
                       <h4 className="font-bold text-sm mb-1.5 flex items-center gap-1.5"><Share2 className="w-4 h-4 text-red-500 shrink-0" /> Social Media Mastery</h4>
-                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-505" : "text-slate-600"}`}>
+                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
                         A single 10-minute YouTube video transcript contains enough high-density material to produce 5 viral Twitter threads, 3 detailed LinkedIn articles, and 2 script frameworks for TikTok.
                       </p>
                     </div>
 
                     <div className={`p-4 rounded-xl border ${theme === "dark" ? "bg-slate-900/30 border-slate-800" : "bg-gray-50 border-slate-200"}`}>
                       <h4 className="font-bold text-sm mb-1.5 flex items-center gap-1.5"><BookOpen className="w-4 h-4 text-blue-500 shrink-0" /> Study Guides</h4>
-                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-505" : "text-slate-600"}`}>
+                      <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
                         Transcribing university lectures and conference panels enables text-searchability, rapid concept mind-mapping, and instant card revision generation. Save hundreds of study hours.
                       </p>
                     </div>
@@ -3322,9 +3325,9 @@ export default function App() {
 
                 {/* Features list */}
                 <div className="space-y-3">
-                  <h4 className="text-xs font-extrabold uppercase tracking-widest text-slate-400">
+                  <div className="text-xs font-extrabold uppercase tracking-widest text-slate-400">
                     Why KlickPin?
-                  </h4>
+                  </div>
                   <ul className="space-y-2 text-xs font-semibold">
                     <li className="flex items-center gap-2 text-emerald-500">
                       <Check className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -5147,6 +5150,8 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* Footer */}
       <footer className={`py-12 border-t ${theme === "dark" ? "bg-[#080B12] border-slate-900" : "bg-white border-slate-200"}`}>
