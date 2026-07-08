@@ -650,16 +650,21 @@ export default function App() {
 
     // Map keywords for all tools to target search queries
     const toolKeywordsMap: Record<string, string> = {
-      transcript_generator: "youtube transcript generator, youtube transcript to text, download youtube transcript, youtube subtitles extractor, youtube transcript, free youtube transcript finder",
-      summarizer: "youtube video summarizer, summarize youtube video, ai youtube summary, yt summary generator, summarize youtube video in seconds, chat with youtube video",
-      blog_generator: "youtube to blog, youtube video to article generator, youtube transcript to blog, turn youtube video into blog post, convert youtube to markdown article",
-      social_planner: "youtube video social posts, youtube to twitter thread, youtube to linkedin post, social content scheduler from youtube, youtube video repurposer",
-      chapters_generator: "youtube chapters generator, youtube video timestamps, automatic youtube chapters, smart timestamp generator, split youtube video chapters",
-      seo: "youtube seo optimization, youtube keywords generator, youtube metadata generator, youtube description generator, tags search volume, video tags audit compliance",
-      shorts_clipper: "youtube shorts clipper, ai shorts generator, vertical video clipper, youtube video to shorts hook, automated shorts script writer",
-      thumbnail_grabber: "youtube thumbnail downloader, download yt thumbnail hd, youtube ctr analysis, thumbnail grabber free, extract youtube video thumbnail",
-      script_writer: "youtube script writer ai, write youtube script, video storyboard generator, youtube scripting tool free, write engaging video outline",
-      video_downloader: "youtube video downloader free, download youtube videos, client-side video remuxer, yt video converter 4k, online video packing engine, merge audio video client-side"
+      transcript: "youtube transcript generator, youtube transcript to text, download youtube transcript, youtube subtitles extractor, youtube transcript, free youtube transcript finder, get transcript of youtube video, extract youtube captions",
+      summary: "youtube video summarizer, summarize youtube video, ai youtube summary, yt summary generator, summarize youtube video in seconds, chat with youtube video, youtube transcript summarizer, video summary ai, free video takeaways",
+      blog: "youtube to blog, youtube video to article generator, youtube transcript to blog, turn youtube video into blog post, convert youtube to markdown article, youtube to blog post ai, repurpose youtube video to blog, youtube article writer",
+      social: "youtube video social posts, youtube to twitter thread, youtube to linkedin post, social content scheduler from youtube, youtube video repurposer, viral youtube thread generator, linkedin post from youtube video",
+      chapters: "youtube chapters generator, youtube video timestamps, automatic youtube chapters, smart timestamp generator, split youtube video chapters, auto chapters for youtube, video milestone creator",
+      seo: "youtube seo optimization, youtube keywords generator, youtube metadata generator, youtube description generator, tags search volume, video tags audit compliance, youtube seo tool, best tags for youtube videos",
+      quotes: "youtube quotes extractor, extract quotes from video, find best quotes in youtube video, motivational video quotes, educational video quotes, famous youtube lines, transcriptg quote finder",
+      translation: "youtube subtitle translator, translate youtube transcript, translate video transcript, multi-language youtube subtitles, translate video to english, youtube transcript translation",
+      knowledge_graph: "youtube mind map generator, youtube knowledge graph, visualize video concepts, video topic map, interactive learning mindmap, youtube visual outline",
+      faq: "youtube faq creator, frequently asked questions generator, generate faqs from video, ai faq maker, youtube description faqs",
+      study: "youtube to flashcards, youtube study notes generator, study cards from video, active recall video quiz, youtube learning companion, convert lecture to notes",
+      action_items: "youtube action plan builder, extract tasks from video, automated checklist generator, video action items, priority framework maker",
+      shorts_clipper: "youtube shorts clipper, ai shorts generator, vertical video clipper, youtube video to shorts hook, automated shorts script writer, convert youtube to shorts, viral clip finder",
+      thumbnail_grabber: "youtube thumbnail downloader, download yt thumbnail hd, youtube ctr analysis, thumbnail grabber free, extract youtube video thumbnail, save youtube cover image",
+      script_writer: "youtube script writer ai, write youtube script, video storyboard generator, youtube scripting tool free, write engaging video outline, youtube teleprompter script"
     };
 
     if (selectedLandingTool) {
@@ -780,9 +785,15 @@ export default function App() {
 
       window.location.hash = `#article=${selectedArticle.id}`;
     } else {
-      document.title = "TranscriptG - Free Client-Side YouTube SEO, Summary, Transcript & Downloader Tools";
-      metaDesc.setAttribute('content', "TranscriptG is the ultimate 100% free offline-capable toolkit for creators, students, and professionals to transcribe, summarize, translate, optimize, download, and repurpose YouTube videos.");
-      metaKeywords.setAttribute('content', "youtube transcript generator, transcript generator, youtube transcript, youtube summarizer, youtube to blog, youtube downloader, youtube seo, chapters generator, shorts clipper, script writer, transcriptg");
+      if (activeHomeTab === "pinterest") {
+        document.title = "Free Pinterest Video Downloader | Download Pin Videos in HD - TranscriptG";
+        metaDesc.setAttribute('content', "Use KlickPin on TranscriptG to download Pinterest videos in high quality MP4 format. 100% free online Pinterest video downloader, no sign-up required, saves directly to camera roll.");
+        metaKeywords.setAttribute('content', "pinterest video downloader, pinterest downloader, download pinterest video, pinterest downloader online, pinterest to mp4, pin video downloader, save pinterest video, pinterest video converter, pinterest downloader free, safe pinterest downloader, extract video from pinterest");
+      } else {
+        document.title = "TranscriptG - Free Client-Side YouTube SEO, Summary, Transcript & Downloader Tools";
+        metaDesc.setAttribute('content', "TranscriptG is the ultimate 100% free offline-capable toolkit for creators, students, and professionals to transcribe, summarize, translate, optimize, download, and repurpose YouTube videos.");
+        metaKeywords.setAttribute('content', "youtube transcript generator, transcript generator, youtube transcript, youtube summarizer, youtube to blog, youtube downloader, youtube seo, chapters generator, shorts clipper, script writer, transcriptg, download youtube transcript, youtube transcript to text, summarize youtube video");
+      }
       canonicalLink.setAttribute('href', `${window.location.origin}${window.location.pathname}`);
 
       if (window.location.hash.startsWith("#tool=") || window.location.hash.startsWith("#article=")) {
@@ -796,7 +807,7 @@ export default function App() {
       const existingAppCleanup = document.getElementById("jsonld-app-schema");
       if (existingAppCleanup) existingAppCleanup.remove();
     };
-  }, [selectedLandingTool, selectedArticle]);
+  }, [selectedLandingTool, selectedArticle, activeHomeTab]);
 
   // Teleprompter Autoscroll Effect
   useEffect(() => {
@@ -2640,7 +2651,7 @@ export default function App() {
                   <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>Free No Sign-Up</span>
                 </div>
                 <div className="text-center">
-                  <span className="text-3xl font-extrabold block text-amber-500">&lt; 3s</span>
+                  <span className="text-3xl font-extrabold block text-amber-500">&lt; 30s</span>
                   <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>Average Processing</span>
                 </div>
                 <div className="text-center">
@@ -2733,25 +2744,25 @@ export default function App() {
                     <tr className={theme === "dark" ? "hover:bg-slate-900/30" : "hover:bg-slate-50"}>
                       <td className="p-5 font-semibold text-sm">Transcribe 30min Video</td>
                       <td className="p-5 text-sm text-slate-500">120 Minutes</td>
-                      <td className="p-5 text-sm font-bold text-emerald-400">1.2 Seconds</td>
+                      <td className="p-5 text-sm font-bold text-emerald-400">~10 Seconds</td>
                       <td className="p-5 text-sm font-bold text-emerald-500">99.9% Faster</td>
                     </tr>
                     <tr className={theme === "dark" ? "hover:bg-slate-900/30" : "hover:bg-slate-50"}>
                       <td className="p-5 font-semibold text-sm">Summarize Key Takeaways</td>
                       <td className="p-5 text-sm text-slate-500">45 Minutes</td>
-                      <td className="p-5 text-sm font-bold text-emerald-400">1.8 Seconds</td>
-                      <td className="p-5 text-sm font-bold text-emerald-500">99.8% Faster</td>
+                      <td className="p-5 text-sm font-bold text-emerald-400">~15 Seconds</td>
+                      <td className="p-5 text-sm font-bold text-emerald-500">99.5% Faster</td>
                     </tr>
                     <tr className={theme === "dark" ? "hover:bg-slate-900/30" : "hover:bg-slate-50"}>
                       <td className="p-5 font-semibold text-sm">Write SEO Blog Post</td>
                       <td className="p-5 text-sm text-slate-500">180 Minutes</td>
-                      <td className="p-5 text-sm font-bold text-emerald-400">2.5 Seconds</td>
-                      <td className="p-5 text-sm font-bold text-emerald-500">99.9% Faster</td>
+                      <td className="p-5 text-sm font-bold text-emerald-400">~25 Seconds</td>
+                      <td className="p-5 text-sm font-bold text-emerald-500">99.8% Faster</td>
                     </tr>
                     <tr className={theme === "dark" ? "hover:bg-slate-900/30" : "hover:bg-slate-50"}>
                       <td className="p-5 font-semibold text-sm">Generate Social Media Threads</td>
                       <td className="p-5 text-sm text-slate-500">60 Minutes</td>
-                      <td className="p-5 text-sm font-bold text-emerald-400">1.5 Seconds</td>
+                      <td className="p-5 text-sm font-bold text-emerald-400">~12 Seconds</td>
                       <td className="p-5 text-sm font-bold text-emerald-500">99.7% Faster</td>
                     </tr>
                   </tbody>
@@ -3241,13 +3252,17 @@ export default function App() {
                 {/* Main Call-to-Action Download Section */}
                 <div className="space-y-3">
                   <a 
-                    href={`/api/pinterest/stream?url=${encodeURIComponent(pinterestData.videoUrl)}`}
-                    download
+                    href={`/api/pinterest/stream/Pinterest_Video_${Date.now()}.mp4?url=${encodeURIComponent(pinterestData.videoUrl)}`}
+                    download={`Pinterest_Video_${Date.now()}.mp4`}
                     className="w-full py-4 px-6 rounded-2xl font-extrabold text-sm text-center bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white shadow-lg shadow-red-500/25 flex items-center justify-center gap-2 hover:scale-[1.01] transition-all cursor-pointer"
                   >
                     <Download className="w-5 h-5 animate-bounce" />
                     Download Video File (.MP4)
                   </a>
+
+                  <p className={`text-[11px] leading-relaxed text-center italic px-2 ${theme === "dark" ? "text-slate-500" : "text-slate-400"}`}>
+                    💡 <strong>Mobile User Tip:</strong> If the direct download button does not trigger automatically on your device, tap <strong>Open Video Link</strong> below, then long-press (hold) the video and select <strong>"Save Video"</strong> to save directly to your camera roll!
+                  </p>
 
                   <div className="grid grid-cols-2 gap-3">
                     <a 

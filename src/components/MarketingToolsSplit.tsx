@@ -87,22 +87,56 @@ export default function MarketingToolsSplit({
             <div className={`p-4 rounded-lg text-xs ${theme === "dark" ? "bg-slate-900/60" : "bg-gray-100"}`}>
               <span className="font-bold block mb-2 text-slate-400 uppercase tracking-widest">Table of Contents</span>
               <ol className="list-decimal list-inside space-y-1">
-                {selectedVideo.blog.toc ? selectedVideo.blog.toc.map((t: string, idx: number) => (
-                  <li key={idx} className="hover:text-red-400 cursor-pointer">{t}</li>
-                )) : (
-                  <li>Introduction</li>
-                )}
+                {(selectedVideo.blog.sections ? selectedVideo.blog.sections.slice(0, blogLength === "short" ? 1 : blogLength === "medium" ? 2 : 4) : []).map((sec: any, idx: number) => (
+                  <li key={idx} className="hover:text-red-400 cursor-pointer">{sec.heading}</li>
+                ))}
               </ol>
             </div>
 
             {/* Blog content segments dynamically tailored by length selector */}
-            <div className="space-y-4">
-              {selectedVideo.blog.sections ? selectedVideo.blog.sections.slice(0, blogLength === "short" ? 1 : blogLength === "medium" ? 2 : 4).map((sec: any, idx: number) => (
-                <div key={idx} className="space-y-2">
-                  <h3 className="text-base font-bold text-red-500">## {sec.heading}</h3>
-                  <p className="text-sm leading-relaxed">{sec.content}</p>
-                </div>
-              )) : (
+            <div className="space-y-5">
+              {selectedVideo.blog.sections ? selectedVideo.blog.sections.slice(0, blogLength === "short" ? 1 : blogLength === "medium" ? 2 : 4).map((sec: any, idx: number) => {
+                let contentElement;
+                if (blogLength === "short") {
+                  const sentences = sec.content.split('. ');
+                  const condensedText = sentences.slice(0, Math.min(2, sentences.length)).join('. ') + (sentences.length > 2 ? '.' : '');
+                  contentElement = (
+                    <div className="space-y-1">
+                      <p className="text-sm leading-relaxed text-slate-300">{condensedText}</p>
+                      <div className="pl-3 border-l-2 border-rose-500/40 text-xs text-rose-400/80 italic mt-1">
+                        Executive summary style. Optimized for rapid reading.
+                      </div>
+                    </div>
+                  );
+                } else if (blogLength === "medium") {
+                  contentElement = (
+                    <p className="text-sm leading-relaxed text-slate-300">{sec.content}</p>
+                  );
+                } else {
+                  contentElement = (
+                    <div className="space-y-3">
+                      <p className="text-sm leading-relaxed text-slate-300">{sec.content}</p>
+                      <div className={`p-4 rounded-xl border ${theme === "dark" ? "bg-slate-900/40 border-slate-800" : "bg-gray-150 border-slate-200"} space-y-2`}>
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5" /> Core Takeaways & Tactical Implementation
+                        </h4>
+                        <ul className="list-disc list-inside space-y-1.5 text-xs text-slate-400">
+                          <li><strong>Strategic Application:</strong> Implement this methodology immediately to establish a solid content benchmark.</li>
+                          <li><strong>Key Optimization Vector:</strong> Ensure you track progress dynamically, minimizing structural friction as explained.</li>
+                          <li><strong>Common Pitfalls:</strong> Avoid relying on outdated parameters; prioritize iterative quality over pure output volume.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div key={idx} className="space-y-2 border-b border-slate-800/20 pb-4 last:border-b-0">
+                    <h3 className="text-base font-bold text-red-500">## {sec.heading}</h3>
+                    {contentElement}
+                  </div>
+                );
+              }) : (
                 <p className="text-sm leading-relaxed">Blog content loading...</p>
               )}
             </div>

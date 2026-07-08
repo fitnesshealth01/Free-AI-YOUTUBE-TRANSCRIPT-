@@ -64,8 +64,11 @@ export function WorkspaceSkeleton({ theme }: { theme: "light" | "dark" }) {
               TranscriptG Content Engine
             </span>
           </h3>
-          <p className={`text-xs font-semibold mb-6 text-center ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+          <p className={`text-xs font-semibold mb-1 text-center ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
             Synthesizing Video Tools with Gemini AI
+          </p>
+          <p className="text-[11px] font-medium text-amber-500 mb-6 text-center">
+            (1-3 minutes for all tool processing)
           </p>
 
           <div className="space-y-2 mb-6 text-left">

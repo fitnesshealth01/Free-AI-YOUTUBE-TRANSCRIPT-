@@ -308,7 +308,10 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 app.get('/ads.txt', (req, res) => {
-  const pubId = process.env.ADSENSE_PUB_ID || 'pub-0000000000000000';
+  let pubId = process.env.ADSENSE_PUB_ID || 'pub-9246342607636743';
+  if (pubId.startsWith('ca-')) {
+    pubId = pubId.substring(3);
+  }
   res.type('text/plain');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0`);
 });
@@ -360,7 +363,7 @@ app.post('/api/analyze', async (req, res) => {
       You are analyzing a YouTube video titled "${videoTitle}" by the creator/channel "${authorName}".
       The video ID is "${videoId}".
       
-      Generate a comprehensive, highly realistic set of outputs representing the video's actual content. It should feel deeply accurate, informative, and detailed, as if you transcribed and understood the entire video.
+      CRITICAL SPEED CONSTRAINT: Keep all generated text content extremely concise, high-density, and punchy. Avoid verbose fluff, repeating concepts, and long-winded paragraphs. Keep section content, summaries, and lists direct. This allows us to deliver high-quality insights in less than 30 seconds.
       
       Return your entire response as a single valid JSON object following this exact structure. Do not wrap in markdown code blocks like \`\`\`json \`\`\`. Just return the raw JSON.
       
@@ -372,36 +375,36 @@ app.post('/api/analyze', async (req, res) => {
         "duration": "12:30",
         "thumbnailUrl": "${thumbnailUrl}",
         "transcript": [
-          { "time": "00:00", "seconds": 0, "text": "A sentence summarizing or transcribing the start of the video." },
-          { "time": "01:30", "seconds": 90, "text": "Another detailed transcript line..." }
-          // Include at least 8-12 chronological, high-fidelity transcript points covering the whole video up to ~12 minutes
+          { "time": "00:00", "seconds": 0, "text": "A brief sentence transcribing the video start." },
+          { "time": "01:30", "seconds": 90, "text": "Another detailed compact transcript line." }
+          // Include exactly 6-8 chronological, high-fidelity transcript points covering the video
         ],
         "summary": {
-          "short": "A 1-2 sentence quick overview of the video's core message.",
-          "detailed": "A highly comprehensive, multi-paragraph overview of everything explained in the video.",
+          "short": "A 1-sentence quick overview of the video's core message.",
+          "detailed": "A concise, 3-sentence overview of everything explained in the video.",
           "bullets": [
-            "Key point 1 detailing a critical concept.",
-            "Key point 2 detailing a critical concept."
-            // Include 5-7 detailed bullet points
+            "Key concept 1 explained briefly.",
+            "Key concept 2 explained briefly."
+            // Include exactly 3-4 bullet points
           ],
-          "executive": "An executive summary highlighting the commercial, academic, or practical value of the video content.",
+          "executive": "A compact executive summary highlighting the value of the video content.",
           "takeaways": [
-            "Key action-oriented takeaway 1.",
-            "Key action-oriented takeaway 2."
+            "Action-oriented takeaway 1.",
+            "Action-oriented takeaway 2."
           ]
         },
         "blog": {
           "title": "A highly catchy, SEO-optimized blog title.",
-          "intro": "An engaging introduction hook that sets the stage and explains why this topic matters.",
+          "intro": "An engaging, brief introduction hook (2 sentences max).",
           "toc": ["Section 1 Title", "Section 2 Title", "Section 3 Title"],
           "sections": [
-            { "heading": "Section 1 Title", "content": "Detailed, paragraph-long content with H2/H3 coverage of the video's first major segment." },
-            { "heading": "Section 2 Title", "content": "Detailed, paragraph-long content of the second major segment." }
+            { "heading": "Section 1 Title", "content": "Concise paragraph-long content with high value (3 sentences max)." },
+            { "heading": "Section 2 Title", "content": "Concise paragraph of the second segment (3 sentences max)." }
           ],
           "faqs": [
-            { "q": "FAQ question?", "a": "Detailed informative answer." }
+            { "q": "FAQ question?", "a": "Direct compact informative answer." }
           ],
-          "conclusion": "A inspiring, summarizing conclusion with a clear call-to-action.",
+          "conclusion": "A brief conclusion with a clear call-to-action.",
           "metaTitle": "SEO meta title (under 60 chars)",
           "metaDescription": "SEO meta description (under 160 chars)"
         },
@@ -410,24 +413,24 @@ app.post('/api/analyze', async (req, res) => {
             "A punchy X/Twitter post with hashtags.",
             "A second Twitter post, perhaps a thread starter."
           ],
-          "linkedin": "A professional LinkedIn article style post highlighting key career, business, or tech learnings.",
+          "linkedin": "A professional LinkedIn style post highlighting key business/tech learnings (1-2 short paragraphs).",
           "facebook": "An engaging, friendly Facebook post summarizing the video.",
           "instagram": "An aesthetic Instagram caption with emojis and tags.",
           "threads": "A clean, conversational Threads post."
         },
         "chapters": [
           { "time": "00:00", "seconds": 0, "title": "Introduction", "description": "Intro and setting the scene." }
-          // Include 6-10 chapters
+          // Include exactly 4-6 chapters
         ],
         "seo": {
           "titles": ["Catchy Title 1", "Catchy Title 2"],
-          "description": "High-quality YouTube video description optimized for keywords.",
+          "description": "YouTube video description optimized for keywords.",
           "keywords": ["keyword1", "keyword2"],
           "tags": ["tag1", "tag2"],
           "hashtags": ["#tag1", "#tag2"]
         },
         "quotes": {
-          "educational": ["An academic or insightful quote from the video."],
+          "educational": ["An insightful quote from the video."],
           "motivational": ["A powerful, inspiring quote."],
           "important": ["A crucial, fact-based quote."],
           "social": ["A highly tweetable, punchy quote."]
@@ -436,7 +439,7 @@ app.post('/api/analyze', async (req, res) => {
           { "q": "Question 1", "a": "Answer 1" }
         ],
         "study": {
-          "notes": "Comprehensive, clean study and revision notes based on the video.",
+          "notes": "Focused, clean study and revision notes based on the video (1-2 compact paragraphs).",
           "revision": "A quick revision outline checklist.",
           "flashcards": [
             { "q": "Flashcard question?", "a": "Flashcard answer." }
@@ -927,7 +930,7 @@ app.post('/api/pinterest/download', async (req, res) => {
 });
 
 // Direct Proxy/Stream Downloader Endpoint
-app.get('/api/pinterest/stream', async (req, res) => {
+app.get(['/api/pinterest/stream', '/api/pinterest/stream/:filename'], async (req, res) => {
   try {
     const videoUrl = req.query.url as string;
     if (!videoUrl) {
@@ -944,8 +947,14 @@ app.get('/api/pinterest/stream', async (req, res) => {
       return res.status(500).send('Failed to stream video from source.');
     }
 
-    res.setHeader('Content-Disposition', `attachment; filename="Pinterest_Video_${Date.now()}.mp4"`);
+    const filename = req.params.filename || `Pinterest_Video_${Date.now()}.mp4`;
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     res.setHeader('Content-Type', 'video/mp4');
+
+    const contentLength = streamRes.headers.get('content-length');
+    if (contentLength) {
+      res.setHeader('Content-Length', contentLength);
+    }
 
     if (streamRes.body) {
       const reader = streamRes.body.getReader();
