@@ -1,10 +1,1 @@
-# ====================================================================
-# GOOGLE ADSENSE VERIFICATION & COMPLIANCE FILE (ads.txt)
-# ====================================================================
-# INSTRUCTIONS:
-# Once you receive your Google AdSense Publisher ID (pub-xxxxxxxxxxxxxxxx),
-# replace the placeholder "pub-0000000000000000" below with your actual ID.
-# This ensures 100% ownership validation and prevents ad fraud.
-# ====================================================================
-
 google.com, pub-9246342607636743, DIRECT, f08c47fec0942fa0
