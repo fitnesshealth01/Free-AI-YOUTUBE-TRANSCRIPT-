@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b91c1c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Rect -->
+  <rect width="32" height="32" rx="8" fill="url(#grad)" />
+  <!-- Waveform / Transcript Lines -->
+  <path d="M8 10h16M8 16h16M8 22h10" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+  <!-- Play Indicator Dot/Accent -->
+  <circle cx="22" cy="22" r="2.5" fill="#ffffff" />
+</svg>

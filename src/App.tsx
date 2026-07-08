@@ -6,7 +6,8 @@ import {
   Lightbulb, Check, ChevronDown, ChevronRight, MessageSquare, 
   ArrowRight, Users, GraduationCap, Building2, Briefcase, RefreshCw,
   Sun, Moon, ExternalLink, ThumbsUp, Layers, Award, Zap, X, Shield, Play, Pause, Eye, EyeOff, Flame, Hash,
-  TrendingUp, TrendingDown, DollarSign, Target, Percent, Globe, Award as Medallion, Activity
+  TrendingUp, TrendingDown, DollarSign, Target, Percent, Globe, Award as Medallion, Activity,
+  Twitter, Linkedin, Instagram, Facebook
 } from "lucide-react";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, 
@@ -5163,6 +5164,54 @@ export default function App() {
               <p className={`text-xs leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
                 The ultimate 100% free YouTube transcript and AI toolkit for creators, students, marketers, and researchers.
               </p>
+              {/* Social Media Links for compliance and search discovery */}
+              <div className="flex items-center gap-3 pt-2">
+                <a 
+                  href="https://youtube.com/@transcriptg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`p-2 rounded-lg transition-colors ${theme === "dark" ? "bg-slate-900/60 hover:bg-red-500/20 text-slate-400 hover:text-red-500" : "bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600"}`}
+                  aria-label="YouTube Channel"
+                >
+                  <Youtube className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://x.com/transcriptg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`p-2 rounded-lg transition-colors ${theme === "dark" ? "bg-slate-900/60 hover:bg-sky-500/20 text-slate-400 hover:text-sky-400" : "bg-slate-100 hover:bg-sky-50 text-slate-500 hover:text-sky-600"}`}
+                  aria-label="X (Twitter) Profile"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://facebook.com/transcriptg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`p-2 rounded-lg transition-colors ${theme === "dark" ? "bg-slate-900/60 hover:bg-blue-500/20 text-slate-400 hover:text-blue-500" : "bg-slate-100 hover:bg-blue-50 text-slate-500 hover:text-blue-600"}`}
+                  aria-label="Facebook Page"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://instagram.com/transcriptg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`p-2 rounded-lg transition-colors ${theme === "dark" ? "bg-slate-900/60 hover:bg-pink-500/20 text-slate-400 hover:text-pink-500" : "bg-slate-100 hover:bg-pink-50 text-slate-500 hover:text-pink-600"}`}
+                  aria-label="Instagram Feed"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://linkedin.com/company/transcriptg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`p-2 rounded-lg transition-colors ${theme === "dark" ? "bg-slate-900/60 hover:bg-blue-600/20 text-slate-400 hover:text-blue-400" : "bg-slate-100 hover:bg-blue-50 text-slate-500 hover:text-blue-700"}`}
+                  aria-label="LinkedIn Company Page"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              </div>
             </div>
 
             {/* Internal Links Column 1 */}
