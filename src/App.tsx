@@ -7,7 +7,7 @@ import {
   ArrowRight, Users, GraduationCap, Building2, Briefcase, RefreshCw,
   Sun, Moon, ExternalLink, ThumbsUp, Layers, Award, Zap, X, Shield, Play, Pause, Eye, EyeOff, Flame, Hash,
   TrendingUp, TrendingDown, DollarSign, Target, Percent, Globe, Award as Medallion, Activity,
-  Twitter, Linkedin, Instagram, Facebook
+  Twitter, Linkedin, Instagram, Facebook, Github
 } from "lucide-react";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, 
@@ -5216,6 +5216,15 @@ export default function App() {
                 >
                   <Linkedin className="w-4 h-4" />
                 </a>
+                <a 
+                  href="https://github.com/akashsinghsolanki66/transcriptg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={`p-2 rounded-lg transition-colors ${theme === "dark" ? "bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white" : "bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900"}`}
+                  aria-label="GitHub Repository"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
               </div>
             </div>
 
@@ -5469,6 +5478,16 @@ export default function App() {
               © 2026 TranscriptG Toolkit. Handcrafted with precision. No rights reserved (Public Domain License).
             </span>
             <div className="flex flex-wrap gap-4 text-xs justify-center sm:justify-end">
+              <a 
+                href="https://github.com/akashsinghsolanki66/transcriptg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-red-500 bg-transparent border-none cursor-pointer focus:outline-none transition-colors font-semibold flex items-center gap-1 text-slate-400"
+                id="footer-github-btn"
+              >
+                <Github className="w-3.5 h-3.5" />
+                Contribute on GitHub
+              </a>
               <a 
                 href="#creator-academy" 
                 className="hover:text-red-500 bg-transparent border-none cursor-pointer focus:outline-none transition-colors font-semibold text-red-500"
