@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-
-# Allow Google AdSense Crawler explicitly
-User-agent: Mediapartners-Google
-Allow: /
-
-Sitemap: https://transcriptg.com/sitemap.xml
