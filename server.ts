@@ -4,6 +4,8 @@ import path from 'path';
 import fs from 'fs';
 import nodemailer from 'nodemailer';
 import { GoogleGenAI } from '@google/genai';
+import { EDUCATIONAL_ARTICLES } from './src/educationalGuides';
+import { DEDICATED_TOOL_DETAILS } from './src/toolDetails';
 
 dotenv.config();
 
@@ -232,42 +234,12 @@ app.get('/sitemap.xml', (req, res) => {
   const appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
   const today = new Date().toISOString().split('T')[0];
   
-  const toolsList = [
-    'transcript',
-    'summary',
-    'blog',
-    'social',
-    'chapters',
-    'seo',
-    'quotes',
-    'translation',
-    'knowledge_graph',
-    'faq',
-    'study',
-    'action_items',
-    'shorts_clipper',
-    'thumbnail_grabber',
-    'script_writer',
-    'video_downloader'
-  ];
+  // Dynamically extract the tools list from DEDICATED_TOOL_DETAILS and add any other standalone/landing tools
+  const toolsFromDetails = Object.keys(DEDICATED_TOOL_DETAILS || {});
+  const toolsList = Array.from(new Set([...toolsFromDetails, 'video_downloader']));
 
-  const articlesList = [
-    'repurpose-transcripts',
-    'creator-ai-tools',
-    'srt-subtitles-guide',
-    'youtube-seo-checklist',
-    'turn-video-to-article',
-    'importance-of-chapters',
-    'social-media-planner',
-    'video-metadata-tagging',
-    'flashcards-academic-study',
-    'downloader-technical-anatomy',
-    'subtitles-global-growth',
-    'adsense-approval-checklist',
-    'video-to-text-research',
-    'thumbnail-grabber-optimization',
-    'ai-script-writing-hooks'
-  ];
+  // Dynamically extract the articles from EDUCATIONAL_ARTICLES
+  const articlesList = (EDUCATIONAL_ARTICLES || []).map(article => article.id);
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -290,11 +262,11 @@ app.get('/sitemap.xml', (req, res) => {
   </url>`;
   });
 
-  articlesList.forEach(article => {
+  articlesList.forEach(articleId => {
     xml += `
-  <!-- Educational Article: ${article.replace(/-/g, ' ').toUpperCase()} -->
+  <!-- Educational Article: ${articleId.replace(/-/g, ' ').toUpperCase()} -->
   <url>
-    <loc>${appUrl}/#article=${article}</loc>
+    <loc>${appUrl}/#article=${articleId}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
