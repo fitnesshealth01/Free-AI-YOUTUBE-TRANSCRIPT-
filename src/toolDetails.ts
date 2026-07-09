@@ -236,7 +236,7 @@ export const DEDICATED_TOOL_DETAILS: Record<string, {
       "Multi-Section Script: Dynamic scripts featuring Hook, Introduction, Core Chapters, and Outro.",
       "Visual Storyboard Cue: Suggests precise camera angles, slides, and transitions.",
       "Audio & SFX Recommendations: Recommends specific background audio tones and sound effects.",
-      "Live Scrolling Teleprompter: Fully functional teleprompter with speed control to rehearse."
+      "Live Scrolling Teleprompter: Fully functional teleprompter with speed control to rehearse.",
     ],
     howItWorks: "Our script generator restructures topical arguments into highly engaging, pacing-optimized scripts tailored for spoken-word delivery.",
     faqs: [

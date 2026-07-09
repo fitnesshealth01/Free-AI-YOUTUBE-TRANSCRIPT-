@@ -430,6 +430,7 @@ export default function App() {
   const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
   const [checkedActions, setCheckedActions] = useState<Record<number, boolean>>({});
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error" | "info">("success");
 
   // States for 3 New Highly-Searched Tools
   const [selectedClipIndex, setSelectedClipIndex] = useState<number>(0);
@@ -919,8 +920,9 @@ export default function App() {
   };
 
   // Trigger Toast
-  const showToast = (msg: string) => {
+  const showToast = (msg: string, type: "success" | "error" | "info" = "success") => {
     setToastMessage(msg);
+    setToastType(type);
     setTimeout(() => setToastMessage(null), 3000);
   };
 
@@ -1598,8 +1600,20 @@ export default function App() {
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-[#0c0f1a] border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-lg shadow-2xl animate-bounce" id="toast-notif">
-          <Check className="w-5 h-5 text-emerald-400" />
+        <div className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 border px-4 py-3 rounded-lg shadow-2xl animate-bounce ${
+          toastType === "error" 
+            ? "bg-red-950/90 border-red-500/30 text-red-400" 
+            : toastType === "info" 
+              ? "bg-blue-950/90 border-blue-500/30 text-blue-400" 
+              : "bg-[#0c0f1a] border-emerald-500/30 text-emerald-400"
+        }`} id="toast-notif">
+          {toastType === "error" ? (
+            <AlertCircle className="w-5 h-5 shrink-0" />
+          ) : toastType === "info" ? (
+            <HelpCircle className="w-5 h-5 shrink-0" />
+          ) : (
+            <Check className="w-5 h-5 shrink-0" />
+          )}
           <span className="text-sm font-medium">{toastMessage}</span>
         </div>
       )}
@@ -1720,6 +1734,21 @@ export default function App() {
             .map(line => line.replace("### ", "").trim());
 
           const relatedTool = tools.find(t => t.id === selectedArticle.relatedToolId);
+
+          const renderFormattedText = (text: string) => {
+            if (!text.includes("**")) return text;
+            const parts = text.split("**");
+            return parts.map((part, index) => {
+              if (index % 2 === 1) {
+                return (
+                  <strong key={index} className="font-extrabold text-slate-950 dark:text-white">
+                    {part}
+                  </strong>
+                );
+              }
+              return part;
+            });
+          };
 
           return (
             <div className="animate-fadeIn text-left" id="creator-academy-post-reader">
@@ -1859,7 +1888,7 @@ export default function App() {
                           return (
                             <div key={idx} className="pl-4 border-l-2 border-red-500 py-1 my-4 bg-red-500/5 rounded-r-xl">
                               <p className={`italic ${theme === "dark" ? "text-slate-300" : "text-slate-650"}`}>
-                                {paragraph.replace("* **", "**")}
+                                {renderFormattedText(paragraph.replace("* **", "**"))}
                               </p>
                             </div>
                           );
@@ -1869,7 +1898,7 @@ export default function App() {
                           return (
                             <ul key={idx} className="list-disc pl-5 space-y-2.5 my-4">
                               {items.map((it, i) => (
-                                <li key={i}>{it.replace("* ", "")}</li>
+                                <li key={i}>{renderFormattedText(it.replace("* ", ""))}</li>
                               ))}
                             </ul>
                           );
@@ -1880,10 +1909,49 @@ export default function App() {
                             <ol key={idx} className="list-decimal pl-5 space-y-2.5 my-5">
                               {items.map((it, i) => {
                                 const clean = it.replace(/^\d+\.\s+/, "");
-                                return <li key={i}>{clean}</li>;
+                                return <li key={i}>{renderFormattedText(clean)}</li>;
                               })}
                             </ol>
                           );
+                        }
+                        if (paragraph.startsWith("|")) {
+                          const lines = paragraph.split("\n").filter(l => l.trim().startsWith("|"));
+                          if (lines.length >= 2) {
+                            const parseRow = (lineStr: string) => {
+                              return lineStr
+                                .split("|")
+                                .map(cell => cell.trim())
+                                .filter((_, index, arr) => index > 0 && index < arr.length - 1);
+                            };
+                            const headers = parseRow(lines[0]);
+                            const rows = lines.slice(2).map(parseRow);
+                            return (
+                              <div key={idx} className="my-8 overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-sm bg-slate-50/20 dark:bg-slate-900/10">
+                                <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800/60">
+                                  <thead className="bg-slate-50 dark:bg-slate-900/60">
+                                    <tr>
+                                      {headers.map((h, i) => (
+                                        <th key={i} className="px-5 py-3.5 text-left text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                                          {renderFormattedText(h)}
+                                        </th>
+                                      ))}
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/40 bg-white dark:bg-slate-950/20">
+                                    {rows.map((row, rIdx) => (
+                                      <tr key={rIdx} className="hover:bg-slate-50/40 dark:hover:bg-slate-900/10 transition-colors">
+                                        {row.map((cell, cIdx) => (
+                                          <td key={cIdx} className="px-5 py-4 text-xs text-slate-650 dark:text-slate-350 leading-relaxed">
+                                            {renderFormattedText(cell)}
+                                          </td>
+                                        ))}
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            );
+                          }
                         }
                         if (paragraph.startsWith("```")) {
                           const codeLines = paragraph.split("\n").filter(l => !l.startsWith("```"));
@@ -1895,7 +1963,7 @@ export default function App() {
                         }
                         return (
                           <p key={idx} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-slate-650"}`}>
-                            {paragraph}
+                            {renderFormattedText(paragraph)}
                           </p>
                         );
                       })}
@@ -5163,6 +5231,8 @@ export default function App() {
                       })()}
                     </div>
                   )}
+
+
 
 
 

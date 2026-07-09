@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { GoogleGenAI } from '@google/genai';
 import { EDUCATIONAL_ARTICLES } from './src/educationalGuides';
@@ -287,6 +288,174 @@ app.get('/ads.txt', (req, res) => {
   }
   res.type('text/plain');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0`);
+});
+
+// Google Instant Indexing API Helper Routes
+app.get('/api/indexing/urls', (req, res) => {
+  const appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+  
+  const toolsFromDetails = Object.keys(DEDICATED_TOOL_DETAILS || {});
+  const toolsList = Array.from(new Set([...toolsFromDetails, 'video_downloader']));
+  const articlesList = (EDUCATIONAL_ARTICLES || []).map(article => article.id);
+
+  const urls = [
+    { url: `${appUrl}/`, type: 'Home', label: 'Main Home Page' },
+    ...toolsList.map(tool => ({
+      url: `${appUrl}/tools/${tool}`,
+      type: 'Tool',
+      label: `Tool: ${tool.replace(/_/g, ' ').toUpperCase()}`
+    })),
+    ...articlesList.map(articleId => ({
+      url: `${appUrl}/articles/${articleId}`,
+      type: 'Article',
+      label: `Article: ${articleId.replace(/-/g, ' ').toUpperCase()}`
+    }))
+  ];
+
+  res.json({ urls });
+});
+
+app.post('/api/indexing/publish', async (req, res) => {
+  const { url, type, credentials } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required.' });
+  }
+
+  let serviceAccountJson: any = null;
+
+  if (credentials) {
+    try {
+      serviceAccountJson = typeof credentials === 'string' ? JSON.parse(credentials) : credentials;
+    } catch (e: any) {
+      return res.status(400).json({ error: 'Invalid custom service account credentials JSON. Please verify the format.' });
+    }
+  } else if (process.env.GOOGLE_INDEXING_SERVICE_ACCOUNT) {
+    try {
+      serviceAccountJson = JSON.parse(process.env.GOOGLE_INDEXING_SERVICE_ACCOUNT);
+    } catch (e: any) {
+      return res.status(500).json({ error: 'Server-side GOOGLE_INDEXING_SERVICE_ACCOUNT is invalid JSON.' });
+    }
+  }
+
+  if (!serviceAccountJson) {
+    return res.status(401).json({ 
+      error: 'Google Indexing credentials missing. Please set GOOGLE_INDEXING_SERVICE_ACCOUNT env variable or paste your JSON key in the tool settings.' 
+    });
+  }
+
+  if (!serviceAccountJson.client_email || !serviceAccountJson.private_key) {
+    return res.status(400).json({ error: 'Service account JSON is missing client_email or private_key.' });
+  }
+
+  try {
+    const { JWT } = await import('google-auth-library');
+    const client = new JWT({
+      email: serviceAccountJson.client_email,
+      key: serviceAccountJson.private_key.replace(/\\n/g, '\n'),
+      scopes: ['https://www.googleapis.com/auth/indexing'],
+    });
+
+    const tokens = await client.authorize();
+    const accessToken = tokens.access_token;
+
+    const googleResponse = await fetch('https://indexing.googleapis.com/v3/urlNotifications:publish', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        url: url,
+        type: type || 'URL_UPDATED',
+      }),
+    });
+
+    const responseData: any = await googleResponse.json();
+
+    if (!googleResponse.ok) {
+      return res.status(googleResponse.status).json({ 
+        error: responseData.error?.message || 'Google Indexing API call failed.',
+        details: responseData 
+      });
+    }
+
+    return res.json({ 
+      success: true, 
+      message: `Successfully sent indexing request for ${url}`, 
+      data: responseData 
+    });
+  } catch (error: any) {
+    console.error('Indexing API error:', error);
+    return res.status(500).json({ error: error.message || 'An unexpected error occurred during Google Indexing.' });
+  }
+});
+
+app.post('/api/indexing/status', async (req, res) => {
+  const { url, credentials } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required.' });
+  }
+
+  let serviceAccountJson: any = null;
+
+  if (credentials) {
+    try {
+      serviceAccountJson = typeof credentials === 'string' ? JSON.parse(credentials) : credentials;
+    } catch (e: any) {
+      return res.status(400).json({ error: 'Invalid custom service account credentials JSON.' });
+    }
+  } else if (process.env.GOOGLE_INDEXING_SERVICE_ACCOUNT) {
+    try {
+      serviceAccountJson = JSON.parse(process.env.GOOGLE_INDEXING_SERVICE_ACCOUNT);
+    } catch (e: any) {
+      return res.status(500).json({ error: 'Server-side GOOGLE_INDEXING_SERVICE_ACCOUNT is invalid JSON.' });
+    }
+  }
+
+  if (!serviceAccountJson) {
+    return res.status(401).json({ 
+      error: 'Google Indexing credentials missing.' 
+    });
+  }
+
+  try {
+    const { JWT } = await import('google-auth-library');
+    const client = new JWT({
+      email: serviceAccountJson.client_email,
+      key: serviceAccountJson.private_key.replace(/\\n/g, '\n'),
+      scopes: ['https://www.googleapis.com/auth/indexing'],
+    });
+
+    const tokens = await client.authorize();
+    const accessToken = tokens.access_token;
+
+    const encodedUrl = encodeURIComponent(url);
+    const googleResponse = await fetch(`https://indexing.googleapis.com/v3/urlNotifications/metadata?url=${encodedUrl}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+
+    const responseData: any = await googleResponse.json();
+
+    if (!googleResponse.ok) {
+      return res.status(googleResponse.status).json({ 
+        error: responseData.error?.message || 'Google Indexing Status API call failed.',
+        details: responseData 
+      });
+    }
+
+    return res.json({ 
+      success: true, 
+      data: responseData 
+    });
+  } catch (error: any) {
+    console.error('Indexing Status API error:', error);
+    return res.status(500).json({ error: error.message || 'An unexpected error occurred.' });
+  }
 });
 
 // API endpoint to handle real contact form submissions using Hostinger SMTP
@@ -1026,6 +1195,174 @@ app.get(['/api/pinterest/stream', '/api/pinterest/stream/:filename'], async (req
   } catch (error) {
     console.error('Error streaming Pinterest video:', error);
     res.status(500).send('Error downloading video file.');
+  }
+});
+
+// Helper to base64url encode strings/buffers for JWT construction
+function base64url(str: string | Buffer): string {
+  return (typeof str === "string" ? Buffer.from(str) : str)
+    .toString("base64")
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+}
+
+// Generate Google API OAuth2 Access Token using Service Account JWT
+function getGoogleAccessToken(clientEmail: string, privateKey: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    try {
+      const header = { alg: "RS256", typ: "JWT" };
+      const now = Math.floor(Date.now() / 1000);
+      const payload = {
+        iss: clientEmail,
+        scope: "https://www.googleapis.com/auth/indexing",
+        aud: "https://oauth2.googleapis.com/token",
+        exp: now + 3600,
+        iat: now
+      };
+
+      const encodedHeader = base64url(JSON.stringify(header));
+      const encodedPayload = base64url(JSON.stringify(payload));
+      const signInput = `${encodedHeader}.${encodedPayload}`;
+
+      const signer = crypto.createSign('RSA-SHA256');
+      signer.update(signInput);
+      const signature = signer.sign(privateKey, 'base64');
+      const encodedSignature = signature
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+
+      const jwt = `${signInput}.${encodedSignature}`;
+      const body = `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`;
+
+      fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body
+      })
+      .then(res => res.json())
+      .then((data: any) => {
+        if (data.access_token) {
+          resolve(data.access_token);
+        } else {
+          reject(new Error(data.error_description || data.error || 'Failed to exchange token'));
+        }
+      })
+      .catch(reject);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+// Google Instant Indexing API proxy route
+app.post('/api/google-index', async (req, res) => {
+  const { url, type, credentialsJson, apiKey } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: "URL is required" });
+  }
+
+  // Determine which credentials to use
+  let creds: any = null;
+  if (credentialsJson) {
+    try {
+      creds = JSON.parse(credentialsJson);
+    } catch (err) {
+      return res.status(400).json({ error: "Invalid Service Account JSON format. Please verify you pasted a valid JSON file." });
+    }
+  } else if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+    try {
+      creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+    } catch (err) {
+      console.error("Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON from environment variable:", err);
+    }
+  }
+
+  const activeApiKey = apiKey || process.env.GOOGLE_API_KEY;
+
+  try {
+    if (creds && creds.client_email && creds.private_key) {
+      // Service Account JWT Handshake
+      const accessToken = await getGoogleAccessToken(creds.client_email, creds.private_key);
+      
+      const indexingResponse = await fetch('https://indexing.googleapis.com/v3/urlNotifications:publish', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          url: url,
+          type: type || 'URL_UPDATED'
+        })
+      });
+
+      const responseData: any = await indexingResponse.json();
+      
+      if (indexingResponse.ok) {
+        return res.json({
+          success: true,
+          method: "service_account",
+          clientEmail: creds.client_email,
+          response: responseData
+        });
+      } else {
+        return res.status(indexingResponse.status || 400).json({
+          success: false,
+          method: "service_account",
+          error: responseData.error?.message || "Google Indexing API error",
+          details: responseData
+        });
+      }
+    } else if (activeApiKey) {
+      // Call Google Indexing with standard API Key (which is usually unauthorized by Google but lets them check)
+      const indexingResponse = await fetch(`https://indexing.googleapis.com/v3/urlNotifications:publish?key=${activeApiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          url: url,
+          type: type || 'URL_UPDATED'
+        })
+      });
+
+      const responseData: any = await indexingResponse.json();
+      return res.status(indexingResponse.status || 400).json({
+        success: indexingResponse.ok,
+        method: "api_key",
+        error: responseData.error?.message || "Google Indexing API error. Note: Indexing API requires Service Account JWT credentials, standard static keys are rejected.",
+        details: responseData
+      });
+    } else {
+      // Fully-functional Simulated/Demo fallback when no credentials are provided yet
+      // This allows testing the UI in preview or before the user uploads their private service account keys.
+      return res.json({
+        success: true,
+        method: "simulated_demo",
+        message: "Demo Mode Active. Set your Google Service Account in your .env or paste it in the Credentials tab for live requests.",
+        url: url,
+        type: type || 'URL_UPDATED',
+        response: {
+          urlNotificationMetadata: {
+            url: url,
+            latestUpdate: {
+              url: url,
+              type: type || 'URL_UPDATED',
+              notifyTime: new Date().toISOString()
+            }
+          }
+        }
+      });
+    }
+  } catch (err: any) {
+    console.error("Indexing API exception:", err);
+    return res.status(500).json({
+      success: false,
+      error: err.message || "Failed to communicate with Google Indexing Gateway."
+    });
   }
 });
 
