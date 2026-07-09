@@ -1735,18 +1735,65 @@ export default function App() {
 
           const relatedTool = tools.find(t => t.id === selectedArticle.relatedToolId);
 
+          const linkifyKeywords = (text: string) => {
+            if (!text) return text;
+            const regex = /(YouTube transcript(?:s| generator)?|YouTube SEO)/gi;
+            const parts = text.split(regex);
+            if (parts.length === 1) return text;
+
+            return parts.map((part, idx) => {
+              const lower = part.toLowerCase();
+              if (lower.includes("youtube transcript")) {
+                return (
+                  <a
+                    key={idx}
+                    href="#tool=transcript"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedLandingTool("transcript");
+                      window.location.hash = "#tool=transcript";
+                      setSelectedArticle(null);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="text-red-500 hover:text-red-600 font-semibold underline underline-offset-4 decoration-red-500/30 hover:decoration-red-500 transition-all cursor-pointer"
+                  >
+                    {part}
+                  </a>
+                );
+              } else if (lower.includes("youtube seo")) {
+                return (
+                  <a
+                    key={idx}
+                    href="#tool=seo"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedLandingTool("seo");
+                      window.location.hash = "#tool=seo";
+                      setSelectedArticle(null);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="text-red-500 hover:text-red-600 font-semibold underline underline-offset-4 decoration-red-500/30 hover:decoration-red-500 transition-all cursor-pointer"
+                  >
+                    {part}
+                  </a>
+                );
+              }
+              return part;
+            });
+          };
+
           const renderFormattedText = (text: string) => {
-            if (!text.includes("**")) return text;
             const parts = text.split("**");
             return parts.map((part, index) => {
               if (index % 2 === 1) {
                 return (
                   <strong key={index} className="font-extrabold text-slate-950 dark:text-white">
-                    {part}
+                    {linkifyKeywords(part)}
                   </strong>
                 );
               }
-              return part;
+              const linked = linkifyKeywords(part);
+              return <React.Fragment key={index}>{linked}</React.Fragment>;
             });
           };
 
