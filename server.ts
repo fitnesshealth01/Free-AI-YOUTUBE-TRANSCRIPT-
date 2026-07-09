@@ -255,7 +255,7 @@ app.get('/sitemap.xml', (req, res) => {
     xml += `
   <!-- ${tool.replace('_', ' ').toUpperCase()} Dedicated Tool Landing Page -->
   <url>
-    <loc>${appUrl}/#tool=${tool}</loc>
+    <loc>${appUrl}/tools/${tool}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -266,7 +266,7 @@ app.get('/sitemap.xml', (req, res) => {
     xml += `
   <!-- Educational Article: ${articleId.replace(/-/g, ' ').toUpperCase()} -->
   <url>
-    <loc>${appUrl}/#article=${articleId}</loc>
+    <loc>${appUrl}/articles/${articleId}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -1034,6 +1034,105 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'production') {
     const distPath = path.join(process.cwd(), 'dist');
     
+    const toolNamesMap: Record<string, { name: string, seo: string, desc: string, keywords: string }> = {
+      transcript: { 
+        name: "AI YouTube Transcript", 
+        seo: "YouTube Transcript Generator", 
+        desc: "Generate flawless punctuated transcripts with interactive timestamps.", 
+        keywords: "youtube transcript generator, youtube transcript to text, download youtube transcript, youtube subtitles extractor, youtube transcript, free youtube transcript finder, get transcript of youtube video, extract youtube captions" 
+      },
+      summary: { 
+        name: "AI Video Summary", 
+        seo: "AI YouTube Summary", 
+        desc: "Get short, detailed, and executive takeaways instantly.", 
+        keywords: "youtube video summarizer, summarize youtube video, ai youtube summary, yt summary generator, summarize youtube video in seconds, chat with youtube video, youtube transcript summarizer, video summary ai, free video takeaways" 
+      },
+      blog: { 
+        name: "AI Blog Generator", 
+        seo: "YouTube To Blog Article", 
+        desc: "Convert any video into a fully formatted, SEO-ready article.", 
+        keywords: "youtube to blog, youtube video to article generator, youtube transcript to blog, turn youtube video into blog post, convert youtube to markdown article, youtube to blog post ai, repurpose youtube video to blog, youtube article writer" 
+      },
+      social: { 
+        name: "AI Social Media Hub", 
+        seo: "YouTube Social Media Generator", 
+        desc: "Generate viral content for X, LinkedIn, Instagram, and Facebook.", 
+        keywords: "youtube video social posts, youtube to twitter thread, youtube to linkedin post, social content scheduler from youtube, youtube video repurposer, viral youtube thread generator, linkedin post from youtube video" 
+      },
+      chapters: { 
+        name: "AI Video Chapters", 
+        seo: "YouTube Chapters Creator", 
+        desc: "Generate perfectly structured video chapters and milestones.", 
+        keywords: "youtube chapters generator, youtube video timestamps, automatic youtube chapters, smart timestamp generator, split youtube video chapters, auto chapters for youtube, video milestone creator" 
+      },
+      seo: { 
+        name: "AI YouTube SEO Toolkit", 
+        seo: "YouTube SEO Keywords Generator", 
+        desc: "Optimize your video metadata, keywords, hashtags, and description.", 
+        keywords: "youtube seo optimization, youtube keywords generator, youtube metadata generator, youtube description generator, tags search volume, video tags audit compliance, youtube seo tool, best tags for youtube videos" 
+      },
+      quotes: { 
+        name: "AI Quote Extractor", 
+        seo: "YouTube Quotes Extractor", 
+        desc: "Extract inspirational, educational, and shareable quotes.", 
+        keywords: "youtube quotes extractor, extract quotes from video, find best quotes in youtube video, motivational video quotes, educational video quotes, famous youtube lines, transcriptg quote finder" 
+      },
+      translation: { 
+        name: "AI Translation Engine", 
+        seo: "YouTube Subtitle Translator", 
+        desc: "Translate transcribings into 10+ global languages seamlessly.", 
+        keywords: "youtube subtitle translator, translate youtube transcript, translate video transcript, multi-language youtube subtitles, translate video to english, youtube transcript translation" 
+      },
+      knowledge_graph: { 
+        name: "AI Knowledge Graph", 
+        seo: "YouTube Mind Map Generator", 
+        desc: "Visualize key concepts, subtopics, and relationships in a mind map.", 
+        keywords: "youtube mind map generator, youtube knowledge graph, visualize video concepts, video topic map, interactive learning mindmap, youtube visual outline" 
+      },
+      faq: { 
+        name: "AI FAQ Generator", 
+        seo: "YouTube FAQ Creator", 
+        desc: "Automatically generate matching frequently asked questions.", 
+        keywords: "youtube faq creator, frequently asked questions generator, generate faqs from video, ai faq maker, youtube description faqs" 
+      },
+      study: { 
+        name: "AI Study Mode", 
+        seo: "YouTube To Flashcards", 
+        desc: "Generate notes, flashcards, and an interactive quiz from any video.", 
+        keywords: "youtube to flashcards, youtube study notes generator, study cards from video, active recall video quiz, youtube learning companion, convert lecture to notes" 
+      },
+      action_items: { 
+        name: "AI Action Items", 
+        seo: "YouTube Action Plan Builder", 
+        desc: "Instantly build checkable task lists and priority frameworks.", 
+        keywords: "youtube action plan builder, extract tasks from video, automated checklist generator, video action items, priority framework maker" 
+      },
+      shorts_clipper: { 
+        name: "AI Shorts Clipper & Hook Generator", 
+        seo: "YouTube Shorts AI Clipper", 
+        desc: "Find virality-focused segments, generate scrolling captions, hook options, and high-impact vertical short scripts.", 
+        keywords: "youtube shorts clipper, ai shorts generator, vertical video clipper, youtube video to shorts hook, automated shorts script writer, convert youtube to shorts, viral clip finder" 
+      },
+      thumbnail_grabber: { 
+        name: "YouTube HD Thumbnail Grabber & CTR Optimizer", 
+        seo: "YouTube Thumbnail Downloader", 
+        desc: "Extract MaxRes/HD thumbnails and run real-time visual-contrast and composition analysis to double CTR.", 
+        keywords: "youtube thumbnail downloader, download yt thumbnail hd, youtube ctr analysis, thumbnail grabber free, extract youtube video thumbnail, save youtube cover image" 
+      },
+      script_writer: { 
+        name: "AI Video Script Writer & Storyboarder", 
+        seo: "YouTube Script Writer AI", 
+        desc: "Write complete professional YouTube scripts with visual cue guides, custom hook structures, and pacing hints.", 
+        keywords: "youtube script writer ai, write youtube script, video storyboard generator, youtube scripting tool free, write engaging video outline, youtube teleprompter script" 
+      },
+      video_downloader: {
+        name: "YouTube HD Video Downloader",
+        seo: "Free YouTube Downloader",
+        desc: "Download public YouTube videos, clips, and audio tracks in high-quality formats with no limits.",
+        keywords: "youtube video downloader, download youtube video, youtube mp4 downloader, save youtube video, youtube downloader hd, free youtube clip saver, download youtube shorts"
+      }
+    };
+
     const serveIndexWithSEO = (req: any, res: any) => {
       fs.readFile(path.join(distPath, 'index.html'), 'utf8', (err, data) => {
         if (err) {
@@ -1045,10 +1144,188 @@ async function bootstrap() {
         const host = req.get('host') || 'transcriptg.com';
         const baseUrl = process.env.APP_URL || `${protocol}://${host}`;
         const canonicalUrl = `${baseUrl}${req.path === '/' ? '' : req.path}`;
+
+        // Initialize default meta tags values (Home Page)
+        let seoTitle = "Free YouTube Transcript Generator & Downloader | TranscriptG";
+        let seoDesc = "Instantly get free YouTube transcripts, convert video to text, generate AI summaries, and download video streams. No registration needed.";
+        let seoKeywords = "youtube transcript generator, transcript generator, youtube to text, youtube transcript, free youtube downloader, youtube summarizer, video transcript, youtube to blog, chapters generator, transcriptg";
+        let schemaHtml = "";
+
+        const reqPath = req.path || "/";
+        const toolId = reqPath.startsWith('/tools/') ? reqPath.split('/tools/')[1] : null;
+        const articleId = reqPath.startsWith('/articles/') ? reqPath.split('/articles/')[1] : null;
+
+        if (toolId && toolNamesMap[toolId]) {
+          const tool = toolNamesMap[toolId];
+          seoTitle = `${tool.name} - Free ${tool.seo} Tool | TranscriptG`;
+          seoDesc = `${tool.desc} 100% Free, secure client-side AI analysis toolkit with zero sign-ups.`;
+          seoKeywords = tool.keywords;
+
+          const details = DEDICATED_TOOL_DETAILS[toolId];
+          const faqs = details ? details.faqs : [
+            { q: "Is this tool free?", a: "Yes, 100% free with no limit, no paywall, and no sign-up required." }
+          ];
+
+          const faqList = faqs.map(faq => ({
+            "@type": "Question",
+            "name": faq.q,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": faq.a
+            }
+          }));
+
+          const faqSchema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqList
+          };
+
+          const appSchema = {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": `${tool.name} - Free YouTube AI Toolkit`,
+            "description": tool.desc,
+            "url": `${baseUrl}/tools/${toolId}`,
+            "operatingSystem": "All",
+            "applicationCategory": "BusinessApplication",
+            "browserRequirements": "Requires HTML5 compatible web browser.",
+            "creator": {
+              "@type": "Organization",
+              "name": "TranscriptG Inc."
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0.00",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "342"
+            }
+          };
+
+          schemaHtml = `<script type="application/ld+json">\n${JSON.stringify(faqSchema, null, 2)}\n</script>\n<script type="application/ld+json">\n${JSON.stringify(appSchema, null, 2)}\n</script>`;
+        } else if (articleId) {
+          const article = EDUCATIONAL_ARTICLES.find(a => a.id === articleId);
+          if (article) {
+            seoTitle = `${article.title} - Creator Academy | TranscriptG`;
+            seoDesc = article.description;
+            seoKeywords = `${article.category.toLowerCase()}, youtube seo, content repurposing, transcriptg creator academy, transcriptg blog`;
+
+            const articleSchema = {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              "headline": article.title,
+              "description": article.description,
+              "datePublished": article.date,
+              "author": {
+                "@type": "Person",
+                "name": article.author
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "TranscriptG Inc.",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=120&h=120&q=80"
+                }
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `${baseUrl}/articles/${article.id}`
+              }
+            };
+
+            schemaHtml = `<script type="application/ld+json">\n${JSON.stringify(articleSchema, null, 2)}\n</script>`;
+          }
+        }
+
+        if (!schemaHtml) {
+          const homeAppSchema = {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "TranscriptG",
+            "alternateName": "YouTube Transcript Generator",
+            "url": baseUrl,
+            "description": "A free browser-based YouTube Transcript Generator, Summarizer, and Video Downloader toolkit. Transcribe YouTube video to text, write articles, generate chapters, and download video streams.",
+            "applicationCategory": "MultimediaApplication, UtilityApplication",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires HTML5 compatible browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Free YouTube Transcript Generator",
+              "AI Video Summarizer",
+              "YouTube to Text & Blog Post Converter",
+              "High-Speed Video Downloader",
+              "Smart YouTube Shorts Clipper",
+              "Semantic SEO Keyword Graph"
+            ]
+          };
+
+          const homeFaqSchema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is TranscriptG truly free? Are there any hidden limits?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, TranscriptG is 100% free with no limits, no subscription, no paywall, and absolutely no registration or credit card required. We built this as the ultimate open public toolkit for the community."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which YouTube videos can be analyzed by the Transcript Generator?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "You can paste any public YouTube video link. If a video does not have a pre-existing transcript, our deep integration with Gemini AI automatically reviews the audio concepts to generate a fully functional transcript."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I export the transcripts, blogs, and study notes?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Absolutely! Every tool includes instant one-click copy controls, and we support full document downloads for TXT, Markdown, and custom layouts in the Export Center."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How accurate is the transcript and content analysis?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "By combining the video's real metadata and passing it to Gemini's state-of-the-art LLM, our tool extracts high-fidelity transcripts, structured checklists, and precise study guides."
+                }
+              }
+            ]
+          };
+
+          schemaHtml = `<script type="application/ld+json">\n${JSON.stringify(homeAppSchema, null, 2)}\n</script>\n<script type="application/ld+json">\n${JSON.stringify(homeFaqSchema, null, 2)}\n</script>`;
+        }
         
-        const html = data
+        let html = data
+          .replace(/<title>[^<]*<\/title>/g, `<title>${seoTitle}</title>`)
+          .replace(/<meta name="description" content="[^"]*"\s*\/?>/g, `<meta name="description" content="${seoDesc}" />`)
+          .replace(/<meta name="keywords" content="[^"]*"\s*\/?>/g, `<meta name="keywords" content="${seoKeywords}" />`)
+          .replace(/<meta property="og:title" content="[^"]*"\s*\/?>/g, `<meta property="og:title" content="${seoTitle}" />`)
+          .replace(/<meta property="og:description" content="[^"]*"\s*\/?>/g, `<meta property="og:description" content="${seoDesc}" />`)
+          .replace(/<meta name="twitter:title" content="[^"]*"\s*\/?>/g, `<meta name="twitter:title" content="${seoTitle}" />`)
+          .replace(/<meta name="twitter:description" content="[^"]*"\s*\/?>/g, `<meta name="twitter:description" content="${seoDesc}" />`)
           .replace(/\{\{CANONICAL_URL\}\}/g, canonicalUrl)
           .replace(/\{\{APP_URL\}\}/g, baseUrl);
+
+        const startIndex = html.indexOf('<!-- START_SCHEMA_MARKUP -->');
+        const endIndex = html.indexOf('<!-- END_SCHEMA_MARKUP -->') + '<!-- END_SCHEMA_MARKUP -->'.length;
+        if (startIndex !== -1 && endIndex !== -1) {
+          html = html.substring(0, startIndex) + schemaHtml + html.substring(endIndex);
+        }
           
         res.setHeader('Content-Type', 'text/html');
         res.send(html);

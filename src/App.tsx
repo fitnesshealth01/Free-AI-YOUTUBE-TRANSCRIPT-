@@ -599,21 +599,44 @@ export default function App() {
     };
   }, []);
 
-  // Synchronize URL Hash routing
+  // Synchronize URL path and Hash routing
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouting = () => {
       const hash = window.location.hash;
-      if (hash && hash.startsWith("#tool=")) {
-        const toolId = hash.replace("#tool=", "");
-        const matchedTool = tools.find(t => t.id === toolId);
+      const path = window.location.pathname;
+
+      let toolId: string | null = null;
+      let articleId: string | null = null;
+
+      // 1. Parse from path first (clean URLs)
+      if (path.startsWith("/tools/")) {
+        toolId = path.replace("/tools/", "");
+      } else if (path.startsWith("/articles/")) {
+        articleId = path.replace("/articles/", "");
+      }
+
+      // 2. Fallback to hash parsing
+      if (!toolId && !articleId && hash) {
+        if (hash.startsWith("#tool=")) {
+          toolId = hash.replace("#tool=", "");
+        } else if (hash.startsWith("#article=")) {
+          articleId = hash.replace("#article=", "");
+        }
+      }
+
+      if (toolId) {
+        const isDownloader = toolId === "video_downloader";
+        const matchedTool = tools.find(t => t.id === toolId) || isDownloader;
         if (matchedTool) {
-          setSelectedLandingTool(matchedTool.id);
+          setSelectedLandingTool(toolId);
           setSelectedVideo(null);
           setSelectedChannel(null);
           setSelectedArticle(null);
+          if (isDownloader) {
+            setActiveHomeTab("video");
+          }
         }
-      } else if (hash && hash.startsWith("#article=")) {
-        const articleId = hash.replace("#article=", "");
+      } else if (articleId) {
         const matchedArticle = EDUCATIONAL_ARTICLES.find(a => a.id === articleId);
         if (matchedArticle) {
           setSelectedArticle(matchedArticle);
@@ -627,9 +650,13 @@ export default function App() {
       }
     };
 
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    handleRouting();
+    window.addEventListener("hashchange", handleRouting);
+    window.addEventListener("popstate", handleRouting);
+    return () => {
+      window.removeEventListener("hashchange", handleRouting);
+      window.removeEventListener("popstate", handleRouting);
+    };
   }, []);
 
   // Auto scroll to top when an article is opened
@@ -689,7 +716,7 @@ export default function App() {
     };
 
     if (selectedLandingTool) {
-      const toolData = tools.find(t => t.id === selectedLandingTool);
+      const toolData = tools.find(t => t.id === selectedLandingTool) || (selectedLandingTool === 'video_downloader' ? { name: "YouTube HD Video Downloader", desc: "Download public YouTube videos, clips, and audio tracks in high-quality formats with no limits.", seo: "Free YouTube Downloader" } : null);
       if (toolData) {
         const titleStr = `${toolData.name} - Free ${toolData.seo || "YouTube AI"} Tool | TranscriptG`;
         document.title = titleStr;
@@ -699,7 +726,7 @@ export default function App() {
         
         metaDesc.setAttribute('content', `${toolData.desc} 100% Free, secure client-side AI analysis toolkit with zero sign-ups.`);
         metaKeywords.setAttribute('content', toolKeywordsMap[selectedLandingTool] || "youtube tool, ai youtube, transcriptg");
-        canonicalLink.setAttribute('href', `${window.location.origin}${window.location.pathname}#tool=${selectedLandingTool}`);
+        canonicalLink.setAttribute('href', `${window.location.origin}/tools/${selectedLandingTool}`);
 
         // Inject dynamic JSON-LD FAQ schema + SoftwareApplication schema
         const details = DEDICATED_TOOL_DETAILS[selectedLandingTool] || {
@@ -736,7 +763,7 @@ export default function App() {
           "@type": "WebApplication",
           "name": `${toolData.name} - Free YouTube AI Toolkit`,
           "description": toolData.desc,
-          "url": `${window.location.origin}/#tool=${selectedLandingTool}`,
+          "url": `${window.location.origin}/tools/${selectedLandingTool}`,
           "operatingSystem": "All",
           "applicationCategory": "BusinessApplication",
           "browserRequirements": "Requires HTML5 compatible web browser.",
@@ -761,8 +788,12 @@ export default function App() {
         appScript.type = "application/ld+json";
         appScript.innerHTML = JSON.stringify(appSchema);
         document.head.appendChild(appScript);
+
+        const newPath = `/tools/${selectedLandingTool}`;
+        if (window.location.pathname !== newPath || window.location.hash !== "") {
+          window.history.pushState(null, "", newPath + window.location.search);
+        }
       }
-      window.location.hash = `#tool=${selectedLandingTool}`;
     } else if (selectedArticle) {
       const titleStr = `${selectedArticle.title} - Creator Academy | TranscriptG`;
       document.title = titleStr;
@@ -772,7 +803,7 @@ export default function App() {
       
       metaDesc.setAttribute('content', selectedArticle.description);
       metaKeywords.setAttribute('content', `${selectedArticle.category.toLowerCase()}, youtube seo, content repurposing, transcriptg creator academy, transcriptg blog`);
-      canonicalLink.setAttribute('href', `${window.location.origin}${window.location.pathname}#article=${selectedArticle.id}`);
+      canonicalLink.setAttribute('href', `${window.location.origin}/articles/${selectedArticle.id}`);
 
       const articleSchema = {
         "@context": "https://schema.org",
@@ -794,7 +825,7 @@ export default function App() {
         },
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": `${window.location.origin}/#article=${selectedArticle.id}`
+          "@id": `${window.location.origin}/articles/${selectedArticle.id}`
         }
       };
 
@@ -804,21 +835,25 @@ export default function App() {
       faqScript.innerHTML = JSON.stringify(articleSchema);
       document.head.appendChild(faqScript);
 
-      window.location.hash = `#article=${selectedArticle.id}`;
+      const newPath = `/articles/${selectedArticle.id}`;
+      if (window.location.pathname !== newPath || window.location.hash !== "") {
+        window.history.pushState(null, "", newPath + window.location.search);
+      }
     } else {
       if (activeHomeTab === "pinterest") {
         document.title = "Free Pinterest Video Downloader | Download Pin Videos in HD - TranscriptG";
         metaDesc.setAttribute('content', "Use KlickPin on TranscriptG to download Pinterest videos in high quality MP4 format. 100% free online Pinterest video downloader, no sign-up required, saves directly to camera roll.");
         metaKeywords.setAttribute('content', "pinterest video downloader, pinterest downloader, download pinterest video, pinterest downloader online, pinterest to mp4, pin video downloader, save pinterest video, pinterest video converter, pinterest downloader free, safe pinterest downloader, extract video from pinterest");
+        canonicalLink.setAttribute('href', `${window.location.origin}/`);
       } else {
         document.title = "TranscriptG - Free Client-Side YouTube SEO, Summary, Transcript & Downloader Tools";
         metaDesc.setAttribute('content', "TranscriptG is the ultimate 100% free offline-capable toolkit for creators, students, and professionals to transcribe, summarize, translate, optimize, download, and repurpose YouTube videos.");
         metaKeywords.setAttribute('content', "youtube transcript generator, transcript generator, youtube transcript, youtube summarizer, youtube to blog, youtube downloader, youtube seo, chapters generator, shorts clipper, script writer, transcriptg, download youtube transcript, youtube transcript to text, summarize youtube video");
+        canonicalLink.setAttribute('href', `${window.location.origin}/`);
       }
-      canonicalLink.setAttribute('href', `${window.location.origin}${window.location.pathname}`);
 
-      if (window.location.hash.startsWith("#tool=") || window.location.hash.startsWith("#article=")) {
-        window.history.pushState(null, "", window.location.pathname + window.location.search);
+      if (window.location.pathname !== "/" && window.location.pathname !== "/index.html" || window.location.hash !== "") {
+        window.history.pushState(null, "", "/" + window.location.search);
       }
     }
 
