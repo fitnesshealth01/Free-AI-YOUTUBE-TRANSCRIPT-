@@ -345,6 +345,26 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Scroll to top state and effect
+  const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+  const [visibleArticlesCount, setVisibleArticlesCount] = useState<number>(10);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Pinterest Video Downloader States
   const [activeHomeTab, setActiveHomeTab] = useState<"video" | "pinterest">("video");
   const [pinterestUrl, setPinterestUrl] = useState<string>("");
@@ -2982,13 +3002,13 @@ export default function App() {
                   The Complete SEO & Content Marketing Hub
                 </h2>
                 <p className={`text-sm mt-3 leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
-                  Explore our collection of 12 long-form, expert-written educational resources, tutorials, and policy guidelines designed to guarantee compliance with search engine expectations.
+                  Explore our collection of 20 long-form, expert-written educational resources, tutorials, and policy guidelines designed to guarantee compliance with search engine expectations.
                 </p>
               </div>
 
               {/* Bento Grid of Articles */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {EDUCATIONAL_ARTICLES.map((article) => {
+                {EDUCATIONAL_ARTICLES.slice(0, visibleArticlesCount).map((article) => {
                   let CategoryIcon = BookOpen;
                   let categoryColor = "text-red-500 bg-red-500/10 border-red-500/15";
                   if (article.category === "YouTube SEO") {
@@ -3067,6 +3087,23 @@ export default function App() {
                   );
                 })}
               </div>
+
+              {visibleArticlesCount < EDUCATIONAL_ARTICLES.length && (
+                <div className="text-center mt-12">
+                  <button
+                    onClick={() => setVisibleArticlesCount((prev) => prev + 10)}
+                    id="view-more-articles-btn"
+                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 transform hover:scale-[1.02] active:scale-95 cursor-pointer border ${
+                      theme === "dark"
+                        ? "bg-slate-900/80 hover:bg-slate-900 text-white border-slate-800 hover:border-slate-700 shadow-lg shadow-slate-950/50"
+                        : "bg-white hover:bg-gray-50 text-slate-800 border-gray-200 hover:border-gray-300 shadow-md shadow-gray-200/50"
+                    }`}
+                  >
+                    <span>View More Articles</span>
+                    <ChevronDown className="w-4 h-4 text-red-500 animate-bounce" />
+                  </button>
+                </div>
+              )}
 
             </div>
           </section>
@@ -6007,6 +6044,30 @@ export default function App() {
 
           </div>
         </div>
+      )}
+
+      {/* Scroll to Top Arrow Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          id="scroll-to-top-btn"
+          className={`fixed bottom-6 right-6 p-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 cursor-pointer z-[100] flex items-center justify-center border ${
+            theme === "dark"
+              ? "bg-slate-900/95 hover:bg-slate-800 text-red-500 border-slate-800 shadow-slate-950/85"
+              : "bg-white hover:bg-gray-50 text-red-500 border-gray-200 shadow-gray-300/60"
+          }`}
+          aria-label="Scroll to Top"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5 stroke-[3]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
       )}
 
     </div>
