@@ -5475,7 +5475,7 @@ export default function App() {
           {/* Legal / Copyright */}
           <div className="border-t border-slate-800/80 pt-8 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <span className={`text-xs ${theme === "dark" ? "text-slate-500" : "text-slate-400"}`}>
-              © 2026 TranscriptG Toolkit. Handcrafted with precision. No rights reserved (Public Domain License).
+              © 2026 TranscriptG. All rights reserved.
             </span>
             <div className="flex flex-wrap gap-4 text-xs justify-center sm:justify-end">
               <a 
