@@ -16,6 +16,7 @@ import {
 import { DEMO_VIDEOS, DemoVideoData, TranscriptItem } from "./demoData";
 import { DEDICATED_TOOL_DETAILS } from "./toolDetails";
 import { EDUCATIONAL_ARTICLES, EducationalArticle } from "./educationalGuides";
+const REVERSED_ARTICLES = [...EDUCATIONAL_ARTICLES].reverse();
 import { WorkspaceSkeleton, PinterestSkeleton } from "./components/Skeletons";
 import { Breadcrumb } from "./components/Breadcrumb";
 import SiteAuditDashboard from "./components/SiteAuditDashboard";
@@ -1742,13 +1743,13 @@ export default function App() {
 
           const relatedTool = tools.find(t => t.id === selectedArticle.relatedToolId);
 
-          const otherArticles = EDUCATIONAL_ARTICLES.filter(a => a.id !== selectedArticle.id);
+          const otherArticles = REVERSED_ARTICLES.filter(a => a.id !== selectedArticle.id);
 
           const getRelatedArticles = () => {
-            const sameCategory = EDUCATIONAL_ARTICLES.filter(
+            const sameCategory = REVERSED_ARTICLES.filter(
               a => a.id !== selectedArticle.id && a.category === selectedArticle.category
             );
-            const others = EDUCATIONAL_ARTICLES.filter(
+            const others = REVERSED_ARTICLES.filter(
               a => a.id !== selectedArticle.id && a.category !== selectedArticle.category
             );
             return [...sameCategory, ...others].slice(0, 2);
@@ -2445,7 +2446,7 @@ export default function App() {
                     <div className={`p-6 rounded-2xl border text-left ${theme === "dark" ? "bg-slate-900/30 border-slate-850" : "bg-white border-slate-200 shadow-sm"}`}>
                       <h4 className="text-xs font-extrabold uppercase tracking-widest text-red-500 mb-4 font-mono">Recommended</h4>
                       <div className="space-y-5">
-                        {EDUCATIONAL_ARTICLES
+                        {REVERSED_ARTICLES
                           .filter(a => a.id !== selectedArticle.id)
                           .slice(0, 5)
                           .map(article => (
@@ -3545,7 +3546,7 @@ export default function App() {
 
               {/* Bento Grid of Articles */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {EDUCATIONAL_ARTICLES.slice(0, visibleArticlesCount).map((article) => {
+                {REVERSED_ARTICLES.slice(0, visibleArticlesCount).map((article) => {
                   let CategoryIcon = BookOpen;
                   let categoryColor = "text-red-500 bg-red-500/10 border-red-500/15";
                   if (article.category === "YouTube SEO") {
@@ -3625,7 +3626,7 @@ export default function App() {
                 })}
               </div>
 
-              {visibleArticlesCount < EDUCATIONAL_ARTICLES.length && (
+              {visibleArticlesCount < REVERSED_ARTICLES.length && (
                 <div className="text-center mt-12">
                   <button
                     onClick={() => setVisibleArticlesCount((prev) => prev + 10)}
