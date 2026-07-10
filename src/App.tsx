@@ -338,7 +338,10 @@ const generateScriptData = (title: string, niche: string, tone: string, duration
 
 export default function App() {
   // Theme and routing state
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    const saved = localStorage.getItem("theme");
+    return (saved as "light" | "dark") || "light";
+  });
   const [activeTool, setActiveTool] = useState<string>("transcript");
   const [selectedVideo, setSelectedVideo] = useState<DemoVideoData | null>(null);
   const [inputUrl, setInputUrl] = useState<string>("");
@@ -387,6 +390,7 @@ export default function App() {
 
   useEffect(() => {
     const root = document.documentElement;
+    localStorage.setItem("theme", theme);
     if (theme === "dark") {
       root.classList.add("dark");
       root.classList.remove("light");
@@ -609,19 +613,21 @@ export default function App() {
       let toolId: string | null = null;
       let articleId: string | null = null;
 
-      // 1. Parse from path first (clean URLs)
-      if (path.startsWith("/tools/")) {
-        toolId = path.replace("/tools/", "");
-      } else if (path.startsWith("/articles/")) {
-        articleId = path.replace("/articles/", "");
-      }
-
-      // 2. Fallback to hash parsing
-      if (!toolId && !articleId && hash) {
+      // 1. Parse from hash first (prioritize interactive user clicks)
+      if (hash) {
         if (hash.startsWith("#tool=")) {
           toolId = hash.replace("#tool=", "");
         } else if (hash.startsWith("#article=")) {
           articleId = hash.replace("#article=", "");
+        }
+      }
+
+      // 2. Parse from path if hash did not specify a page/tool
+      if (!toolId && !articleId) {
+        if (path.startsWith("/tools/")) {
+          toolId = path.replace("/tools/", "");
+        } else if (path.startsWith("/articles/")) {
+          articleId = path.replace("/articles/", "");
         }
       }
 
@@ -1728,12 +1734,26 @@ export default function App() {
         </div>
       ) : selectedArticle ? (
         (() => {
-          const headings = selectedArticle.content
+          const normalizedContent = selectedArticle.content.replace(/\r\n/g, "\n");
+          const headings = normalizedContent
             .split("\n")
             .filter(line => line.startsWith("### "))
             .map(line => line.replace("### ", "").trim());
 
           const relatedTool = tools.find(t => t.id === selectedArticle.relatedToolId);
+
+          const otherArticles = EDUCATIONAL_ARTICLES.filter(a => a.id !== selectedArticle.id);
+
+          const getRelatedArticles = () => {
+            const sameCategory = EDUCATIONAL_ARTICLES.filter(
+              a => a.id !== selectedArticle.id && a.category === selectedArticle.category
+            );
+            const others = EDUCATIONAL_ARTICLES.filter(
+              a => a.id !== selectedArticle.id && a.category !== selectedArticle.category
+            );
+            return [...sameCategory, ...others].slice(0, 2);
+          };
+          const relatedArticles = getRelatedArticles();
 
           const linkifyKeywords = (text: string) => {
             if (!text) return text;
@@ -1912,109 +1932,265 @@ export default function App() {
                     </div>
 
                     {/* Body text splits */}
-                    <div className={`prose prose-md max-w-none leading-relaxed text-sm space-y-6 text-left ${
-                      theme === "dark" ? "text-slate-300" : "text-slate-700"
+                    <div className={`max-w-none leading-relaxed text-sm space-y-6 text-left ${
+                      theme === "dark" ? "text-slate-300" : "text-black"
                     }`}>
-                      {selectedArticle.content.split("\n\n").map((paragraph, idx) => {
-                        if (paragraph.startsWith("### ")) {
-                          const cleanHeading = paragraph.replace("### ", "").trim();
-                          const headIdx = headings.indexOf(cleanHeading);
+                      {selectedArticle.content
+                        .replace(/\r\n/g, "\n")
+                        .split(/\n\s*\n/)
+                        .map(p => p.trim())
+                        .filter(p => p.length > 0)
+                        .map((paragraph, idx) => {
+                          const renderParagraphElement = () => {
+                            if (paragraph.startsWith("### ")) {
+                              const cleanHeading = paragraph.replace("### ", "").trim();
+                              const headIdx = headings.indexOf(cleanHeading);
+                              return (
+                                <h3 
+                                  key={idx} 
+                                  id={`heading-${headIdx}`}
+                                  className={`text-xl font-extrabold pt-8 pb-2 border-b scroll-mt-24 ${
+                                    theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
+                                  }`}
+                                >
+                                  {renderFormattedText(cleanHeading)}
+                                </h3>
+                              );
+                            }
+
+                            if (paragraph.startsWith("**The Scenario:**")) {
+                              const cleanText = paragraph.replace("**The Scenario:**", "").trim();
+                              return (
+                                <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
+                                  theme === "dark" 
+                                    ? "bg-slate-900/40 border-slate-850" 
+                                    : "bg-slate-50 border-slate-200/70 shadow-sm"
+                                }`}>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-amber-500">The Scenario</span>
+                                  </div>
+                                  <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                    {renderFormattedText(cleanText)}
+                                  </p>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("**The Traditional Method (Before):**")) {
+                              const cleanText = paragraph.replace("**The Traditional Method (Before):**", "").trim();
+                              return (
+                                <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
+                                  theme === "dark" 
+                                    ? "bg-red-950/10 border-red-900/30" 
+                                    : "bg-red-50/20 border-red-100/50 shadow-sm"
+                                }`}>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-red-500 font-bold">Traditional Method (Before)</span>
+                                  </div>
+                                  <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                    {renderFormattedText(cleanText)}
+                                  </p>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("**The TranscriptG Workflow (After):**")) {
+                              const cleanText = paragraph.replace("**The TranscriptG Workflow (After):**", "").trim();
+                              return (
+                                <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
+                                  theme === "dark" 
+                                    ? "bg-emerald-950/15 border-emerald-900/30" 
+                                    : "bg-emerald-50/30 border-emerald-100/50 shadow-sm"
+                                }`}>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-emerald-500 font-bold">TranscriptG Workflow (After)</span>
+                                  </div>
+                                  <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-emerald-200/90" : "text-black"}`}>
+                                    {renderFormattedText(cleanText)}
+                                  </p>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("* ") || paragraph.startsWith("- ") || paragraph.startsWith("• ")) {
+                              const lines = paragraph.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+                              return (
+                                <ul key={idx} className="list-disc pl-6 space-y-3 my-5">
+                                  {lines.map((line, i) => {
+                                    const clean = line.replace(/^[\*\-•]\s*/, "");
+                                    return (
+                                      <li key={i} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                        {renderFormattedText(clean)}
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              );
+                            }
+
+                            if (paragraph.startsWith("1. ")) {
+                              const lines = paragraph.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+                              return (
+                                <ol key={idx} className="list-decimal pl-6 space-y-3 my-5">
+                                  {lines.map((line, i) => {
+                                    const clean = line.replace(/^\d+\.\s+/, "");
+                                    return (
+                                      <li key={i} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                        {renderFormattedText(clean)}
+                                      </li>
+                                    );
+                                  })}
+                                </ol>
+                              );
+                            }
+
+                            if (paragraph.startsWith("|")) {
+                              const lines = paragraph.split("\n").filter(l => l.trim().startsWith("|"));
+                              if (lines.length >= 2) {
+                                const parseRow = (lineStr: string) => {
+                                  return lineStr
+                                    .split("|")
+                                    .map(cell => cell.trim())
+                                    .filter((_, index, arr) => index > 0 && index < arr.length - 1);
+                                };
+                                const headers = parseRow(lines[0]);
+                                const rows = lines.slice(2).map(parseRow);
+                                return (
+                                  <div key={idx} className="my-8 overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-sm bg-slate-50/20 dark:bg-slate-900/10">
+                                    <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800/60">
+                                      <thead className="bg-slate-50 dark:bg-slate-900/60">
+                                        <tr>
+                                          {headers.map((h, i) => (
+                                            <th key={i} className="px-5 py-3.5 text-left text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                                              {renderFormattedText(h)}
+                                            </th>
+                                          ))}
+                                        </tr>
+                                      </thead>
+                                      <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/40 bg-white dark:bg-slate-950/20">
+                                        {rows.map((row, rIdx) => (
+                                          <tr key={rIdx} className="hover:bg-slate-50/40 dark:hover:bg-slate-900/10 transition-colors">
+                                            {row.map((cell, cIdx) => (
+                                              <td key={cIdx} className="px-5 py-4 text-xs text-black dark:text-slate-300 leading-relaxed">
+                                                {renderFormattedText(cell)}
+                                              </td>
+                                            ))}
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                );
+                              }
+                            }
+
+                            if (paragraph.startsWith("```")) {
+                              const codeLines = paragraph.split("\n").filter(l => !l.startsWith("```"));
+                              return (
+                                <pre key={idx} className="p-5 rounded-2xl font-mono text-xs overflow-x-auto bg-slate-950 text-slate-300 border border-slate-800 leading-relaxed shadow-inner">
+                                  <code>{codeLines.join("\n")}</code>
+                                </pre>
+                              );
+                            }
+
+                            return (
+                              <p key={idx} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                {renderFormattedText(paragraph)}
+                              </p>
+                            );
+                          };
+
+                          const alsoReadIndex = idx === 3 ? 0 : idx === 7 ? 1 : -1;
+                          const alsoReadArticle = alsoReadIndex !== -1 ? otherArticles[alsoReadIndex % otherArticles.length] : null;
+
                           return (
-                            <h3 
-                              key={idx} 
-                              id={`heading-${headIdx}`}
-                              className={`text-xl font-extrabold pt-8 pb-2 border-b scroll-mt-24 ${
-                                theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
+                            <React.Fragment key={idx}>
+                              {renderParagraphElement()}
+                              {alsoReadArticle && (
+                                <div 
+                                  className={`p-5 rounded-2xl border-l-4 border-red-500 my-8 text-left transition-all hover:-translate-y-0.5 duration-300 ${
+                                    theme === "dark" 
+                                      ? "bg-slate-900/25 border-slate-800 hover:border-red-500/50 hover:bg-slate-900/35" 
+                                      : "bg-red-50/15 border-slate-200/80 hover:border-red-500/50 hover:bg-red-50/25 shadow-sm"
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-1.5 mb-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono block">
+                                      Also Read
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={() => {
+                                      setSelectedArticle(alsoReadArticle);
+                                      window.location.hash = `#article=${alsoReadArticle.id}`;
+                                      window.scrollTo({ top: 0, behavior: "smooth" });
+                                    }}
+                                    className={`text-sm font-extrabold hover:text-red-500 transition-colors text-left ${
+                                      theme === "dark" ? "text-white" : "text-slate-900"
+                                    }`}
+                                  >
+                                    {alsoReadArticle.title}
+                                  </button>
+                                </div>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                    </div>
+
+                    {/* Related Articles Section */}
+                    {relatedArticles.length > 0 && (
+                      <div className="pt-12 border-t border-slate-250 dark:border-slate-800/80 mt-16 text-left">
+                        <h4 className={`text-lg font-black tracking-tight mb-6 ${
+                          theme === "dark" ? "text-white" : "text-slate-900"
+                        }`}>
+                          Related Guides & Masterclasses
+                        </h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          {relatedArticles.map((art) => (
+                            <div 
+                              key={art.id}
+                              className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg flex flex-col justify-between ${
+                                theme === "dark" 
+                                  ? "bg-slate-900/30 border-slate-800 hover:border-slate-700" 
+                                  : "bg-white border-slate-200 shadow-sm hover:shadow-md"
                               }`}
                             >
-                              {cleanHeading}
-                            </h3>
-                          );
-                        }
-                        if (paragraph.startsWith("* **")) {
-                          return (
-                            <div key={idx} className="pl-4 border-l-2 border-red-500 py-1 my-4 bg-red-500/5 rounded-r-xl">
-                              <p className={`italic ${theme === "dark" ? "text-slate-300" : "text-slate-650"}`}>
-                                {renderFormattedText(paragraph.replace("* **", "**"))}
-                              </p>
-                            </div>
-                          );
-                        }
-                        if (paragraph.startsWith("* ")) {
-                          const items = paragraph.split("\n* ");
-                          return (
-                            <ul key={idx} className="list-disc pl-5 space-y-2.5 my-4">
-                              {items.map((it, i) => (
-                                <li key={i}>{renderFormattedText(it.replace("* ", ""))}</li>
-                              ))}
-                            </ul>
-                          );
-                        }
-                        if (paragraph.startsWith("1. **") || paragraph.startsWith("1. ")) {
-                          const items = paragraph.split("\n");
-                          return (
-                            <ol key={idx} className="list-decimal pl-5 space-y-2.5 my-5">
-                              {items.map((it, i) => {
-                                const clean = it.replace(/^\d+\.\s+/, "");
-                                return <li key={i}>{renderFormattedText(clean)}</li>;
-                              })}
-                            </ol>
-                          );
-                        }
-                        if (paragraph.startsWith("|")) {
-                          const lines = paragraph.split("\n").filter(l => l.trim().startsWith("|"));
-                          if (lines.length >= 2) {
-                            const parseRow = (lineStr: string) => {
-                              return lineStr
-                                .split("|")
-                                .map(cell => cell.trim())
-                                .filter((_, index, arr) => index > 0 && index < arr.length - 1);
-                            };
-                            const headers = parseRow(lines[0]);
-                            const rows = lines.slice(2).map(parseRow);
-                            return (
-                              <div key={idx} className="my-8 overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-sm bg-slate-50/20 dark:bg-slate-900/10">
-                                <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800/60">
-                                  <thead className="bg-slate-50 dark:bg-slate-900/60">
-                                    <tr>
-                                      {headers.map((h, i) => (
-                                        <th key={i} className="px-5 py-3.5 text-left text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
-                                          {renderFormattedText(h)}
-                                        </th>
-                                      ))}
-                                    </tr>
-                                  </thead>
-                                  <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/40 bg-white dark:bg-slate-950/20">
-                                    {rows.map((row, rIdx) => (
-                                      <tr key={rIdx} className="hover:bg-slate-50/40 dark:hover:bg-slate-900/10 transition-colors">
-                                        {row.map((cell, cIdx) => (
-                                          <td key={cIdx} className="px-5 py-4 text-xs text-slate-650 dark:text-slate-350 leading-relaxed">
-                                            {renderFormattedText(cell)}
-                                          </td>
-                                        ))}
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
+                              <div className="space-y-3">
+                                <span className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-widest rounded-full bg-red-500/10 text-red-500 border border-red-500/15 font-mono">
+                                  {art.category}
+                                </span>
+                                <h5 className={`text-sm font-extrabold leading-snug line-clamp-2 ${
+                                  theme === "dark" ? "text-white" : "text-slate-900"
+                                }`}>
+                                  {art.title}
+                                </h5>
+                                <p className={`text-xs line-clamp-2 leading-relaxed ${
+                                  theme === "dark" ? "text-slate-400" : "text-slate-500"
+                                }`}>
+                                  {art.description}
+                                </p>
                               </div>
-                            );
-                          }
-                        }
-                        if (paragraph.startsWith("```")) {
-                          const codeLines = paragraph.split("\n").filter(l => !l.startsWith("```"));
-                          return (
-                            <pre key={idx} className="p-5 rounded-2xl font-mono text-xs overflow-x-auto bg-slate-950 text-slate-300 border border-slate-800 leading-relaxed shadow-inner">
-                              <code>{codeLines.join("\n")}</code>
-                            </pre>
-                          );
-                        }
-                        return (
-                          <p key={idx} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-slate-650"}`}>
-                            {renderFormattedText(paragraph)}
-                          </p>
-                        );
-                      })}
-                    </div>
+                              <button
+                                onClick={() => {
+                                  setSelectedArticle(art);
+                                  window.location.hash = `#article=${art.id}`;
+                                  window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                                className="mt-4 text-xs font-bold text-red-500 hover:text-red-600 transition-colors inline-flex items-center gap-1.5 self-start"
+                              >
+                                <span>Read Article</span>
+                                <ArrowRight className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Footer Action Card */}
                     {relatedTool && (
