@@ -1602,7 +1602,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 font-sans ${theme} ${theme === "dark" ? "bg-[#030712] text-slate-100" : "bg-[#f8fafc] text-slate-800"}`}>
+    <div className={`min-h-screen transition-colors duration-300 font-sans ${theme} ${theme === "dark" ? "bg-[#09090b] text-slate-100" : "bg-[#fdfbf7] text-slate-800"}`}>
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -1611,7 +1611,7 @@ export default function App() {
             ? "bg-red-950/90 border-red-500/30 text-red-400" 
             : toastType === "info" 
               ? "bg-blue-950/90 border-blue-500/30 text-blue-400" 
-              : "bg-[#0c0f1a] border-emerald-500/30 text-emerald-400"
+              : "bg-[#18181b] border-emerald-500/30 text-emerald-400"
         }`} id="toast-notif">
           {toastType === "error" ? (
             <AlertCircle className="w-5 h-5 shrink-0" />
@@ -1625,7 +1625,7 @@ export default function App() {
       )}
 
       {/* Modern Navigation Header */}
-      <header className={`sticky top-0 z-40 border-b ${theme === "dark" ? "bg-[#030712]/90 border-slate-900/80" : "bg-white/90 border-slate-200/80"} backdrop-blur-md`}>
+      <header className={`sticky top-0 z-40 border-b ${theme === "dark" ? "bg-[#09090b]/90 border-zinc-900/80" : "bg-white/90 border-slate-200/80"} backdrop-blur-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <button 
             className="flex items-center gap-3 cursor-pointer text-left bg-transparent border-0 p-0 focus:outline-none hover:opacity-90 active:scale-[0.98] transition-all" 
@@ -2477,7 +2477,7 @@ export default function App() {
                     </div>
 
                     <div className={`p-6 rounded-2xl border text-left text-xs space-y-3 ${
-                      theme === "dark" ? "bg-[#0f1423]/40 border-slate-900" : "bg-gray-50 border-slate-200"
+                      theme === "dark" ? "bg-[#18181b]/40 border-zinc-900" : "bg-gray-50 border-slate-200"
                     }`}>
                       <div className="flex items-center gap-2 font-bold text-red-500 font-sans">
                         <Shield className="w-4 h-4" />
@@ -2526,7 +2526,7 @@ export default function App() {
                 {/* Main Hero Header Grid */}
                 <div className={`p-8 sm:p-12 rounded-3xl border mb-10 relative overflow-hidden ${
                   theme === "dark" 
-                    ? "bg-gradient-to-br from-[#0c0f1a] via-[#090b14] to-[#030712] border-slate-800/80" 
+                    ? "bg-gradient-to-br from-[#18181b] via-[#101012] to-[#09090b] border-zinc-800/80" 
                     : "bg-white border-slate-200 shadow-xl"
                 }`}>
                   {/* Visual Background Glow */}
@@ -2963,9 +2963,9 @@ export default function App() {
                 <span>Next-Generation AI Content Engine powered by Gemini 2.5</span>
               </div>
 
-              <h1 className="text-2xl sm:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-7xl font-light tracking-tight mb-4 sm:mb-6 leading-tight font-display">
                 The Ultimate Free <br className="hidden sm:inline" />
-                <span className="bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 bg-clip-text text-transparent italic font-normal">
                   AI YouTube Toolkit
                 </span>
               </h1>
@@ -3253,7 +3253,7 @@ export default function App() {
               
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Our Suite of Tools</span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+                <h2 className="text-3xl sm:text-5xl font-light tracking-tight mb-4 font-display">
                   17 Powerful AI-Powered Applications in One
                 </h2>
                 <p className={`${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
@@ -3308,7 +3308,7 @@ export default function App() {
             <div className="max-w-5xl mx-auto">
               
               <div className="text-center max-w-2xl mx-auto mb-16">
-                <h2 className="text-3xl font-extrabold mb-4">How Much Time Do You Save?</h2>
+                <h2 className="text-3xl sm:text-5xl font-light tracking-tight mb-4 font-display">How Much Time Do You Save?</h2>
                 <p className={`${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
                   A side-by-side comparative analysis of the traditional manual creation workflow compared with TranscriptG's automated pipeline.
                 </p>
@@ -3362,7 +3362,7 @@ export default function App() {
               
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <span className="text-xs font-bold text-rose-500 uppercase tracking-widest block mb-2">Designed For Everyone</span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">
                   Tailored Benefits For Every Creator & Thinker
                 </h2>
               </div>
@@ -3442,7 +3442,7 @@ export default function App() {
           <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Success Stories</span>
-              <h2 className="text-3xl font-extrabold">Loved by 10,000+ Creators Worldwide</h2>
+              <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">Loved by 10,000+ Creators Worldwide</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -3488,12 +3488,12 @@ export default function App() {
           </section>
 
           {/* Detailed Informational FAQs Section */}
-          <section className={`py-20 border-t ${theme === "dark" ? "bg-[#0A0D16] border-slate-950" : "bg-gray-100 border-slate-200"}`} id="faq-section">
+          <section className={`py-20 border-t ${theme === "dark" ? "bg-[#121214] border-zinc-950" : "bg-gray-50 border-slate-200"}`} id="faq-section">
             <div className="max-w-4xl mx-auto px-4">
               
               <div className="text-center mb-16">
                 <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">FAQ Helper</span>
-                <h2 className="text-3xl font-extrabold">Frequently Asked Questions</h2>
+                <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">Frequently Asked Questions</h2>
               </div>
 
               <div className="space-y-6">
@@ -3530,12 +3530,12 @@ export default function App() {
           </section>
 
           {/* CREATOR ACADEMY & EDUCATIONAL HUB */}
-          <section className={`py-20 border-t ${theme === "dark" ? "bg-[#0B0F19] border-slate-950" : "bg-gray-50 border-slate-200"}`} id="creator-academy">
+          <section className={`py-20 border-t ${theme === "dark" ? "bg-[#101012] border-zinc-950" : "bg-white border-slate-200"}`} id="creator-academy">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fadeIn">
               
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Creator Academy & Blog</span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">
                   The Complete SEO & Content Marketing Hub
                 </h2>
                 <p className={`text-sm mt-3 leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
@@ -3646,12 +3646,12 @@ export default function App() {
           </section>
 
           {/* THE ULTIMATE SEO GUIDE TO YOUTUBE TRANSCRIPTS */}
-          <section className={`py-20 border-t ${theme === "dark" ? "bg-[#090D18] border-slate-950" : "bg-white border-slate-200"}`} id="seo-guide-hub">
+          <section className={`py-20 border-t ${theme === "dark" ? "bg-[#0c0c0e] border-zinc-950" : "bg-gray-50 border-slate-200"}`} id="seo-guide-hub">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">SEO Keyword Hub & Knowledge Center</span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">
                   The Ultimate Guide to YouTube Transcripts & Subtitles
                 </h2>
                 <p className={`text-sm mt-3 leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>

@@ -1,10 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Redefine red color range to Luxurious Gilded Gold & Satin Champagne */
+  --color-red-50: #fbfaf7;
+  --color-red-100: #f6f3eb;
+  --color-red-200: #ebdcb9;
+  --color-red-300: #dfc793;
+  --color-red-400: #cda967;
+  --color-red-500: #b89047;
+  --color-red-600: #9e752f;
+  --color-red-700: #7e5a1f;
+  --color-red-800: #5f4114;
+  --color-red-900: #452e0d;
+  --color-red-950: #1d1203;
+
+  /* Redefine rose color range to Premium Rose Gold & Copper Bronze */
+  --color-rose-50: #fcfaf9;
+  --color-rose-100: #f8f3f0;
+  --color-rose-200: #ebdcd4;
+  --color-rose-300: #dfc6b9;
+  --color-rose-400: #cba38e;
+  --color-rose-500: #b58169;
+  --color-rose-600: #9c654e;
+  --color-rose-700: #7c4e3a;
+  --color-rose-800: #5e3828;
+  --color-rose-900: #45271a;
+  --color-rose-950: #1c0f0a;
 }
 
 /* Custom fade-in for smooth transitions */
@@ -58,11 +84,11 @@ html, body {
 }
 
 html.dark, html.dark body, body.dark {
-  background-color: #030712 !important;
+  background-color: #09090b !important;
 }
 
 html.light, html.light body, body.light {
-  background-color: #f8fafc !important;
+  background-color: #fdfbf7 !important;
 }
 
 
