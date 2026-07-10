@@ -1737,8 +1737,8 @@ export default function App() {
           const normalizedContent = selectedArticle.content.replace(/\r\n/g, "\n");
           const headings = normalizedContent
             .split("\n")
-            .filter(line => line.startsWith("### "))
-            .map(line => line.replace("### ", "").trim());
+            .filter(line => line.startsWith("### ") || line.startsWith("H2: ") || line.startsWith("H3: "))
+            .map(line => line.replace("### ", "").replace("H2: ", "").replace("H3: ", "").trim());
 
           const relatedTool = tools.find(t => t.id === selectedArticle.relatedToolId);
 
@@ -1919,7 +1919,7 @@ export default function App() {
                       theme === "dark" ? "border-slate-800 bg-slate-900/50" : "border-slate-200 bg-slate-100"
                     }`}>
                       <img 
-                        src={`https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80`} 
+                        src={selectedArticle.featuredImage || `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80`} 
                         alt={selectedArticle.title}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover opacity-80"
@@ -1942,6 +1942,217 @@ export default function App() {
                         .filter(p => p.length > 0)
                         .map((paragraph, idx) => {
                           const renderParagraphElement = () => {
+                            if (paragraph.startsWith("[CHART]")) {
+                              const chartData = [
+                                { year: '2016', Text: 100, Video: 80 },
+                                { year: '2018', Text: 110, Video: 150 },
+                                { year: '2020', Text: 120, Video: 320 },
+                                { year: '2022', Text: 125, Video: 580 },
+                                { year: '2024', Text: 130, Video: 950 },
+                                { year: '2026', Text: 135, Video: 1400 }
+                              ];
+                              return (
+                                <div key={idx} className={`p-6 rounded-3xl border my-8 ${
+                                  theme === "dark" ? "bg-slate-900/30 border-slate-800/80" : "bg-white border-slate-200/80 shadow-sm"
+                                }`}>
+                                  <div className="mb-4 text-left">
+                                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono block mb-1">Visual Intelligence</span>
+                                    <h4 className={`text-sm font-black tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                                      Growth of Video-Based Knowledge Consumption
+                                    </h4>
+                                    <p className={`text-[11px] ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+                                      Illustrative index trend comparing Text-based (articles, ebooks) vs Video-based content (lectures, tutorials) consumption.
+                                    </p>
+                                  </div>
+                                  <div className="h-64 w-full">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                      <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                        <defs>
+                                          <linearGradient id="colorVideo" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+                                            <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                                          </linearGradient>
+                                          <linearGradient id="colorText" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1}/>
+                                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                                          </linearGradient>
+                                        </defs>
+                                        <XAxis dataKey="year" stroke={theme === "dark" ? "#475569" : "#94a3b8"} fontSize={10} tickLine={false} />
+                                        <YAxis stroke={theme === "dark" ? "#475569" : "#94a3b8"} fontSize={10} tickLine={false} />
+                                        <ChartTooltip 
+                                          contentStyle={{ 
+                                            backgroundColor: theme === "dark" ? "#0f172a" : "#ffffff",
+                                            borderColor: theme === "dark" ? "#334155" : "#e2e8f0",
+                                            borderRadius: '12px',
+                                            fontSize: '11px',
+                                            color: theme === "dark" ? "#f1f5f9" : "#0f172a"
+                                          }} 
+                                        />
+                                        <ChartLegend verticalAlign="top" height={36} iconSize={8} iconType="circle" wrapperStyle={{ fontSize: '10px' }} />
+                                        <Area name="Video Content" type="monotone" dataKey="Video" stroke="#ef4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorVideo)" />
+                                        <Area name="Text Content" type="monotone" dataKey="Text" stroke="#3b82f6" strokeWidth={1.5} fillOpacity={1} fill="url(#colorText)" strokeDasharray="3 3" />
+                                      </AreaChart>
+                                    </ResponsiveContainer>
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("[WORKFLOW]")) {
+                              const workflowSteps = [
+                                { id: 1, label: "YouTube Video", desc: "Raw visual/audio ingested" },
+                                { id: 2, label: "Transcript Extraction", desc: "Speech-to-text recognition" },
+                                { id: 3, label: "Structured Info", desc: "Paragraphs & headings added" },
+                                { id: 4, label: "AI Understanding", desc: "Semantic analysis & synthesis" },
+                                { id: 5, label: "Useful Answers", desc: "Takeaways, summaries & notes" }
+                              ];
+                              return (
+                                <div key={idx} className={`p-6 rounded-3xl border my-8 text-left ${
+                                  theme === "dark" ? "bg-slate-900/30 border-slate-800/80" : "bg-white border-slate-200/80 shadow-sm"
+                                }`}>
+                                  <div className="mb-6">
+                                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono block mb-1">Architecture</span>
+                                    <h4 className={`text-sm font-black tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                                      The Video-to-Knowledge Pipeline
+                                    </h4>
+                                    <p className={`text-[11px] ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+                                      Sequential phases of extracting raw spoken voice signals into structured human-readable intelligence.
+                                    </p>
+                                  </div>
+                                  <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                    {workflowSteps.map((step) => (
+                                      <div 
+                                        key={step.id} 
+                                        className={`p-4 rounded-2xl border flex flex-col justify-between transition-all duration-300 hover:scale-[1.03] ${
+                                          theme === "dark" 
+                                            ? "bg-slate-950/60 border-slate-850 hover:border-red-500/40" 
+                                            : "bg-slate-50/50 border-slate-200 hover:border-red-500/30 shadow-sm"
+                                        }`}
+                                      >
+                                        <div>
+                                          <div className="flex items-center justify-between mb-3">
+                                            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-red-500 to-rose-600 text-white flex items-center justify-center font-black text-xs shadow-md shadow-red-500/10">
+                                              {step.id}
+                                            </div>
+                                            <div className="text-[10px] font-mono text-slate-500 font-bold">Phase 0{step.id}</div>
+                                          </div>
+                                          <h5 className={`text-xs font-extrabold leading-tight mb-1 ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                                            {step.label}
+                                          </h5>
+                                          <p className={`text-[10px] leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+                                            {step.desc}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("Key Idea:")) {
+                              const cleanText = paragraph.replace(/^Key Idea:\s*/, "").replace(/^"/, "").replace(/"$/, "").trim();
+                              return (
+                                <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
+                                  theme === "dark" 
+                                    ? "bg-amber-950/20 border-amber-900/30" 
+                                    : "bg-amber-50/40 border-amber-200/60 shadow-sm"
+                                }`}>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Lightbulb className="w-4 h-4 text-amber-500 animate-pulse" />
+                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-amber-500">Key Takeaway</span>
+                                  </div>
+                                  <p className={`text-base font-medium italic leading-relaxed ${theme === "dark" ? "text-amber-200" : "text-amber-900"}`}>
+                                    "{renderFormattedText(cleanText)}"
+                                  </p>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("CTA:")) {
+                              const cleanText = paragraph.replace(/^CTA:\s*/, "").trim();
+                              return (
+                                <div key={idx} className={`p-8 rounded-3xl border relative overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-xl my-8 bg-gradient-to-r ${
+                                  theme === "dark" 
+                                    ? "from-[#111625] to-[#0d101a] border-red-500/30 shadow-red-950/25" 
+                                    : "from-red-50/50 to-white border-red-200/80 shadow-md shadow-red-100/30"
+                                }`}>
+                                  <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    <div className="space-y-2 text-left">
+                                      <div className="flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono">Unlock Video Intelligence</span>
+                                      </div>
+                                      <h4 className={`text-lg font-black tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
+                                        {cleanText}
+                                      </h4>
+                                      <p className={`text-xs ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+                                        Convert any YouTube video into high-quality articles, chapters, transcripts, and summaries in 30 seconds.
+                                      </p>
+                                    </div>
+                                    <button 
+                                      onClick={() => {
+                                        setSelectedLandingTool("transcript");
+                                        window.location.hash = "#tool=transcript";
+                                        setSelectedArticle(null);
+                                        window.scrollTo({ top: 0, behavior: "smooth" });
+                                      }}
+                                      className="px-6 py-3.5 bg-red-500 hover:bg-red-600 text-white font-black text-xs rounded-xl tracking-wider uppercase shadow-lg shadow-red-500/20 hover:shadow-red-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 self-start md:self-auto shrink-0"
+                                    >
+                                      <span>Launch TranscriptG</span>
+                                      <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            if (paragraph.startsWith("H1:")) {
+                              const cleanHeading = paragraph.replace(/^H1:\s*/, "").trim();
+                              return (
+                                <h1 
+                                  key={idx} 
+                                  className={`text-2xl sm:text-3xl font-black pt-6 pb-2 ${
+                                    theme === "dark" ? "text-white" : "text-slate-950"
+                                  }`}
+                                >
+                                  {renderFormattedText(cleanHeading)}
+                                </h1>
+                              );
+                            }
+
+                            if (paragraph.startsWith("H2:")) {
+                              const cleanHeading = paragraph.replace(/^H2:\s*/, "").trim();
+                              const headIdx = headings.indexOf(cleanHeading);
+                              return (
+                                <h2 
+                                  key={idx} 
+                                  id={`heading-${headIdx}`}
+                                  className={`text-xl sm:text-2xl font-black pt-8 pb-2 border-b scroll-mt-24 ${
+                                    theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
+                                  }`}
+                                >
+                                  {renderFormattedText(cleanHeading)}
+                                </h2>
+                              );
+                            }
+
+                            if (paragraph.startsWith("H3:")) {
+                              const cleanHeading = paragraph.replace(/^H3:\s*/, "").trim();
+                              const headIdx = headings.indexOf(cleanHeading);
+                              return (
+                                <h3 
+                                  key={idx} 
+                                  id={`heading-${headIdx}`}
+                                  className={`text-lg sm:text-xl font-extrabold pt-6 pb-2 border-b scroll-mt-24 ${
+                                    theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
+                                  }`}
+                                >
+                                  {renderFormattedText(cleanHeading)}
+                                </h3>
+                              );
+                            }
+
                             if (paragraph.startsWith("### ")) {
                               const cleanHeading = paragraph.replace("### ", "").trim();
                               const headIdx = headings.indexOf(cleanHeading);
