@@ -319,6 +319,25 @@ app.get('/sitemap.xml', (req, res) => {
     <priority>1.0</priority>
   </url>`;
 
+  // Important static pages
+  const staticPages = [
+    { name: 'About Us & Disclaimer', path: '/about-us', priority: '0.6' },
+    { name: 'Privacy Policy', path: '/privacy-policy', priority: '0.6' },
+    { name: 'Terms of Service', path: '/terms-of-service', priority: '0.6' },
+    { name: 'Contact Us', path: '/contact-us', priority: '0.6' }
+  ];
+
+  staticPages.forEach(p => {
+    xml += `
+  <!-- ${p.name} Page -->
+  <url>
+    <loc>${appUrl}${p.path}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`;
+  });
+
   toolsList.forEach(tool => {
     xml += `
   <!-- ${tool.replace('_', ' ').toUpperCase()} Dedicated Tool Landing Page -->
