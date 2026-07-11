@@ -20,6 +20,7 @@ const REVERSED_ARTICLES = [...EDUCATIONAL_ARTICLES].reverse();
 import { WorkspaceSkeleton, PinterestSkeleton } from "./components/Skeletons";
 import { Breadcrumb } from "./components/Breadcrumb";
 import SiteAuditDashboard from "./components/SiteAuditDashboard";
+import { SEOPage } from "./components/SEOPage";
 
 const CoreToolsSplit = React.lazy(() => import("./components/CoreToolsSplit"));
 const MarketingToolsSplit = React.lazy(() => import("./components/MarketingToolsSplit"));
@@ -487,6 +488,7 @@ export default function App() {
   const [showTermsOfService, setShowTermsOfService] = useState<boolean>(false);
   const [showContactSupport, setShowContactSupport] = useState<boolean>(false);
   const [showAboutUs, setShowAboutUs] = useState<boolean>(false);
+  const [selectedPage, setSelectedPage] = useState<"about" | "privacy" | "terms" | "contact" | null>(null);
   const [showLiveAuditModal, setShowLiveAuditModal] = useState<boolean>(false);
   const [selectedArticle, setSelectedArticle] = useState<EducationalArticle | null>(null);
 
@@ -613,6 +615,7 @@ export default function App() {
 
       let toolId: string | null = null;
       let articleId: string | null = null;
+      let pageId: "about" | "privacy" | "terms" | "contact" | null = null;
 
       // 1. Parse from hash first (prioritize interactive user clicks)
       if (hash) {
@@ -620,15 +623,31 @@ export default function App() {
           toolId = hash.replace("#tool=", "");
         } else if (hash.startsWith("#article=")) {
           articleId = hash.replace("#article=", "");
+        } else if (hash === "#about" || hash === "#about-us") {
+          pageId = "about";
+        } else if (hash === "#privacy" || hash === "#privacy-policy") {
+          pageId = "privacy";
+        } else if (hash === "#terms" || hash === "#terms-of-service") {
+          pageId = "terms";
+        } else if (hash === "#contact" || hash === "#contact-us") {
+          pageId = "contact";
         }
       }
 
       // 2. Parse from path if hash did not specify a page/tool
-      if (!toolId && !articleId) {
+      if (!toolId && !articleId && !pageId) {
         if (path.startsWith("/tools/")) {
           toolId = path.replace("/tools/", "");
         } else if (path.startsWith("/articles/")) {
           articleId = path.replace("/articles/", "");
+        } else if (path === "/about" || path === "/about-us") {
+          pageId = "about";
+        } else if (path === "/privacy" || path === "/privacy-policy") {
+          pageId = "privacy";
+        } else if (path === "/terms" || path === "/terms-of-service") {
+          pageId = "terms";
+        } else if (path === "/contact" || path === "/contact-us") {
+          pageId = "contact";
         }
       }
 
@@ -640,6 +659,7 @@ export default function App() {
           setSelectedVideo(null);
           setSelectedChannel(null);
           setSelectedArticle(null);
+          setSelectedPage(null);
           if (isDownloader) {
             setActiveHomeTab("video");
           }
@@ -651,10 +671,18 @@ export default function App() {
           setSelectedLandingTool(null);
           setSelectedVideo(null);
           setSelectedChannel(null);
+          setSelectedPage(null);
         }
+      } else if (pageId) {
+        setSelectedPage(pageId);
+        setSelectedLandingTool(null);
+        setSelectedArticle(null);
+        setSelectedVideo(null);
+        setSelectedChannel(null);
       } else {
         setSelectedLandingTool(null);
         setSelectedArticle(null);
+        setSelectedPage(null);
       }
     };
 
@@ -723,7 +751,65 @@ export default function App() {
       script_writer: "youtube script writer ai, write youtube script, video storyboard generator, youtube scripting tool free, write engaging video outline, youtube teleprompter script"
     };
 
-    if (selectedLandingTool) {
+    if (selectedPage) {
+      let titleStr = "";
+      let descStr = "";
+      let keywordsStr = "";
+      let pathName = "";
+
+      if (selectedPage === "about") {
+        titleStr = "About Us & Disclaimer | TranscriptG - The AI YouTube Tool Suite";
+        descStr = "Learn more about TranscriptG, the offline-first secure ecosystem for transcribing, summarizing, translating, and repurposing YouTube video content natively in your browser.";
+        keywordsStr = "about transcriptg, youtube content tools team, client-side transcript security, transcription tech stack, youtube productivity suite";
+        pathName = "/about-us";
+      } else if (selectedPage === "privacy") {
+        titleStr = "Privacy Policy | TranscriptG - Fully Compliant Privacy Protection";
+        descStr = "Our comprehensive, GDPR, CCPA, and COPPA compliant Privacy Policy. Discover how TranscriptG guarantees total data privacy with complete in-browser client-side computation.";
+        keywordsStr = "privacy policy, GDPR youtube tool, CCPA compliance, secure transcribing, client-side data protection, data safety standards";
+        pathName = "/privacy-policy";
+      } else if (selectedPage === "terms") {
+        titleStr = "Terms of Service | TranscriptG - Usage & Agreement Terms";
+        descStr = "Read our terms of service and usage conditions. TranscriptG provides free AI tools with strict adherence to web standards, third-party rights, and security regulations.";
+        keywordsStr = "terms of service, user agreement, website terms, usage guidelines, licensing agreement, copyright safety";
+        pathName = "/terms-of-service";
+      } else if (selectedPage === "contact") {
+        titleStr = "Contact Support & Inquiries | TranscriptG - Get in Touch";
+        descStr = "Need help or have partnerships? Contact TranscriptG support. Our technical assistance team is ready to answer questions about transcription, APIs, and content tools.";
+        keywordsStr = "contact support, customer service, support team, technical inquiry, sponsor transcriptg, feedback, site contact";
+        pathName = "/contact-us";
+      }
+
+      document.title = titleStr;
+      metaDesc.setAttribute('content', descStr);
+      metaKeywords.setAttribute('content', keywordsStr);
+      canonicalLink.setAttribute('href', `${window.location.origin}${pathName}`);
+
+      const pageSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": titleStr,
+        "description": descStr,
+        "url": `${window.location.origin}${pathName}`,
+        "publisher": {
+          "@type": "Organization",
+          "name": "TranscriptG Inc.",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=120&h=120&q=80"
+          }
+        }
+      };
+
+      const faqScript = document.createElement("script");
+      faqScript.id = "jsonld-faq-schema";
+      faqScript.type = "application/ld+json";
+      faqScript.innerHTML = JSON.stringify(pageSchema);
+      document.head.appendChild(faqScript);
+
+      if (window.location.pathname !== pathName || window.location.hash !== "") {
+        window.history.pushState(null, "", pathName + window.location.search);
+      }
+    } else if (selectedLandingTool) {
       const toolData = tools.find(t => t.id === selectedLandingTool) || (selectedLandingTool === 'video_downloader' ? { name: "YouTube HD Video Downloader", desc: "Download public YouTube videos, clips, and audio tracks in high-quality formats with no limits.", seo: "Free YouTube Downloader" } : null);
       if (toolData) {
         const titleStr = `${toolData.name} - Free ${toolData.seo || "YouTube AI"} Tool | TranscriptG`;
@@ -871,7 +957,7 @@ export default function App() {
       const existingAppCleanup = document.getElementById("jsonld-app-schema");
       if (existingAppCleanup) existingAppCleanup.remove();
     };
-  }, [selectedLandingTool, selectedArticle, activeHomeTab]);
+  }, [selectedLandingTool, selectedArticle, activeHomeTab, selectedPage]);
 
   // Teleprompter Autoscroll Effect
   useEffect(() => {
@@ -1725,7 +1811,43 @@ export default function App() {
       <main className="flex-grow">
 
       {/* Conditional Rendering: Homepage vs Workspace */}
-      {isLoading ? (
+      {selectedPage ? (
+        <SEOPage
+          page={selectedPage}
+          theme={theme as any}
+          onBack={() => {
+            setSelectedPage(null);
+            window.history.pushState(null, "", "/" + window.location.search);
+          }}
+          onNavigatePage={(page) => {
+            setSelectedPage(page);
+          }}
+          contactFormState={{
+            name: contactName,
+            email: contactEmail,
+            subject: contactSubject,
+            message: contactMessage,
+            isSubmitting: isSubmittingContact
+          }}
+          setContactFormState={(updateFn) => {
+            if (typeof updateFn === 'function') {
+              const prev = {
+                name: contactName,
+                email: contactEmail,
+                subject: contactSubject,
+                message: contactMessage,
+                isSubmitting: isSubmittingContact
+              };
+              const next = updateFn(prev);
+              setContactName(next.name);
+              setContactEmail(next.email);
+              setContactSubject(next.subject);
+              setContactMessage(next.message);
+            }
+          }}
+          onContactSubmit={handleContactSubmit as any}
+        />
+      ) : isLoading ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <WorkspaceSkeleton theme={theme} />
         </div>
@@ -1808,7 +1930,7 @@ export default function App() {
             return parts.map((part, index) => {
               if (index % 2 === 1) {
                 return (
-                  <strong key={index} className="font-extrabold text-slate-950 dark:text-white">
+                  <strong key={index} className={`font-extrabold ${theme === "dark" ? "text-white" : "text-slate-950"}`}>
                     {linkifyKeywords(part)}
                   </strong>
                 );
@@ -2271,22 +2393,32 @@ export default function App() {
                                 const headers = parseRow(lines[0]);
                                 const rows = lines.slice(2).map(parseRow);
                                 return (
-                                  <div key={idx} className="my-8 overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-sm bg-slate-50/20 dark:bg-slate-900/10">
-                                    <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800/60">
-                                      <thead className="bg-slate-50 dark:bg-slate-900/60">
+                                  <div key={idx} className={`my-8 overflow-x-auto rounded-2xl border shadow-sm ${
+                                    theme === "dark" ? "border-slate-800 bg-slate-900/10" : "border-slate-200/60 bg-slate-50/20"
+                                  }`}>
+                                    <table className={`min-w-full divide-y ${theme === "dark" ? "divide-slate-800" : "divide-slate-200"}`}>
+                                      <thead className={theme === "dark" ? "bg-slate-900/60" : "bg-slate-50"}>
                                         <tr>
                                           {headers.map((h, i) => (
-                                            <th key={i} className="px-5 py-3.5 text-left text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                                            <th key={i} className={`px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider ${
+                                              theme === "dark" ? "text-slate-200" : "text-slate-800"
+                                            }`}>
                                               {renderFormattedText(h)}
                                             </th>
                                           ))}
                                         </tr>
                                       </thead>
-                                      <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/40 bg-white dark:bg-slate-950/20">
+                                      <tbody className={`divide-y ${
+                                        theme === "dark" ? "divide-slate-800/40 bg-slate-950/20" : "divide-slate-200/60 bg-white"
+                                      }`}>
                                         {rows.map((row, rIdx) => (
-                                          <tr key={rIdx} className="hover:bg-slate-50/40 dark:hover:bg-slate-900/10 transition-colors">
+                                          <tr key={rIdx} className={`transition-colors ${
+                                            theme === "dark" ? "hover:bg-slate-900/10" : "hover:bg-slate-50/40"
+                                          }`}>
                                             {row.map((cell, cIdx) => (
-                                              <td key={cIdx} className="px-5 py-4 text-xs text-black dark:text-slate-300 leading-relaxed">
+                                              <td key={cIdx} className={`px-5 py-4 text-xs leading-relaxed ${
+                                                theme === "dark" ? "text-slate-300" : "text-slate-800"
+                                              }`}>
                                                 {renderFormattedText(cell)}
                                               </td>
                                             ))}
@@ -2306,6 +2438,31 @@ export default function App() {
                                   <code>{codeLines.join("\n")}</code>
                                 </pre>
                               );
+                            }
+
+                            if (paragraph.startsWith("[IMAGE:")) {
+                              const match = paragraph.match(/\[IMAGE:\s*([^|\]]+)(?:\|([^\]]+))?\]/);
+                              if (match) {
+                                const src = match[1].trim();
+                                const caption = match[2] ? match[2].trim() : "";
+                                return (
+                                  <div key={idx} className="my-8 text-center" id={`article-image-${idx}`}>
+                                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md bg-slate-100 dark:bg-slate-900/40">
+                                      <img 
+                                        src={src} 
+                                        alt={caption || "SEO Visualization"} 
+                                        className="w-full h-auto max-h-[420px] object-cover hover:scale-[1.02] transition-transform duration-500" 
+                                        referrerPolicy="no-referrer" 
+                                      />
+                                    </div>
+                                    {caption && (
+                                      <p className={`text-xs mt-3 italic font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+                                        {caption}
+                                      </p>
+                                    )}
+                                  </div>
+                                );
+                              }
                             }
 
                             return (
@@ -6072,34 +6229,54 @@ export default function App() {
               >
                 Creator Academy
               </a>
-              <button 
-                onClick={() => setShowAboutUs(true)} 
+              <a 
+                href="/about-us" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedPage("about");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className="hover:text-red-500 bg-transparent border-none cursor-pointer focus:outline-none transition-colors"
                 id="footer-about-btn"
               >
                 About & Disclaimer
-              </button>
-              <button 
-                onClick={() => setShowPrivacyPolicy(true)} 
+              </a>
+              <a 
+                href="/privacy-policy" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedPage("privacy");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className="hover:text-red-500 bg-transparent border-none cursor-pointer focus:outline-none transition-colors"
                 id="footer-privacy-btn"
               >
                 Privacy Policy
-              </button>
-              <button 
-                onClick={() => setShowTermsOfService(true)} 
+              </a>
+              <a 
+                href="/terms-of-service" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedPage("terms");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className="hover:text-red-500 bg-transparent border-none cursor-pointer focus:outline-none transition-colors"
                 id="footer-terms-btn"
               >
                 Terms of Service
-              </button>
-              <button 
-                onClick={() => setShowContactSupport(true)} 
+              </a>
+              <a 
+                href="/contact-us" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedPage("contact");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className="hover:text-red-500 bg-transparent border-none cursor-pointer focus:outline-none transition-colors"
                 id="footer-contact-btn"
               >
                 Contact Support
-              </button>
+              </a>
             </div>
           </div>
 
@@ -6138,265 +6315,6 @@ export default function App() {
                 Accept All
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Privacy Policy Modal */}
-      {showPrivacyPolicy && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm" id="modal-privacy-policy">
-          <div className={`w-full max-w-3xl rounded-2xl border flex flex-col max-h-[85vh] ${theme === "dark" ? "bg-[#0F172A] border-slate-800" : "bg-white border-slate-200"} shadow-2xl overflow-hidden`}>
-            <div className="p-6 border-b border-slate-800/80 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-red-500" />
-                <h3 className="text-lg font-bold">Privacy Policy</h3>
-              </div>
-              <button onClick={() => setShowPrivacyPolicy(false)} className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6 overflow-y-auto space-y-4 text-xs leading-relaxed text-left text-slate-300">
-              <p className="font-bold text-sm text-red-400">Effective Date: July 4, 2026</p>
-              <p>
-                At TranscriptG, accessible from {window.location.origin}, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by TranscriptG and how we use it. If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
-              </p>
-              
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">1. General Data Protection Regulation (GDPR)</h4>
-              <p>
-                We are a Data Controller of your information. Our legal basis for collecting and using the personal information described in this Privacy Policy depends on the Personal Information we collect and the specific context in which we collect the information:
-              </p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>TranscriptG needs to perform a contract with you</li>
-                <li>You have given TranscriptG permission to do so</li>
-                <li>Processing your personal information is in TranscriptG legitimate interests</li>
-                <li>TranscriptG needs to comply with the law</li>
-              </ul>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">2. Log Files & Input Data</h4>
-              <p>
-                TranscriptG follows a standard procedure of utilizing log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The YouTube URLs you enter are processed instantly via Google's Gemini AI APIs and are never permanently stored on our databases.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">3. Google DoubleClick DART Cookie & AdSense Partners</h4>
-              <p>
-                Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to our site and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-red-400 underline">https://policies.google.com/technologies/ads</a>
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">4. Privacy Policies of Advertising Partners</h4>
-              <p>
-                Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on TranscriptG, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.
-              </p>
-              <p>
-                Note that TranscriptG has no access to or control over these cookies that are used by third-party advertisers.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">5. Children's Information</h4>
-              <p>
-                Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity. TranscriptG does not knowingly collect any Personal Identifiable Information from children under the age of 13.
-              </p>
-            </div>
-            <div className="p-4 border-t border-slate-800/80 text-right shrink-0">
-              <button 
-                onClick={() => setShowPrivacyPolicy(false)}
-                className="px-5 py-2 text-xs font-bold bg-slate-850 hover:bg-slate-800 text-slate-100 rounded-xl transition-colors"
-              >
-                Close Policy
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Terms of Service Modal */}
-      {showTermsOfService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm" id="modal-terms-of-service">
-          <div className={`w-full max-w-3xl rounded-2xl border flex flex-col max-h-[85vh] ${theme === "dark" ? "bg-[#0F172A] border-slate-800" : "bg-white border-slate-200"} shadow-2xl overflow-hidden`}>
-            <div className="p-6 border-b border-slate-800/80 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-red-500" />
-                <h3 className="text-lg font-bold">Terms of Service</h3>
-              </div>
-              <button onClick={() => setShowTermsOfService(false)} className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6 overflow-y-auto space-y-4 text-xs leading-relaxed text-left text-slate-300">
-              <p className="font-bold text-sm text-rose-400">Last Updated: July 4, 2026</p>
-              <p>
-                Welcome to TranscriptG! These terms and conditions outline the rules and regulations for the use of TranscriptG's Free AI Website, located at {window.location.origin}.
-              </p>
-              
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">1. Intellectual Property & Fair Use</h4>
-              <p>
-                TranscriptG acts as a transcription client and metadata generator. We do not host or store any copyright-protected video files. When using our toolkit, you must respect the original creators' copyright regulations and fair-use limitations. All video titles, descriptions, channel names, and thumbnail image assets remain the exclusive property of their respective creators and copyright owners.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">2. API Non-Affiliation Disclaimer</h4>
-              <p>
-                TranscriptG is an independent full-stack web application leveraging public interfaces (such as oEmbed) and Google Gemini AI services. We are **not officially affiliated, associated, authorized, endorsed by, or in any way officially connected** with YouTube, Google LLC, Alphabet Inc., or any of their subsidiaries or affiliates. The official YouTube website can be found at https://www.youtube.com.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">3. No Warranties & Service Limits</h4>
-              <p>
-                The transcription data, summaries, notes, flashcards, blogs, and social content provided by TranscriptG are generated using state-of-the-art AI. We do not warrant or guarantee that the content generated is 100% accurate, error-free, or suitable for any commercial legal standing. The services are provided "as is" and "as available" with no warranty of any kind.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">4. Prohibited Behaviors</h4>
-              <p>
-                You are strictly prohibited from attempting to bypass our safety barriers, scraping our content generation API endpoint programmatically, or utilizing this tool to analyze videos of sensitive, illegal, or copyrighted status in a way that infringes upon third-party rights.
-              </p>
-            </div>
-            <div className="p-4 border-t border-slate-800/80 text-right shrink-0">
-              <button 
-                onClick={() => setShowTermsOfService(false)}
-                className="px-5 py-2 text-xs font-bold bg-slate-850 hover:bg-slate-800 text-slate-100 rounded-xl transition-colors"
-              >
-                Accept Terms
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* About Us & Disclaimer Modal */}
-      {showAboutUs && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm" id="modal-about-us">
-          <div className={`w-full max-w-3xl rounded-2xl border flex flex-col max-h-[85vh] ${theme === "dark" ? "bg-[#0F172A] border-slate-800" : "bg-white border-slate-200"} shadow-2xl overflow-hidden`}>
-            <div className="p-6 border-b border-slate-800/80 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <Compass className="w-5 h-5 text-red-500" />
-                <h3 className="text-lg font-bold">About TranscriptG & Disclaimer</h3>
-              </div>
-              <button onClick={() => setShowAboutUs(false)} className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6 overflow-y-auto space-y-4 text-xs leading-relaxed text-left text-slate-300">
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1">Our Mission</h4>
-              <p>
-                TranscriptG was established to build the world's most accessible, high-performance, and completely free AI-powered transcription and content repurposing workspace. We believe content creators, students, and researchers should have instant, unlimited access to text transcription utilities without hitting aggressive paywalls or requiring tedious account registration forms.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">YouTube Non-Affiliation Disclaimer</h4>
-              <p className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-medium">
-                IMPORTANT DISCLAIMER: TranscriptG is an independent service. We are NOT associated, affiliated, sponsored, or endorsed by Google LLC, YouTube, Alphabet Inc., or any of their partner companies. We operate as a public informational client that utilizes standard public interfaces and AI translation models for transcription visualization.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">How TranscriptG Saves You Time</h4>
-              <p>
-                Traditional transcription agencies charge up to $1.50 per minute of video audio, which can take over 24 hours to deliver. Manual transcription is an intensive task requiring upwards of 4 hours for a single 1-hour presentation. TranscriptG completes this process in under 3 seconds using our optimized AI models.
-              </p>
-
-              <h4 className="font-bold text-sm text-white border-b border-slate-800 pb-1 pt-2">Educational Support Notice</h4>
-              <p>
-                Our study cards, interactive quizzes, summaries, and action plans are synthesized dynamically. We strongly advocate for students and scholars to verify critical figures, mathematical coordinates, and historical dates back to the original source.
-              </p>
-            </div>
-            <div className="p-4 border-t border-slate-800/80 text-right shrink-0">
-              <button 
-                onClick={() => setShowAboutUs(false)}
-                className="px-5 py-2 text-xs font-bold bg-slate-850 hover:bg-slate-800 text-slate-100 rounded-xl transition-colors"
-              >
-                Close About Us
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Contact Support Form Modal */}
-      {showContactSupport && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm" id="modal-contact-support">
-          <div className={`w-full max-w-lg rounded-2xl border flex flex-col max-h-[90vh] ${theme === "dark" ? "bg-[#0F172A] border-slate-800" : "bg-white border-slate-200"} shadow-2xl overflow-hidden`}>
-            <div className="p-6 border-b border-slate-800/80 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-red-500" />
-                <h3 className="text-lg font-bold">Contact Support & Partnerships</h3>
-              </div>
-              <button onClick={() => setShowContactSupport(false)} className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            <form onSubmit={handleContactSubmit} className="p-6 overflow-y-auto space-y-4 text-left text-xs">
-              <p className={`leading-relaxed mb-2 ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
-                Have a feature request, bug report, or want to inquire about ad partnerships? Fill out the secure form below. We respond to all queries within 24 hours.
-              </p>
-
-              <div>
-                <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Your Full Name <span className="text-red-500">*</span></label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Enter your name"
-                  value={contactName}
-                  onChange={(e) => setContactName(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-xl border focus:outline-none focus:ring-0 ${theme === "dark" ? "bg-slate-950 border-slate-800 text-white" : "bg-gray-50 border-slate-200 text-slate-800"}`}
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Email Address <span className="text-red-500">*</span></label>
-                <input 
-                  type="email" 
-                  required
-                  placeholder="you@example.com"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-xl border focus:outline-none focus:ring-0 ${theme === "dark" ? "bg-slate-950 border-slate-800 text-white" : "bg-gray-50 border-slate-200 text-slate-800"}`}
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Inquiry Subject</label>
-                <select 
-                  value={contactSubject}
-                  onChange={(e) => setContactSubject(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-xl border focus:outline-none focus:ring-0 ${theme === "dark" ? "bg-slate-950 border-slate-800 text-white" : "bg-gray-50 border-slate-200 text-slate-800"}`}
-                >
-                  <option value="general">General Inquiries / Support</option>
-                  <option value="adsense">AdSense & Ad Partnerships</option>
-                  <option value="feature">New Tool / Feature Request</option>
-                  <option value="bug">Bug Report / Technical Issue</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Detailed Message <span className="text-red-500">*</span></label>
-                <textarea 
-                  required
-                  rows={4}
-                  placeholder="Describe your request in detail..."
-                  value={contactMessage}
-                  onChange={(e) => setContactMessage(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-xl border focus:outline-none focus:ring-0 ${theme === "dark" ? "bg-slate-950 border-slate-800 text-white" : "bg-gray-50 border-slate-200 text-slate-800"}`}
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-3">
-                <button 
-                  type="button"
-                  onClick={() => setShowContactSupport(false)}
-                  className="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit"
-                  disabled={isSubmittingContact}
-                  className="px-5 py-2 text-xs font-extrabold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 rounded-xl transition-colors disabled:opacity-50 flex items-center gap-1.5 font-mono"
-                >
-                  {isSubmittingContact ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <span>Send Message</span>
-                  )}
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
