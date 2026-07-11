@@ -404,21 +404,21 @@ export default function App() {
 
   // Tools configuration
   const tools = [
-    { id: "transcript", name: "AI YouTube Transcript", icon: FileText, desc: "Generate flawless punctuated transcripts with interactive timestamps.", seo: "YouTube Transcript Generator" },
-    { id: "summary", name: "AI Video Summary", icon: Compass, desc: "Get short, detailed, and executive takeaways instantly.", seo: "AI YouTube Summary" },
-    { id: "blog", name: "AI Blog Generator", icon: BookOpen, desc: "Convert any video into a fully formatted, SEO-ready article.", seo: "YouTube To Blog Article" },
-    { id: "social", name: "AI Social Media Hub", icon: Share2, desc: "Generate viral content for X, LinkedIn, Instagram, and Facebook.", seo: "YouTube Social Media Generator" },
-    { id: "chapters", name: "AI Video Chapters", icon: ListVideo, desc: "Generate perfectly structured video chapters and milestones.", seo: "YouTube Chapters Creator" },
-    { id: "seo", name: "AI YouTube SEO Toolkit", icon: Sparkles, desc: "Optimize your metadata, keywords, hashtags, and description.", seo: "YouTube SEO Keywords Generator" },
-    { id: "quotes", name: "AI Quote Extractor", icon: Lightbulb, desc: "Extract inspirational, educational, and shareable quotes.", seo: "YouTube Quotes Extractor" },
-    { id: "translation", name: "AI Translation Engine", icon: Languages, desc: "Translate transcribings into 10+ global languages seamlessly.", seo: "YouTube Subtitle Translator" },
-    { id: "knowledge_graph", name: "AI Knowledge Graph", icon: Layers, desc: "Visualize key concepts, subtopics, and relationships in a mind map.", seo: "YouTube Mind Map Generator" },
-    { id: "faq", name: "AI FAQ Generator", icon: HelpCircle, desc: "Automatically generate matching frequently asked questions.", seo: "YouTube FAQ Creator" },
-    { id: "study", name: "AI Study Mode", icon: Award, desc: "Generate notes, flashcards, and an interactive quiz from any video.", seo: "YouTube To Flashcards" },
-    { id: "action_items", name: "AI Action Items", icon: CheckSquare, desc: "Instantly build checkable task lists and priority frameworks.", seo: "YouTube Action Plan Builder" },
-    { id: "shorts_clipper", name: "AI Shorts Clipper & Hook Generator", icon: Zap, desc: "Find virality-focused segments, generate scrolling captions, hook options, and high-impact vertical short scripts.", seo: "YouTube Shorts AI Clipper" },
-    { id: "thumbnail_grabber", name: "YouTube HD Thumbnail Grabber & CTR Optimizer", icon: Layers, desc: "Extract MaxRes/HD thumbnails and run real-time visual-contrast and composition analysis to double CTR.", seo: "YouTube Thumbnail Downloader" },
-    { id: "script_writer", name: "AI Video Script Writer & Storyboarder", icon: Sparkles, desc: "Write complete professional YouTube scripts with visual cue guides, custom hook structures, and pacing hints.", seo: "YouTube Script Writer AI" }
+    { id: "transcript", name: "AI YouTube Transcript", icon: FileText, desc: "Run high-fidelity AI YouTube Transcript extraction with our premium YouTube Transcript AI to convert YouTube Video to Text instantly.", seo: "YouTube Transcript Generator" },
+    { id: "summary", name: "AI Video Summary", icon: Compass, desc: "Generate a detailed AI Video Summary with the best AI YouTube Video Summarizer and extract high-value key takeaways.", seo: "AI YouTube Video Summarizer" },
+    { id: "blog", name: "AI Blog Generator", icon: BookOpen, desc: "Convert any YouTube video into a fully formatted, SEO-ready article with our advanced YouTube To Blog Generator.", seo: "YouTube To Blog Generator" },
+    { id: "social", name: "AI Social Media Generator", icon: Share2, desc: "Draft viral, high-retention content with the premier AI Social Media Generator and YouTube Social Media Generator.", seo: "YouTube Social Media Generator" },
+    { id: "chapters", name: "AI Video Chapters Generator", icon: ListVideo, desc: "Create perfectly organized timelines with our AI Video Chapters Generator and YouTube Chapters Creator.", seo: "YouTube Chapters Creator" },
+    { id: "seo", name: "AI YouTube SEO Toolkit", icon: Sparkles, desc: "Boost video discovery with our comprehensive AI YouTube SEO Toolkit and YouTube SEO Keywords Generator.", seo: "YouTube SEO Keywords Generator" },
+    { id: "quotes", name: "AI Quote Extractor", icon: Lightbulb, desc: "Capture viral soundbites using our premium AI Quote Extractor and YouTube Quotes Extractor.", seo: "YouTube Quotes Extractor" },
+    { id: "translation", name: "YouTube Subtitle Translator", icon: Languages, desc: "Reach global viewers with our YouTube Subtitle Translator and AI Video Translator.", seo: "AI Video Translator" },
+    { id: "knowledge_graph", name: "YouTube Mind Map Generator", icon: Layers, desc: "Visualize complex educational concepts with the premium YouTube Mind Map Generator.", seo: "AI Knowledge Graph Generator" },
+    { id: "faq", name: "YouTube FAQ Generator", icon: HelpCircle, desc: "Instantly draft matching queries and answers using our YouTube FAQ Generator.", seo: "AI FAQ Creator" },
+    { id: "study", name: "YouTube To Flashcards", icon: Award, desc: "Master any academic or business tutorial using our YouTube To Flashcards converter.", seo: "AI Study Tool" },
+    { id: "action_items", name: "AI Action Items Generator", icon: CheckSquare, desc: "Draft checklist frameworks and schedules with the AI Action Items Generator.", seo: "YouTube Action Plan Builder" },
+    { id: "shorts_clipper", name: "YouTube Shorts AI Clipper", icon: Zap, desc: "Extract viral micro-assets using our premium YouTube Shorts AI Clipper.", seo: "AI Shorts Generator" },
+    { id: "thumbnail_grabber", name: "YouTube Thumbnail Downloader", icon: Layers, desc: "Extract HD thumbnails and score clickability using our YouTube Thumbnail Downloader.", seo: "YouTube HD Thumbnail Grabber" },
+    { id: "script_writer", name: "AI YouTube Script Writer", icon: Sparkles, desc: "Write and rehearse engaging scripts with the AI YouTube Script Writer.", seo: "Video Script Generator AI" }
   ];
 
   // Specific Tool State Managers
@@ -734,21 +734,21 @@ export default function App() {
 
     // Map keywords for all tools to target search queries
     const toolKeywordsMap: Record<string, string> = {
-      transcript: "youtube transcript generator, youtube transcript to text, download youtube transcript, youtube subtitles extractor, youtube transcript, free youtube transcript finder, get transcript of youtube video, extract youtube captions",
-      summary: "youtube video summarizer, summarize youtube video, ai youtube summary, yt summary generator, summarize youtube video in seconds, chat with youtube video, youtube transcript summarizer, video summary ai, free video takeaways",
-      blog: "youtube to blog, youtube video to article generator, youtube transcript to blog, turn youtube video into blog post, convert youtube to markdown article, youtube to blog post ai, repurpose youtube video to blog, youtube article writer",
-      social: "youtube video social posts, youtube to twitter thread, youtube to linkedin post, social content scheduler from youtube, youtube video repurposer, viral youtube thread generator, linkedin post from youtube video",
-      chapters: "youtube chapters generator, youtube video timestamps, automatic youtube chapters, smart timestamp generator, split youtube video chapters, auto chapters for youtube, video milestone creator",
-      seo: "youtube seo optimization, youtube keywords generator, youtube metadata generator, youtube description generator, tags search volume, video tags audit compliance, youtube seo tool, best tags for youtube videos",
-      quotes: "youtube quotes extractor, extract quotes from video, find best quotes in youtube video, motivational video quotes, educational video quotes, famous youtube lines, transcriptg quote finder",
-      translation: "youtube subtitle translator, translate youtube transcript, translate video transcript, multi-language youtube subtitles, translate video to english, youtube transcript translation",
-      knowledge_graph: "youtube mind map generator, youtube knowledge graph, visualize video concepts, video topic map, interactive learning mindmap, youtube visual outline",
-      faq: "youtube faq creator, frequently asked questions generator, generate faqs from video, ai faq maker, youtube description faqs",
-      study: "youtube to flashcards, youtube study notes generator, study cards from video, active recall video quiz, youtube learning companion, convert lecture to notes",
-      action_items: "youtube action plan builder, extract tasks from video, automated checklist generator, video action items, priority framework maker",
-      shorts_clipper: "youtube shorts clipper, ai shorts generator, vertical video clipper, youtube video to shorts hook, automated shorts script writer, convert youtube to shorts, viral clip finder",
-      thumbnail_grabber: "youtube thumbnail downloader, download yt thumbnail hd, youtube ctr analysis, thumbnail grabber free, extract youtube video thumbnail, save youtube cover image",
-      script_writer: "youtube script writer ai, write youtube script, video storyboard generator, youtube scripting tool free, write engaging video outline, youtube teleprompter script"
+      transcript: "AI YouTube Transcript, YouTube Transcript AI, AI Transcript Generator, YouTube AI Transcript Generator, YouTube Video Transcript Generator, Automatic YouTube Transcript Generator, AI Video Transcription, Convert YouTube Video To Text, YouTube Transcript Extractor, Speech To Text AI, YouTube Transcript Generator, Free YouTube Transcript Generator, Generate YouTube Transcript, YouTube Subtitle To Text, YouTube Text Converter, Extract Transcript From YouTube Video",
+      summary: "AI Video Summary, AI YouTube Video Summarizer, YouTube Summary AI, YouTube Video Summarizer, AI Video Summarizer, Summarize YouTube Videos With AI, Video Summary Generator, AI Video Notes Generator",
+      blog: "AI Blog Generator, YouTube To Blog Generator, YouTube Video To Article Converter, Convert YouTube Video To Blog Post, AI Article Writer, Video To Blog AI, Content Repurposing AI, SEO Blog Generator, YouTube To Blog Article",
+      social: "AI Social Media Generator, YouTube Social Media Generator, AI Content Repurposing Tool, YouTube To Social Media Posts, AI Twitter Post Generator, AI LinkedIn Post Generator, Video Content Repurposing, Social Media Content AI, YouTube Social Media Generator",
+      chapters: "AI Video Chapters Generator, YouTube Chapters Creator, Automatic YouTube Chapters, YouTube Timestamp Generator, AI Timestamp Generator, Video Chapter Maker, Generate YouTube Chapters",
+      seo: "AI YouTube SEO Toolkit, YouTube SEO AI Tool, YouTube SEO Keywords Generator, YouTube Keyword Research Tool, AI YouTube Keyword Generator, YouTube Ranking Tool, Video SEO Optimizer, YouTube SEO Assistant",
+      quotes: "AI Quote Extractor, YouTube Quotes Extractor, Extract Quotes From YouTube Videos, Video Quote Generator, AI Quote Finder, YouTube Quote Generator, Extract Best Moments From Video",
+      translation: "YouTube Subtitle Translator, AI Video Translator, YouTube Translation AI, Translate YouTube Videos, Automatic Subtitle Translator, AI Subtitle Generator, Multi Language Video Translator, AI Translation Engine",
+      knowledge_graph: "YouTube Mind Map Generator, AI Knowledge Graph Generator, Video Mind Map AI, Convert Video Into Mind Map, AI Learning Map, Visual Video Summary, AI Concept Map Generator, AI Knowledge Graph",
+      faq: "YouTube FAQ Generator, AI FAQ Creator, Video FAQ Generator, Generate Questions From YouTube Videos, AI Question Generator, Video Question Answer Generator, YouTube Content Analyzer, YouTube FAQ Creator",
+      study: "YouTube To Flashcards, AI Study Tool, YouTube Learning Assistant AI, Convert Video Into Flashcards, AI Flashcard Generator, Video Notes Generator, Study From YouTube Videos, AI Study Mode",
+      action_items: "AI Action Items Generator, YouTube Action Plan Builder, Extract Tasks From Videos, AI Task Generator, Video Productivity Assistant, AI Summary To Action Plan, AI Action Items",
+      shorts_clipper: "YouTube Shorts AI Clipper, AI Shorts Generator, YouTube Shorts Clip Maker, Long Video To Shorts AI, AI Viral Hook Generator, Create YouTube Shorts Automatically, Shorts Content Generator, AI Shorts Clipper & Hook Generator",
+      thumbnail_grabber: "YouTube Thumbnail Downloader, YouTube HD Thumbnail Grabber, YouTube Thumbnail Extractor, Download YouTube Thumbnail, YouTube CTR Optimizer, Thumbnail Analyzer AI, YouTube Thumbnail Tool, YouTube HD Thumbnail Grabber & CTR Optimizer",
+      script_writer: "AI YouTube Script Writer, Video Script Generator AI, AI Storyboard Generator, YouTube Script Generator, AI Video Script Writer, Create YouTube Scripts With AI, Video Storytelling AI, Content Planning AI, AI Video Script Writer & Storyboarder"
     };
 
     if (selectedPage) {

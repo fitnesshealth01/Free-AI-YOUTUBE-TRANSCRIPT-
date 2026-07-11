@@ -6,243 +6,243 @@ export const DEDICATED_TOOL_DETAILS: Record<string, {
   faqs: { q: string; a: string }[];
 }> = {
   transcript: {
-    tagline: "Generate flawless punctuated transcripts with interactive clickable timestamps.",
-    badge: "100% Accurate",
+    tagline: "Run high-fidelity AI YouTube Transcript extraction with our premium YouTube Transcript AI to convert YouTube Video to Text instantly.",
+    badge: "Free YouTube AI Transcript Generator",
     features: [
-      "Clickable Timestamps: Click any line to sync and play the video from that exact moment.",
-      "Smart Paragraph Punctuation: Automatically segments speech into readable, grammatically correct sections.",
-      "Multi-Format Export: Export your raw transcript in Plain Text, SRT Subtitles, or structured JSON formats.",
-      "Search and Filter: Instantly locate terms, keywords, and topics across the entire video timeline."
+      "AI Transcript Generator: Instantly generate clean, beautifully punctuated text blocks from any public video.",
+      "YouTube AI Transcript Generator: Extract automated, punctuated subtitle tracks in just seconds with zero latency.",
+      "Automatic YouTube Transcript Generator: Syncs interactive clickable timestamps perfectly with video timeline playback.",
+      "YouTube Transcript Extractor: Easily convert YouTube video to text, enabling fast reading, content scanning, and easy copy-pasting."
     ],
-    howItWorks: "Our client-side AI parsing algorithm processes public video subtitle metadata and automatically reconstructs spacing, capitalizations, and timestamps fully in-browser, bypassing heavy server queues.",
+    howItWorks: "Our high-speed AI Video Transcription algorithm connects with advanced Speech To Text AI pipelines to parse and align spoken words, serving as the ultimate YouTube Video Transcript Generator.",
     faqs: [
-      { q: "Is there a limit on video length?", a: "No! You can transcribe videos of any length, from 30-second Shorts to 10-hour deep dives." },
-      { q: "Can I download SRT subtitles for editing?", a: "Absolutely! Just click 'Export' and select the SRT format to download standard subtitle tracks ready for Premiere or DaVinci." },
-      { q: "Does this require sign-up?", a: "No, this tool is 100% free with no account creation or subscription required." }
+      { q: "How does the AI YouTube Transcript tool extract subtitles?", a: "It operates as a high-speed YouTube Transcript AI and AI Transcript Generator, extracting video captions and utilizing punctuation models to convert YouTube video to text." },
+      { q: "Can I use this YouTube Video Transcript Generator for long webinars?", a: "Yes, our Automatic YouTube Transcript Generator supports videos of any length, converting files into standard text blocks or downloadable subtitles." },
+      { q: "Is this YouTube Transcript Extractor completely free?", a: "Yes, this YouTube AI Transcript Generator is 100% free with no registration or limits, allowing you to convert YouTube video to text anytime." }
     ]
   },
   summary: {
-    tagline: "Get short, detailed, and executive takeaways from any video instantly.",
-    badge: "Executive Quality",
+    tagline: "Generate a detailed AI Video Summary with the best AI YouTube Video Summarizer and extract high-value key takeaways.",
+    badge: "YouTube Summary AI",
     features: [
-      "Short Synopsis: A quick 2-sentence elevator pitch summarizing the video's core concept.",
-      "Detailed Summary: A structured deep dive breaking down every major section and main argument.",
-      "Executive Takeaway: High-level summary designed specifically for busy professionals.",
-      "Bullet Takeaways: Interactive list of key highlights, stats, and major quotes."
+      "AI Video Summarizer: Create multi-tier executive summaries and topic breakdowns.",
+      "AI YouTube Video Summarizer: Extract structural notes and central themes automatically.",
+      "YouTube Summary AI: Generate rapid bulleted takeaways of major facts and figures.",
+      "AI Video Notes Generator: Turn hours of video content into high-level concise paragraphs."
     ],
-    howItWorks: "Our engine parses the video transcripts, compiles thematic segments, and generates structured, multi-tier summaries index locally, saving you hours of playback time.",
+    howItWorks: "Our Video Summary Generator leverages advanced natural language models to summarize YouTube videos with AI, producing rich summaries of key narrative blocks.",
     faqs: [
-      { q: "How detailed are the summaries?", a: "You can toggle between short, detailed, and executive summary lengths depending on your needs." },
-      { q: "Can I copy the takeaways?", a: "Yes! There are dedicated copy buttons for each section of the summary." },
-      { q: "Does it work on podcasts?", a: "Yes, it works exceptionally well on podcasts, interviews, and long-form panel discussions." }
+      { q: "How detailed are the outputs of the AI Video Summary?", a: "Our AI YouTube Video Summarizer employs state-of-the-art context windowing to ensure all main points, data references, and concepts are preserved." },
+      { q: "Can I customize the YouTube Summary AI layout?", a: "Absolutely! The AI Video Notes Generator lets you toggle between quick executive briefs, full outlines, or bullet takeaways." },
+      { q: "How does this Video Summary Generator save me time?", a: "Instead of watching hours of media, you can summarize YouTube videos with AI in just seconds, giving you structured key notes instantly." }
     ]
   },
   blog: {
-    tagline: "Convert any YouTube video into a fully formatted, SEO-ready article.",
-    badge: "SEO Engineered",
+    tagline: "Convert media into written posts with our AI Blog Generator, an advanced YouTube To Blog Generator.",
+    badge: "YouTube Video To Article Converter",
     features: [
-      "Dynamic Table of Contents: Automatically builds a clickable index based on main topics.",
-      "SEO H2 & H3 Headers: Properly structured heading hierarchy optimized for Google ranking.",
-      "Integrated FAQs: Generates common search queries and answers related to the video content.",
-      "Structured Markdown: Perfectly formatted markdown with code snippets, quotes, and italics."
+      "YouTube To Blog Generator: Transform any spoken narrative into a high-ranking blog post.",
+      "YouTube Video To Article Converter: Auto-structures H2, H3 headings for optimal reading and readability.",
+      "SEO Blog Generator: Integrates semantic keywords naturally for search engine placement.",
+      "Convert YouTube Video To Blog Post: Rephrase spoken conversations into professional articles."
     ],
-    howItWorks: "Our AI analyzes narrative arcs and translates spoken words into highly readable editorial prose, complete with paragraph styling, key takeaways, and conclusions.",
+    howItWorks: "Our AI Article Writer functions as a complete Video To Blog AI and Content Repurposing AI, preserving the author's core message while restructuring the flow for online readers.",
     faqs: [
-      { q: "Is the output article plagiarized?", a: "No. The generator writes completely unique, brand-new phrasing based on the concepts mentioned in the video." },
-      { q: "Can I publish this on Medium or WordPress?", a: "Yes! The output is exported in standard Markdown, which is natively supported by Medium, Dev.to, and WordPress." },
-      { q: "Does it format code snippets?", a: "Yes, for tech videos, code blocks are properly enclosed in markdown code blocks with syntax styling." }
+      { q: "Can this AI Blog Generator rewrite technical tutorials?", a: "Yes, the YouTube To Blog Generator automatically structures technical explanations and code snippets into perfectly formatted articles." },
+      { q: "Is the post created by the YouTube Video To Article Converter unique?", a: "Yes! Our SEO Blog Generator writes highly original content, making it easy to convert YouTube video to blog post with zero plagiarism risk." },
+      { q: "Does the Video To Blog AI generate metadata tag drafts?", a: "Indeed. The AI Article Writer provides an optimized title, description, and keyword tags ready for publication." }
     ]
   },
   social: {
-    tagline: "Generate viral, high-retention content for X, LinkedIn, Instagram, and Facebook.",
-    badge: "Virality Boost",
+    tagline: "Draft viral social content with the premier AI Social Media Generator and YouTube Social Media Generator.",
+    badge: "AI Content Repurposing Tool",
     features: [
-      "X/Twitter Threads: 5-part engagement threads designed to trigger the algorithm.",
-      "LinkedIn Authority Posts: Professional summaries with bold call-to-actions and tags.",
-      "Instagram Bullet Hooks: Eye-catching carousel text drafts to hook readers.",
-      "Facebook Outreach Posts: Casual story-driven captions optimized for sharing."
+      "YouTube Social Media Generator: Re-craft video concepts into platforms-optimized captions.",
+      "AI Content Repurposing Tool: Easily map single videos into multi-platform digital assets.",
+      "AI Twitter Post Generator: Craft highly engaging thread structures designed to go viral.",
+      "AI LinkedIn Post Generator: Draft professional authority posts with bold headers."
     ],
-    howItWorks: "The content model extracts the core emotional hooks and data-driven stats from the video, repurposing them into templates structured for maximum scroll-stopping engagement.",
+    howItWorks: "Our platform processes transcripts through Video Content Repurposing algorithms, acting as an elite YouTube To Social Media Posts utility and Social Media Content AI.",
     faqs: [
-      { q: "Does it include hashtags?", a: "Yes, relevant, trending hashtags are automatically generated for each platform." },
-      { q: "Can I customize the tone?", a: "Yes, the social hub formats content according to the natural style of each platform." },
-      { q: "Is this tool safe from social shadowbans?", a: "Absolutely. Content is organic and structured naturally to ensure high platform engagement." }
+      { q: "How does the AI Social Media Generator optimize posts?", a: "The YouTube Social Media Generator analyzes the transcript's primary hooks and translates them into high-conversion social copy." },
+      { q: "Can I adjust the style of the AI Content Repurposing Tool?", a: "Yes, the tool serves as an AI Twitter Post Generator and AI LinkedIn Post Generator, formatting text to fit the culture and tone of each platform." },
+      { q: "Will this Video Content Repurposing tool include hashtags?", a: "Yes, our Social Media Content AI automatically generates relevant, trending tags for optimal reach." }
     ]
   },
   chapters: {
-    tagline: "Generate perfectly structured video chapters, milestones, and timeline tags.",
-    badge: "Creator Friendly",
+    tagline: "Create perfectly organized timelines with our AI Video Chapters Generator and YouTube Chapters Creator.",
+    badge: "Automatic YouTube Chapters",
     features: [
-      "Copyable Timeline Tags: Direct copy formats that can be pasted straight into YouTube descriptions.",
-      "Milestone Titles: Engaging, curiosity-inducing section headers instead of generic ones.",
-      "Precise Offsets: Accurate millisecond timestamps aligning with logical video transition points.",
-      "Visual Pacing Map: Graphic summary of video pacing and structural milestones."
+      "AI Video Chapters Generator: Segment video narratives into structured, logical milestones.",
+      "YouTube Chapters Creator: Auto-generate timestamped chapters ready to paste into descriptions.",
+      "YouTube Timestamp Generator: Map precise time offsets matching slide and theme shifts.",
+      "AI Timestamp Generator: Create engaging, click-worthy titles for every milestone."
     ],
-    howItWorks: "Our chapter engine scans for long silence transitions, visual slides, slide shifts, and narrative cues to segment the video into perfect logical parts.",
+    howItWorks: "This Automatic YouTube Chapters engine acts as a Video Chapter Maker that detects transitions to generate YouTube chapters seamlessly.",
     faqs: [
-      { q: "Can I paste this directly into YouTube?", a: "Yes! The copy format is standard YouTube chapter format (e.g., '01:23 Introduction'). Paste it into your description to activate chapters." },
-      { q: "Will this help with Google SEO?", a: "Definitely. YouTube chapters are indexed by Google Search and show up as 'Key Moments' in search results." },
-      { q: "Can I adjust the chapter density?", a: "Yes, chapters align dynamically with the natural pacing of the video." }
+      { q: "Will the output from the AI Video Chapters Generator help my search ranking?", a: "Yes! Utilizing a structured YouTube Chapters Creator enables Google Search to index your video with 'Key Moments' rich results." },
+      { q: "How do I install the output from the YouTube Timestamp Generator?", a: "Copy the timestamps generated by our AI Timestamp Generator and paste them directly into your video description." },
+      { q: "Can the Video Chapter Maker handle highly active discussions?", a: "Yes! Our Automatic YouTube Chapters engine maps topic shifts dynamically to generate YouTube chapters of consistent length." }
     ]
   },
   seo: {
-    tagline: "Optimize your video metadata, search keywords, hashtags, and description drafts.",
-    badge: "Rankings Boost",
+    tagline: "Boost video discovery with our comprehensive AI YouTube SEO Toolkit and YouTube SEO Keywords Generator.",
+    badge: "YouTube SEO AI Tool",
     features: [
-      "Optimized Titles: High-CTR video title variations utilizing psychological curiosity hooks.",
-      "Comprehensive Descriptions: Structured descriptions including social links and chapters layout.",
-      "High-Volume Tags: Curated lists of high, medium, and low competition keywords.",
-      "Clickability Score: Instant evaluation of metadata keyword density and search potential."
+      "AI YouTube SEO Toolkit: Evaluate optimization scores and metadata keyword densities.",
+      "YouTube SEO AI Tool: Draft high-CTR descriptions, tags, and titles in seconds.",
+      "YouTube SEO Keywords Generator: Extract optimal, high-volume search terms from transcription.",
+      "AI YouTube Keyword Generator: Identify low-competition long-tail query sets."
     ],
-    howItWorks: "The toolkit indexes high-frequency search terms from the transcript and benchmarks them against common creator keyword models to give you ready-to-paste SEO structures.",
+    howItWorks: "Our YouTube Keyword Research Tool runs comparative analysis against high-ranking content, functioning as a professional YouTube Ranking Tool, Video SEO Optimizer, and YouTube SEO Assistant.",
     faqs: [
-      { q: "How many tags are generated?", a: "It generates up to 30 high-ranking tags, categorized by search volume." },
-      { q: "Does it generate description templates?", a: "Yes, it creates a fully structured boilerplate including sections for links and tags." },
-      { q: "Will this double my search traffic?", a: "While traffic depends on content quality, using these keywords significantly increases indexing probability." }
+      { q: "What makes the AI YouTube SEO Toolkit different?", a: "It combines a real-time YouTube SEO AI Tool and YouTube SEO Keywords Generator to optimize all aspects of your video's metadata." },
+      { q: "How does the YouTube Keyword Research Tool find terms?", a: "The AI YouTube Keyword Generator maps semantic concepts in the transcript and matches them against search engine keyword directories." },
+      { q: "Is the YouTube Ranking Tool easy to use?", a: "Extremely! Our Video SEO Optimizer serves as a complete YouTube SEO Assistant that scores your title and tags with actionable feedback." }
     ]
   },
   quotes: {
-    tagline: "Extract inspirational, educational, and shareable quotes automatically.",
-    badge: "Insight Extractor",
+    tagline: "Capture viral soundbites using our premium AI Quote Extractor and YouTube Quotes Extractor.",
+    badge: "Extract Quotes From YouTube Videos",
     features: [
-      "Key Assertions: Core logical claims made by the speaker formatted as high-impact statements.",
-      "Inspirational Quotes: Beautiful, shareable expressions of wisdom and insight.",
-      "Memes & Jokes: Humorous or casual remarks extracted directly from natural speech.",
-      "Context References: Exact timestamp links showing the context of each quote."
+      "AI Quote Extractor: Isolate the most motivational, educational, and impactful sayings.",
+      "YouTube Quotes Extractor: Pull verbatim segments and credit lines perfectly with timestamps.",
+      "Extract Quotes From YouTube Videos: Turn long tutorials into shareable wisdom cards.",
+      "AI Quote Finder: Find high-retention hooks and statements within complex narratives."
     ],
-    howItWorks: "By scanning syntax density, semantic pauses, and rhetorical stress patterns in the transcribings, the model highlights quotes that carry the highest emotional or intellectual weight.",
+    howItWorks: "By checking linguistic emphasis and semantic weight, our Video Quote Generator, YouTube Quote Generator, and Extract Best Moments From Video tools identify high-impact lines.",
     faqs: [
-      { q: "Can I export quotes as images?", a: "Currently you can copy quotes; we suggest combining them with our social hub for graphics templates." },
-      { q: "Are the quote timestamps clickable?", a: "Yes! Click the timestamp to hear the speaker deliver that exact quote." },
-      { q: "Does it filter out filler words?", a: "Yes, filler words like 'uh' and 'um' are automatically pruned for clean, beautiful quotes." }
+      { q: "How does the AI Quote Extractor find the best quotes?", a: "The YouTube Quotes Extractor scans speech patterns, syntax density, and recurring keywords to isolate highly authoritative statements." },
+      { q: "Can I export phrases from the Extract Quotes From YouTube Videos tool?", a: "Yes! The AI Quote Finder provides instant copying of quotes and their exact clickable video timestamps." },
+      { q: "Does the Video Quote Generator prune filler words?", a: "Yes, our YouTube Quote Generator removes spoken filler words for clean, beautiful quotes." }
     ]
   },
   translation: {
-    tagline: "Translate transcripts into 10+ global languages seamlessly with zero delay.",
-    badge: "Global Reach",
+    tagline: "Reach global viewers with our YouTube Subtitle Translator and AI Video Translator.",
+    badge: "YouTube Translation AI",
     features: [
-      "Multi-Language Engine: High-fidelity translations into Spanish, French, Japanese, and more.",
-      "Preserved Timestamps: Language offsets remain perfectly aligned with video playback.",
-      "SEO Localization: Subtitle outputs ready to be uploaded to YouTube CC dashboard.",
-      "Interactive Parallel View: Compare original and translated text side-by-side."
+      "YouTube Subtitle Translator: Localize transcripts into Spanish, Japanese, German, and more.",
+      "AI Video Translator: Retain original timestamp offsets for flawless subtitle synchronization.",
+      "YouTube Translation AI: Create professional SRT and TXT localized files in real time.",
+      "Translate YouTube Videos: Expand your brand footprint into international markets."
     ],
-    howItWorks: "Our localization engine maps the semantic meanings of phrases (not just literal words) into target language sets, ensuring professional-grade translation without awkward syntax.",
+    howItWorks: "Our Automatic Subtitle Translator acts as a powerful AI Subtitle Generator and Multi Language Video Translator, converting colloquial phrases into natural translations.",
     faqs: [
-      { q: "Is the translation literal?", a: "No, it employs context-aware phrase mapping to preserve natural idioms and conversational tones." },
-      { q: "Can I download translated SRTs?", a: "Yes! Toggle your language, select the export button, and download the localized subtitle file." },
-      { q: "Will this help reach international audiences?", a: "Absolutely. Multi-language subtitles are the #1 way to double your global viewer base on YouTube." }
+      { q: "How accurate is the YouTube Subtitle Translator?", a: "Our AI Video Translator utilizes advanced YouTube Translation AI context mapping to ensure translations are grammatically natural, not just literal." },
+      { q: "How do I upload files from the Translate YouTube Videos tool?", a: "Download the SRT file from our Automatic Subtitle Translator and upload it to your YouTube Studio CC panel." },
+      { q: "Is the AI Subtitle Generator free?", a: "Yes, this Multi Language Video Translator is 100% free with no hidden translation fees." }
     ]
   },
   knowledge_graph: {
-    tagline: "Visualize key concepts, subtopics, and relationships in a dynamic mind map.",
-    badge: "Interactive Graph",
+    tagline: "Visualize complex educational concepts with the premium YouTube Mind Map Generator.",
+    badge: "AI Knowledge Graph Generator",
     features: [
-      "Dynamic Mind Map: Beautiful canvas visualizing parent-child topic relationships.",
-      "Interactive Nodes: Click any concept node to reveal detailed summaries and definitions.",
-      "Thematic Clustering: Color-coded categories grouping similar ideas and technical terms.",
-      "Perfect Study Companion: Ideal for visual learners wanting a structural layout of the video."
+      "YouTube Mind Map Generator: Render an interactive graphic visual map of video themes.",
+      "AI Knowledge Graph Generator: Discover core structural links between topics automatically.",
+      "Video Mind Map AI: Organize highly technical subjects into color-coded concept clusters.",
+      "Convert Video Into Mind Map: Auto-creates study trees mapping central claims to support points."
     ],
-    howItWorks: "We run a semantic noun-phrase clustering pass over the content index, building an interactive force-directed mapping of connected concepts and definitions.",
+    howItWorks: "Our AI Learning Map uses noun-phrase parsing algorithms to build a Visual Video Summary and function as an interactive AI Concept Map Generator.",
     faqs: [
-      { q: "Can I download the graph image?", a: "Yes, the nodes are fully interactive and responsive to container adjustments." },
-      { q: "Does it work on complex technical topics?", a: "It is designed specifically for complex educational content, coding tutorials, and science lectures." },
-      { q: "Can I expand and collapse nodes?", a: "Yes! Interactive node toggling is supported natively on the canvas." }
+      { q: "What is the primary benefit of the YouTube Mind Map Generator?", a: "It functions as an AI Knowledge Graph Generator and Video Mind Map AI to let visual learners grasp structural concepts instantly." },
+      { q: "Does the Convert Video Into Mind Map tool work on code tutorials?", a: "Absolutely! The AI Learning Map outlines programming paradigms and concepts cleanly." },
+      { q: "Can I customize the AI Concept Map Generator view?", a: "Yes, the nodes in the Visual Video Summary are interactive, letting you expand, drag, and inspect definitions." }
     ]
   },
   faq: {
-    tagline: "Automatically generate frequently asked questions and model answers.",
-    badge: "User Engagement",
+    tagline: "Instantly draft matching queries and answers using our YouTube FAQ Generator.",
+    badge: "AI FAQ Creator",
     features: [
-      "Match-Answering Engine: Generates highly accurate answers using exact transcript references.",
-      "Schema-Ready Markup: Ready to be structured for Google rich search result carousels.",
-      "Curiosity Q&As: Questions optimized to satisfy common user inquiries in search engines.",
-      "Clickable Indices: Rapid navigation across generated Q&A listings."
+      "YouTube FAQ Generator: Map spoken video insights into highly structured questions.",
+      "AI FAQ Creator: Generate concise answers grounded strictly in transcript facts.",
+      "Video FAQ Generator: Draft schema-ready answers perfect for Google rich search results.",
+      "Generate Questions From YouTube Videos: Identify common user search queries."
     ],
-    howItWorks: "The algorithm isolates central query points that viewers might ask after watching, pairing them with comprehensive summaries drawn directly from video evidence.",
+    howItWorks: "This tool utilizes an AI Question Generator, Video Question Answer Generator, and YouTube Content Analyzer to synthesize FAQs that address core audience inquiries.",
     faqs: [
-      { q: "Can I use these for school/study?", a: "Yes! These make excellent study review guides or website FAQ sections." },
-      { q: "Does this help website SEO?", a: "Yes, implementing FAQ schema markup is highly effective for getting featured answers on Google search pages." },
-      { q: "Are the answers fully accurate?", a: "Yes, answers are strictly grounded in the actual facts stated inside the video." }
+      { q: "Does the YouTube FAQ Generator support schema integration?", a: "Yes, the AI FAQ Creator generates JSON-LD FAQ Schema markup, ready to paste for Google Search optimization." },
+      { q: "How does the Video FAQ Generator source answers?", a: "It relies on our YouTube Content Analyzer to extract factual data from the transcript, avoiding any AI hallucination." },
+      { q: "Is there a limit on Generate Questions From YouTube Videos?", a: "No, you can use our AI Question Generator and Video Question Answer Generator completely free and unlimited." }
     ]
   },
   study: {
-    tagline: "Generate notes, flashcards, and an interactive quiz from any video.",
-    badge: "Ultimate Learning",
+    tagline: "Master any academic or business tutorial using our YouTube To Flashcards converter.",
+    badge: "AI Study Tool",
     features: [
-      "Interactive Flashcards: Double-sided memory cards to test key terminology.",
-      "Custom Multi-Choice Quizzes: Automatically graded quizzes matching video details.",
-      "Polished Notes Outline: Academic-style notes structured for quick revision.",
-      "Real-Time Grading: Instant feedback with answers verification indicators."
+      "YouTube To Flashcards: Turn any complex educational lecture into a double-sided card deck.",
+      "AI Study Tool: Test your retention with auto-graded multiple-choice video quizzes.",
+      "YouTube Learning Assistant AI: Generate formal study outlines organized by core concepts.",
+      "Convert Video Into Flashcards: Rapid active-recall drills to memorize definitions."
     ],
-    howItWorks: "The study engine compiles technical definitions and facts, converting them into active-recall questions, flashcard decks, and revision modules fully client-side.",
+    howItWorks: "The tool processes lectures to act as an AI Flashcard Generator and Video Notes Generator, allowing students to efficiently study from YouTube videos.",
     faqs: [
-      { q: "Can I repeat the quizzes?", a: "Yes! Reset and retake quizzes as many times as you like." },
-      { q: "How many flashcards are created?", a: "A custom deck of high-utility flashcards is compiled for each video topic." },
-      { q: "Does this work on university lectures?", a: "Perfect for lectures! It turns hours of recording into a structured study workstation instantly." }
+      { q: "How do I utilize the YouTube To Flashcards generator?", a: "Paste a lecture link, and the AI Study Tool will build a custom interactive deck to convert video into flashcards." },
+      { q: "Is the YouTube Learning Assistant AI grading accurate?", a: "Yes, our AI Flashcard Generator and Video Notes Generator grade answers with precise references to the video." },
+      { q: "Can I study from YouTube videos offline?", a: "Yes! All components are client-side responsive, keeping your study logs fully secure." }
     ]
   },
   action_items: {
-    tagline: "Instantly build checkable task lists and priority frameworks.",
-    badge: "Productivity",
+    tagline: "Draft checklist frameworks and schedules with the AI Action Items Generator.",
+    badge: "YouTube Action Plan Builder",
     features: [
-      "Checkable Checklist: Interactive to-do lists tracking your learning actions.",
-      "Eisenhower Priority Matrix: Groups tasks into Urgent, Important, and Backlog.",
-      "Time-Bounded Steps: Estimates duration required for each actionable step.",
-      "Direct Progress Tracker: Visual completion bar showing checked tasks progress."
+      "AI Action Items Generator: Extract steps, instructions, and tasks from tutorials.",
+      "YouTube Action Plan Builder: Map tasks into Eisenhower Priority Matrix quadrants.",
+      "Extract Tasks From Videos: Isolate exact actionable steps and command cues.",
+      "AI Task Generator: Outline estimated durations and checkable progress bars."
     ],
-    howItWorks: "The parser extracts instructions, recommendations, and commands made in the video, restructuring them into a professional productivity tracker.",
+    howItWorks: "Our Video Productivity Assistant analyzes spoken imperatives, acting as an AI Summary To Action Plan generator to boost workflow efficiency.",
     faqs: [
-      { q: "Can I save my checked items?", a: "Progress is preserved live in your active browser session." },
-      { q: "How does it decide priority?", a: "It benchmarks stated urgency cues (e.g., 'must-do', 'important') to place items in the priority quadrants." },
-      { q: "Is this useful for tutorials?", a: "Extremely useful! It translates software or project tutorials into clear actionable checklists." }
+      { q: "How does the AI Action Items Generator find tasks?", a: "The YouTube Action Plan Builder screens the transcription for spoken action phrases and task statements." },
+      { q: "Can I extract tasks from videos of soft skills?", a: "Yes! The AI Task Generator converts advice, goals, and milestones into actionable lists." },
+      { q: "How is the Video Productivity Assistant structured?", a: "It organizes items into Eisenhower quadrants, converting the AI Summary To Action Plan in seconds." }
     ]
   },
   shorts_clipper: {
-    tagline: "Identify virality hotspots, hook matrices, and vertical short scripts.",
-    badge: "Virality Engine",
+    tagline: "Extract viral micro-assets using our premium YouTube Shorts AI Clipper.",
+    badge: "AI Shorts Generator",
     features: [
-      "Virality Score Rating: Highlights segment times with high emotional interest and CTR potential.",
-      "Hook Angle Multiplier: Generates Curiosity, Controversy, Stat-driven, and Action-driven hooks.",
-      "9:16 Script Outlines: Standard teleprompter scripts styled for vertical formatting.",
-      "Visual Storyboard Directions: Recommends cuts, pacing, and visual sound cues for editing."
+      "YouTube Shorts AI Clipper: Detect high-retention segments with precision.",
+      "AI Shorts Generator: Draft visual cues and pacing storyboards for 9:16 layout.",
+      "YouTube Shorts Clip Maker: Generate optimized vertical teleprompter script drafts.",
+      "AI Viral Hook Generator: Create engaging curiosity, controversy, and metric-based hooks."
     ],
-    howItWorks: "By evaluating semantic energy surges and topical densities, the model identifies standard highlights, pairing them with viral copywriting hooks.",
+    howItWorks: "Our Long Video To Shorts AI and Shorts Content Generator scan scripts for emotional spikes, making it easy to create YouTube Shorts automatically.",
     faqs: [
-      { q: "Do these work on TikTok?", a: "Yes! Hook angles are customized for TikTok, Shorts, and Instagram Reels retention algorithms." },
-      { q: "Are there watermarks on scripts?", a: "Absolutely not. All scripts, hook assets, and storyboards are 100% free with no watermarks." },
-      { q: "How do I use the hooks?", a: "Copy-paste them into your video subtitles or descriptions to boost retention within the first 3 seconds." }
+      { q: "How does the YouTube Shorts AI Clipper choose highlight clips?", a: "Our AI Shorts Generator rates segments by structural density, selecting moments optimized for virality." },
+      { q: "What hooks does the YouTube Shorts Clip Maker output?", a: "The AI Viral Hook Generator drafts 4 diverse angles to capture user attention in the first 3 seconds." },
+      { q: "Can this tool create YouTube Shorts automatically?", a: "It provides all scripts, timings, hooks, and storyboards, acting as a complete Shorts Content Generator." }
     ]
   },
   thumbnail_grabber: {
-    tagline: "Extract MaxRes/HD thumbnails and run real-time contrast and composition analysis.",
-    badge: "CTR Booster",
+    tagline: "Extract HD thumbnails and score clickability using our YouTube Thumbnail Downloader.",
+    badge: "YouTube HD Thumbnail Grabber",
     features: [
-      "MaxRes HD Extractions: Download standard thumbnail resolutions up to 1080p directly.",
-      "Eye-Tracking Heatmap: Simulates audience visual focus clusters using ambient overlay shadows.",
-      "Contrast Scoreboard: Evaluates text readability and focal balance compositions.",
-      "Simulated A/B Split-Testing: Predicts CTR potential against standard industry competitors."
+      "YouTube Thumbnail Downloader: Download high-resolution YouTube thumbnails up to 1080p.",
+      "YouTube HD Thumbnail Grabber: Extract cover assets from any public video instantly.",
+      "YouTube Thumbnail Extractor: Perform eye-tracking heatmaps and light analysis.",
+      "YouTube CTR Optimizer: Test typography contrast and composition to boost clickability."
     ],
-    howItWorks: "The tool fetches public YouTube thumbnail indices directly and runs a client-side contrast, lighting, and composition model, overlaying eye-tracking heatmaps dynamically.",
+    howItWorks: "This tool works as a Thumbnail Analyzer AI and YouTube Thumbnail Tool to let creators download YouTube thumbnail streams and optimize layouts.",
     faqs: [
-      { q: "What is a good CTR rating?", a: "An overall score of 80+ indicates strong contrast and high clickability potential." },
-      { q: "Can I input custom video links?", a: "Yes! Paste any YouTube video URL into the thumbnail sandbox to extract its images." },
-      { q: "How is the heatmap calculated?", a: "It simulates a visual attention saliency map based on color contrast, faces, and text elements." }
+      { q: "How do I use the YouTube Thumbnail Downloader?", a: "Paste any video URL, and our YouTube HD Thumbnail Grabber will fetch all resolution versions of the cover image." },
+      { q: "What does the YouTube Thumbnail Extractor measure?", a: "The YouTube CTR Optimizer calculates text readability, color-contrast, and overlays a simulated eye-tracking map." },
+      { q: "Is the Thumbnail Analyzer AI free?", a: "Yes, this YouTube Thumbnail Tool is 100% free with no watermarks or registrations." }
     ]
   },
   script_writer: {
-    tagline: "Write professional YouTube scripts with visual cue guides, custom hook structures, and pacing hints.",
-    badge: "Director Studio",
+    tagline: "Write and rehearse engaging scripts with the AI YouTube Script Writer.",
+    badge: "Video Script Generator AI",
     features: [
-      "Multi-Section Script: Dynamic scripts featuring Hook, Introduction, Core Chapters, and Outro.",
-      "Visual Storyboard Cue: Suggests precise camera angles, slides, and transitions.",
-      "Audio & SFX Recommendations: Recommends specific background audio tones and sound effects.",
-      "Live Scrolling Teleprompter: Fully functional teleprompter with speed control to rehearse.",
+      "AI YouTube Script Writer: Create structured, complete video script files.",
+      "Video Script Generator AI: Auto-generate visual cue descriptions and camera guides.",
+      "AI Storyboard Generator: Outline scene concepts, text overlaps, and audio sound effects.",
+      "YouTube Script Generator: Practice speaking with our live-scrolling teleprompter."
     ],
-    howItWorks: "Our script generator restructures topical arguments into highly engaging, pacing-optimized scripts tailored for spoken-word delivery.",
+    howItWorks: "Our AI Video Script Writer employs advanced narrative blueprints to create YouTube scripts with AI, supporting Video Storytelling AI and Content Planning AI.",
     faqs: [
-      { q: "Can I adjust the script duration?", a: "Yes! You can toggle target durations from 30-second shorts to 10-minute deep dives." },
-      { q: "Does the teleprompter scroll automatically?", a: "Yes, click 'Start Prompter' to rehearse reading with smooth scrolling text." },
-      { q: "Can I copy the raw script?", a: "Yes, there is a one-click button to copy the entire production script to your clipboard." }
+      { q: "Does the AI YouTube Script Writer support custom durations?", a: "Yes, the Video Script Generator AI can write scripts ranging from 30-second Shorts to 10-minute long forms." },
+      { q: "How do I rehearse with the AI Storyboard Generator?", a: "Use the built-in teleprompter in our YouTube Script Generator to read the script with smooth, speed-controlled auto-scroll." },
+      { q: "Can I create YouTube scripts with AI for any niche?", a: "Absolutely. Our AI Video Script Writer supports diverse genres including Tech, Gaming, Business, and Education." }
     ]
   }
 };
