@@ -13,6 +13,26 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// Set security headers to pass AdSense & modern web crawler audits
+app.use((req, res, next) => {
+  const referer = req.headers.referer || '';
+  const host = req.headers.host || '';
+  const isDevPreview = 
+    host.includes('ais-dev') || 
+    host.includes('ais-pre') || 
+    referer.includes('google.com') || 
+    referer.includes('googleusercontent.com');
+
+  if (!isDevPreview) {
+    res.setHeader('X-Frame-Options', 'DENY');
+  }
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  next();
+});
+
 // Initialize Gemini API
 const geminiApiKey = process.env.GEMINI_API_KEY;
 const ai = geminiApiKey ? new GoogleGenAI({

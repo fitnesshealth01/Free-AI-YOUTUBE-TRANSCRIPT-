@@ -1714,9 +1714,11 @@ export default function App() {
       {/* Modern Navigation Header */}
       <header className={`sticky top-0 z-40 border-b ${theme === "dark" ? "bg-[#09090b]/90 border-zinc-900/80" : "bg-white/90 border-slate-200/80"} backdrop-blur-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <button 
-            className="flex items-center gap-3 cursor-pointer text-left bg-transparent border-0 p-0 focus:outline-none hover:opacity-90 active:scale-[0.98] transition-all" 
-            onClick={() => {
+          <a 
+            href="/"
+            className="flex items-center gap-3 cursor-pointer text-left focus:outline-none hover:opacity-90 active:scale-[0.98] transition-all" 
+            onClick={(e) => {
+              e.preventDefault();
               setSelectedVideo(null);
               setSelectedChannel(null);
               setSelectedLandingTool(null);
@@ -1742,9 +1744,9 @@ export default function App() {
                 Free AI YouTube Toolkit
               </span>
             </div>
-          </button>
+          </a>
 
-          <div className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6" aria-label="Main Navigation">
             <a href="#features-anchor" className="text-sm font-medium hover:text-red-500 transition-colors">Features</a>
             <a href="#how-it-works" className="text-sm font-medium hover:text-red-500 transition-colors">How It Works</a>
             <a href="#creator-academy" className="text-sm font-medium hover:text-red-500 transition-colors">Creator Academy</a>
@@ -1766,7 +1768,7 @@ export default function App() {
               <Activity className="w-4 h-4 animate-pulse" />
               <span>UX & Heatmap Audit</span>
             </button>
-          </div>
+          </nav>
 
           <div className="flex items-center gap-3">
             {/* Free Tag */}
