@@ -42,6 +42,22 @@ const formatNumber = (num: number | string): string => {
   return n.toLocaleString();
 };
 
+// Helper to format title strings to be under 60 characters (SEO standard) for Google search results
+export function getShortSeoTitle(rawTitle: string, suffix: string = " | TranscriptG"): string {
+  const maxLen = 60;
+  if (rawTitle.length + suffix.length <= maxLen) {
+    return rawTitle + suffix;
+  }
+  const targetLen = maxLen - suffix.length;
+  let truncated = rawTitle.substring(0, targetLen);
+  const lastSpace = truncated.lastIndexOf(" ");
+  if (lastSpace > 20) {
+    truncated = truncated.substring(0, lastSpace);
+  }
+  truncated = truncated.replace(/[\s\-,:(（）)—_–]+$/, "");
+  return truncated + suffix;
+}
+
 // Helper to format currency values cleanly (e.g., 5000 -> $5K)
 const formatCurrency = (num: number | string): string => {
   const n = typeof num === "string" ? parseFloat(num) : num;
@@ -652,10 +668,12 @@ export default function App() {
       }
 
       if (toolId) {
-        const isDownloader = toolId === "video_downloader";
-        const matchedTool = tools.find(t => t.id === toolId) || isDownloader;
+        // Map hyphens to underscores for backwards/internal state compatibility
+        const internalToolId = toolId.replace(/-/g, '_');
+        const isDownloader = internalToolId === "video_downloader";
+        const matchedTool = tools.find(t => t.id === internalToolId) || isDownloader;
         if (matchedTool) {
-          setSelectedLandingTool(toolId);
+          setSelectedLandingTool(internalToolId);
           setSelectedVideo(null);
           setSelectedChannel(null);
           setSelectedArticle(null);
@@ -758,24 +776,24 @@ export default function App() {
       let pathName = "";
 
       if (selectedPage === "about") {
-        titleStr = "About Us & Disclaimer | TranscriptG - The AI YouTube Tool Suite";
-        descStr = "Learn more about TranscriptG, the offline-first secure ecosystem for transcribing, summarizing, translating, and repurposing YouTube video content natively in your browser.";
-        keywordsStr = "about transcriptg, youtube content tools team, client-side transcript security, transcription tech stack, youtube productivity suite";
+        titleStr = "About Us & Disclaimer | TranscriptG";
+        descStr = "Learn about TranscriptG, the secure, browser-based ecosystem for transcribing, summarizing, translating, and repurposing YouTube videos.";
+        keywordsStr = "about transcriptg, youtube content tools, client-side transcript security, youtube productivity suite";
         pathName = "/about-us";
       } else if (selectedPage === "privacy") {
-        titleStr = "Privacy Policy | TranscriptG - Fully Compliant Privacy Protection";
-        descStr = "Our comprehensive, GDPR, CCPA, and COPPA compliant Privacy Policy. Discover how TranscriptG guarantees total data privacy with complete in-browser client-side computation.";
-        keywordsStr = "privacy policy, GDPR youtube tool, CCPA compliance, secure transcribing, client-side data protection, data safety standards";
+        titleStr = "Privacy Policy | TranscriptG";
+        descStr = "Our GDPR and CCPA compliant Privacy Policy. Discover how TranscriptG guarantees total data privacy with secure client-side computation.";
+        keywordsStr = "privacy policy, GDPR compliance, secure transcribing, client-side data protection, data safety";
         pathName = "/privacy-policy";
       } else if (selectedPage === "terms") {
-        titleStr = "Terms of Service | TranscriptG - Usage & Agreement Terms";
-        descStr = "Read our terms of service and usage conditions. TranscriptG provides free AI tools with strict adherence to web standards, third-party rights, and security regulations.";
-        keywordsStr = "terms of service, user agreement, website terms, usage guidelines, licensing agreement, copyright safety";
+        titleStr = "Terms of Service | TranscriptG";
+        descStr = "Read our terms of service and usage conditions. TranscriptG provides free AI tools with strict adherence to web safety standards.";
+        keywordsStr = "terms of service, user agreement, website terms, usage guidelines, copyright safety";
         pathName = "/terms-of-service";
       } else if (selectedPage === "contact") {
-        titleStr = "Contact Support & Inquiries | TranscriptG - Get in Touch";
-        descStr = "Need help or have partnerships? Contact TranscriptG support. Our technical assistance team is ready to answer questions about transcription, APIs, and content tools.";
-        keywordsStr = "contact support, customer service, support team, technical inquiry, sponsor transcriptg, feedback, site contact";
+        titleStr = "Contact Support | TranscriptG";
+        descStr = "Get in touch with the TranscriptG team for support, technical assistance, partnerships, or sponsor inquiries.";
+        keywordsStr = "contact support, customer service, support team, technical inquiry, contact transcriptg";
         pathName = "/contact-us";
       }
 
@@ -812,7 +830,8 @@ export default function App() {
     } else if (selectedLandingTool) {
       const toolData = tools.find(t => t.id === selectedLandingTool) || (selectedLandingTool === 'video_downloader' ? { name: "YouTube HD Video Downloader", desc: "Download public YouTube videos, clips, and audio tracks in high-quality formats with no limits.", seo: "Free YouTube Downloader" } : null);
       if (toolData) {
-        const titleStr = `${toolData.name} - Free ${toolData.seo || "YouTube AI"} Tool | TranscriptG`;
+        // Shortened title under 60 characters for perfect Google SERP presentation
+        const titleStr = `${toolData.seo || toolData.name} | TranscriptG`;
         document.title = titleStr;
         setSeoTitleDraft(titleStr);
         setSeoDescDraft(`${toolData.desc} 100% Free, unlimited, browser-based, client-side secure AI analysis toolkit.`);
@@ -820,7 +839,9 @@ export default function App() {
         
         metaDesc.setAttribute('content', `${toolData.desc} 100% Free, secure client-side AI analysis toolkit with zero sign-ups.`);
         metaKeywords.setAttribute('content', toolKeywordsMap[selectedLandingTool] || "youtube tool, ai youtube, transcriptg");
-        canonicalLink.setAttribute('href', `${window.location.origin}/tools/${selectedLandingTool}`);
+        // Using clean hyphenated URLs for SEO
+        const seoFriendlyToolId = selectedLandingTool.replace(/_/g, '-');
+        canonicalLink.setAttribute('href', `${window.location.origin}/tools/${seoFriendlyToolId}`);
 
         // Inject dynamic JSON-LD FAQ schema + SoftwareApplication schema
         const details = DEDICATED_TOOL_DETAILS[selectedLandingTool] || {
@@ -857,7 +878,7 @@ export default function App() {
           "@type": "WebApplication",
           "name": `${toolData.name} - Free YouTube AI Toolkit`,
           "description": toolData.desc,
-          "url": `${window.location.origin}/tools/${selectedLandingTool}`,
+          "url": `${window.location.origin}/tools/${seoFriendlyToolId}`,
           "operatingSystem": "All",
           "applicationCategory": "BusinessApplication",
           "browserRequirements": "Requires HTML5 compatible web browser.",
@@ -883,13 +904,14 @@ export default function App() {
         appScript.innerHTML = JSON.stringify(appSchema);
         document.head.appendChild(appScript);
 
-        const newPath = `/tools/${selectedLandingTool}`;
+        const newPath = `/tools/${seoFriendlyToolId}`;
         if (window.location.pathname !== newPath || window.location.hash !== "") {
           window.history.pushState(null, "", newPath + window.location.search);
         }
       }
     } else if (selectedArticle) {
-      const titleStr = `${selectedArticle.title} - Creator Academy | TranscriptG`;
+      // Dynamic clean title truncated perfectly under 60 chars to fit standard search result pages
+      const titleStr = getShortSeoTitle(selectedArticle.title, " | TranscriptG");
       document.title = titleStr;
       setSeoTitleDraft(titleStr);
       setSeoDescDraft(selectedArticle.description);
@@ -1859,11 +1881,158 @@ export default function App() {
         </div>
       ) : selectedArticle ? (
         (() => {
-          const normalizedContent = selectedArticle.content.replace(/\r\n/g, "\n");
-          const headings = normalizedContent
-            .split("\n")
-            .filter(line => line.startsWith("### ") || line.startsWith("H2: ") || line.startsWith("H3: "))
-            .map(line => line.replace("### ", "").replace("H2: ", "").replace("H3: ", "").trim());
+          interface ContentBlock {
+            type: 'h1' | 'h2' | 'h3' | 'chart' | 'workflow' | 'key-idea' | 'cta' | 'table' | 'code' | 'scenario' | 'before' | 'after' | 'list-ol' | 'list-ul' | 'paragraph';
+            content: string;
+            lines?: string[];
+          }
+
+          const parseArticleContent = (raw: string): ContentBlock[] => {
+            const lines = raw.split("\n");
+            const blocks: ContentBlock[] = [];
+            
+            let i = 0;
+            while (i < lines.length) {
+              const line = lines[i].trim();
+              if (!line) {
+                i++;
+                continue;
+              }
+
+              // 1. Code Block
+              if (line.startsWith("```")) {
+                const codeLines: string[] = [];
+                i++; // skip opening ```
+                while (i < lines.length && !lines[i].trim().startsWith("```")) {
+                  codeLines.push(lines[i]);
+                  i++;
+                }
+                i++; // skip closing ```
+                blocks.push({ type: 'code', content: codeLines.join("\n") });
+                continue;
+              }
+
+              // 2. Table Block
+              if (line.startsWith("|")) {
+                const tableLines: string[] = [];
+                while (i < lines.length && lines[i].trim().startsWith("|")) {
+                  tableLines.push(lines[i].trim());
+                  i++;
+                }
+                blocks.push({ type: 'table', content: '', lines: tableLines });
+                continue;
+              }
+
+              // 3. Headings
+              if (line.startsWith("H1:")) {
+                blocks.push({ type: 'h1', content: line.replace(/^H1:\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("H2:")) {
+                blocks.push({ type: 'h2', content: line.replace(/^H2:\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("H3:")) {
+                blocks.push({ type: 'h3', content: line.replace(/^H3:\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("### ")) {
+                blocks.push({ type: 'h3', content: line.replace(/^###\s*/, "").trim() });
+                i++;
+                continue;
+              }
+
+              // 4. Special Custom Blocks
+              if (line === "[CHART]") {
+                blocks.push({ type: 'chart', content: '' });
+                i++;
+                continue;
+              }
+              if (line === "[WORKFLOW]") {
+                blocks.push({ type: 'workflow', content: '' });
+                i++;
+                continue;
+              }
+              if (line.startsWith("[IMAGE:")) {
+                blocks.push({ type: 'paragraph', content: line });
+                i++;
+                continue;
+              }
+              if (line.startsWith("Key Idea:")) {
+                blocks.push({ type: 'key-idea', content: line.replace(/^Key Idea:\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("CTA:")) {
+                blocks.push({ type: 'cta', content: line.replace(/^CTA:\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("**The Scenario:**")) {
+                blocks.push({ type: 'scenario', content: line.replace(/^\*\*The Scenario:\*\*\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("**The Traditional Method (Before):**")) {
+                blocks.push({ type: 'before', content: line.replace(/^\*\*The Traditional Method \(Before\):\*\*\s*/, "").trim() });
+                i++;
+                continue;
+              }
+              if (line.startsWith("**The TranscriptG Workflow (After):**")) {
+                blocks.push({ type: 'after', content: line.replace(/^\*\*The TranscriptG Workflow \(After\):\*\*\s*/, "").trim() });
+                i++;
+                continue;
+              }
+
+              // 5. Lists (Unordered)
+              if (line.startsWith("* ") || line.startsWith("- ") || line.startsWith("• ")) {
+                const listLines: string[] = [];
+                while (i < lines.length) {
+                  const currLine = lines[i].trim();
+                  if (currLine.startsWith("* ") || currLine.startsWith("- ") || currLine.startsWith("• ")) {
+                    listLines.push(currLine.replace(/^[\*\-•]\s*/, ""));
+                    i++;
+                  } else {
+                    break;
+                  }
+                }
+                blocks.push({ type: 'list-ul', content: '', lines: listLines });
+                continue;
+              }
+
+              // 6. Lists (Ordered)
+              if (/^\d+\.\s+/.test(line)) {
+                const listLines: string[] = [];
+                while (i < lines.length) {
+                  const currLine = lines[i].trim();
+                  if (/^\d+\.\s+/.test(currLine)) {
+                    listLines.push(currLine.replace(/^\d+\.\s+/, ""));
+                    i++;
+                  } else {
+                    break;
+                  }
+                }
+                blocks.push({ type: 'list-ol', content: '', lines: listLines });
+                continue;
+              }
+
+              // 7. General Paragraph
+              blocks.push({ type: 'paragraph', content: line });
+              i++;
+            }
+            
+            return blocks;
+          };
+
+          const rawContent = selectedArticle.content.replace(/\r\n/g, "\n");
+          const blocks = parseArticleContent(rawContent.trim());
+          
+          const headings = blocks
+            .filter(b => b.type === 'h2' || b.type === 'h3')
+            .map(b => b.content);
 
           const relatedTool = tools.find(t => t.id === selectedArticle.relatedToolId);
 
@@ -1882,13 +2051,13 @@ export default function App() {
 
           const linkifyKeywords = (text: string) => {
             if (!text) return text;
-            const regex = /(YouTube transcript(?:s| generator)?|YouTube SEO)/gi;
+            const regex = /(YouTube transcript(?:s| generator)?|YouTube SEO|TranscriptG)/gi;
             const parts = text.split(regex);
             if (parts.length === 1) return text;
 
             return parts.map((part, idx) => {
               const lower = part.toLowerCase();
-              if (lower.includes("youtube transcript")) {
+              if (lower.includes("youtube transcript") || lower === "transcriptg") {
                 return (
                   <a
                     key={idx}
@@ -2060,14 +2229,10 @@ export default function App() {
                     <div className={`max-w-none leading-relaxed text-sm space-y-6 text-left ${
                       theme === "dark" ? "text-slate-300" : "text-black"
                     }`}>
-                      {selectedArticle.content
-                        .replace(/\r\n/g, "\n")
-                        .split(/\n\s*\n/)
-                        .map(p => p.trim())
-                        .filter(p => p.length > 0)
-                        .map((paragraph, idx) => {
-                          const renderParagraphElement = () => {
-                            if (paragraph.startsWith("[CHART]")) {
+                      {blocks.map((block, idx) => {
+                        const renderBlockElement = () => {
+                          switch (block.type) {
+                            case 'chart': {
                               const chartData = [
                                 { year: '2016', Text: 100, Video: 80 },
                                 { year: '2018', Text: 110, Video: 150 },
@@ -2122,8 +2287,8 @@ export default function App() {
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("[WORKFLOW]")) {
+                            
+                            case 'workflow': {
                               const workflowSteps = [
                                 { id: 1, label: "YouTube Video", desc: "Raw visual/audio ingested" },
                                 { id: 2, label: "Transcript Extraction", desc: "Speech-to-text recognition" },
@@ -2174,9 +2339,8 @@ export default function App() {
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("Key Idea:")) {
-                              const cleanText = paragraph.replace(/^Key Idea:\s*/, "").replace(/^"/, "").replace(/"$/, "").trim();
+                            
+                            case 'key-idea': {
                               return (
                                 <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
                                   theme === "dark" 
@@ -2185,17 +2349,16 @@ export default function App() {
                                 }`}>
                                   <div className="flex items-center gap-2 mb-3">
                                     <Lightbulb className="w-4 h-4 text-amber-500 animate-pulse" />
-                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-amber-500">Key Takeaway</span>
+                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-amber-500 font-bold">Key Takeaway</span>
                                   </div>
                                   <p className={`text-base font-medium italic leading-relaxed ${theme === "dark" ? "text-amber-200" : "text-amber-900"}`}>
-                                    "{renderFormattedText(cleanText)}"
+                                    "{renderFormattedText(block.content)}"
                                   </p>
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("CTA:")) {
-                              const cleanText = paragraph.replace(/^CTA:\s*/, "").trim();
+                            
+                            case 'cta': {
                               return (
                                 <div key={idx} className={`p-8 rounded-3xl border relative overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-xl my-8 bg-gradient-to-r ${
                                   theme === "dark" 
@@ -2209,7 +2372,7 @@ export default function App() {
                                         <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono">Unlock Video Intelligence</span>
                                       </div>
                                       <h4 className={`text-lg font-black tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                                        {cleanText}
+                                        {block.content}
                                       </h4>
                                       <p className={`text-xs ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
                                         Convert any YouTube video into high-quality articles, chapters, transcripts, and summaries in 30 seconds.
@@ -2231,71 +2394,51 @@ export default function App() {
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("H1:")) {
-                              const cleanHeading = paragraph.replace(/^H1:\s*/, "").trim();
+                            
+                            case 'h1': {
                               return (
                                 <h1 
-                                  key={idx} 
+                                  key={idx}
                                   className={`text-2xl sm:text-3xl font-black pt-6 pb-2 ${
                                     theme === "dark" ? "text-white" : "text-slate-950"
                                   }`}
                                 >
-                                  {renderFormattedText(cleanHeading)}
+                                  {renderFormattedText(block.content)}
                                 </h1>
                               );
                             }
-
-                            if (paragraph.startsWith("H2:")) {
-                              const cleanHeading = paragraph.replace(/^H2:\s*/, "").trim();
-                              const headIdx = headings.indexOf(cleanHeading);
+                            
+                            case 'h2': {
+                              const headIdx = headings.indexOf(block.content);
                               return (
                                 <h2 
-                                  key={idx} 
+                                  key={idx}
                                   id={`heading-${headIdx}`}
                                   className={`text-xl sm:text-2xl font-black pt-8 pb-2 border-b scroll-mt-24 ${
                                     theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
                                   }`}
                                 >
-                                  {renderFormattedText(cleanHeading)}
+                                  {renderFormattedText(block.content)}
                                 </h2>
                               );
                             }
-
-                            if (paragraph.startsWith("H3:")) {
-                              const cleanHeading = paragraph.replace(/^H3:\s*/, "").trim();
-                              const headIdx = headings.indexOf(cleanHeading);
+                            
+                            case 'h3': {
+                              const headIdx = headings.indexOf(block.content);
                               return (
                                 <h3 
-                                  key={idx} 
+                                  key={idx}
                                   id={`heading-${headIdx}`}
                                   className={`text-lg sm:text-xl font-extrabold pt-6 pb-2 border-b scroll-mt-24 ${
                                     theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
                                   }`}
                                 >
-                                  {renderFormattedText(cleanHeading)}
+                                  {renderFormattedText(block.content)}
                                 </h3>
                               );
                             }
-
-                            if (paragraph.startsWith("### ")) {
-                              const cleanHeading = paragraph.replace("### ", "").trim();
-                              const headIdx = headings.indexOf(cleanHeading);
-                              return (
-                                <h3 
-                                  key={idx} 
-                                  id={`heading-${headIdx}`}
-                                  className={`text-xl font-extrabold pt-8 pb-2 border-b scroll-mt-24 ${
-                                    theme === "dark" ? "text-white border-slate-800/50" : "text-slate-950 border-slate-200/60"
-                                  }`}
-                                >
-                                  {renderFormattedText(cleanHeading)}
-                                </h3>
-                              );
-                            }
-
-                            if (paragraph.startsWith("**The Scenario:**")) {
-                              const cleanText = paragraph.replace("**The Scenario:**", "").trim();
+                            
+                            case 'scenario': {
                               return (
                                 <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
                                   theme === "dark" 
@@ -2304,17 +2447,16 @@ export default function App() {
                                 }`}>
                                   <div className="flex items-center gap-2 mb-3">
                                     <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
-                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-amber-500">The Scenario</span>
+                                    <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-amber-500 font-bold">The Scenario</span>
                                   </div>
                                   <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
-                                    {renderFormattedText(cleanText)}
+                                    {renderFormattedText(block.content)}
                                   </p>
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("**The Traditional Method (Before):**")) {
-                              const cleanText = paragraph.replace("**The Traditional Method (Before):**", "").trim();
+                            
+                            case 'before': {
                               return (
                                 <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
                                   theme === "dark" 
@@ -2326,14 +2468,13 @@ export default function App() {
                                     <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-red-500 font-bold">Traditional Method (Before)</span>
                                   </div>
                                   <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
-                                    {renderFormattedText(cleanText)}
+                                    {renderFormattedText(block.content)}
                                   </p>
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("**The TranscriptG Workflow (After):**")) {
-                              const cleanText = paragraph.replace("**The TranscriptG Workflow (After):**", "").trim();
+                            
+                            case 'after': {
                               return (
                                 <div key={idx} className={`p-6 rounded-2xl border text-left my-6 transition-all duration-300 ${
                                   theme === "dark" 
@@ -2345,48 +2486,48 @@ export default function App() {
                                     <span className="text-xs font-extrabold uppercase tracking-widest font-mono text-emerald-500 font-bold">TranscriptG Workflow (After)</span>
                                   </div>
                                   <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-emerald-200/90" : "text-black"}`}>
-                                    {renderFormattedText(cleanText)}
+                                    {renderFormattedText(block.content)}
                                   </p>
                                 </div>
                               );
                             }
-
-                            if (paragraph.startsWith("* ") || paragraph.startsWith("- ") || paragraph.startsWith("• ")) {
-                              const lines = paragraph.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+                            
+                            case 'list-ul': {
                               return (
                                 <ul key={idx} className="list-disc pl-6 space-y-3 my-5">
-                                  {lines.map((line, i) => {
-                                    const clean = line.replace(/^[\*\-•]\s*/, "");
-                                    return (
-                                      <li key={i} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
-                                        {renderFormattedText(clean)}
-                                      </li>
-                                    );
-                                  })}
+                                  {(block.lines || []).map((line, i) => (
+                                    <li key={i} className={`leading-relaxed text-sm text-left ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                      {renderFormattedText(line)}
+                                    </li>
+                                  ))}
                                 </ul>
                               );
                             }
-
-                            if (paragraph.startsWith("1. ")) {
-                              const lines = paragraph.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+                            
+                            case 'list-ol': {
                               return (
                                 <ol key={idx} className="list-decimal pl-6 space-y-3 my-5">
-                                  {lines.map((line, i) => {
-                                    const clean = line.replace(/^\d+\.\s+/, "");
-                                    return (
-                                      <li key={i} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
-                                        {renderFormattedText(clean)}
-                                      </li>
-                                    );
-                                  })}
+                                  {(block.lines || []).map((line, i) => (
+                                    <li key={i} className={`leading-relaxed text-sm text-left ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                      {renderFormattedText(line)}
+                                    </li>
+                                  ))}
                                 </ol>
                               );
                             }
-
-                            if (paragraph.startsWith("|")) {
-                              const lines = paragraph.split("\n").filter(l => l.trim().startsWith("|"));
+                            
+                            case 'code': {
+                              return (
+                                <pre key={idx} className="p-5 rounded-2xl font-mono text-xs overflow-x-auto bg-slate-950 text-slate-300 border border-slate-800 leading-relaxed shadow-inner">
+                                  <code>{block.content}</code>
+                                </pre>
+                              );
+                            }
+                            
+                            case 'table': {
+                              const lines = block.lines || [];
                               if (lines.length >= 2) {
-                                const parseRow = (lineStr: string) => {
+                                const parseRow = (lineStr) => {
                                   return lineStr
                                     .split("|")
                                     .map(cell => cell.trim())
@@ -2418,7 +2559,7 @@ export default function App() {
                                             theme === "dark" ? "hover:bg-slate-900/10" : "hover:bg-slate-50/40"
                                           }`}>
                                             {row.map((cell, cIdx) => (
-                                              <td key={cIdx} className={`px-5 py-4 text-xs leading-relaxed ${
+                                              <td key={cIdx} className={`px-5 py-4 text-xs leading-relaxed text-left ${
                                                 theme === "dark" ? "text-slate-300" : "text-slate-800"
                                               }`}>
                                                 {renderFormattedText(cell)}
@@ -2431,87 +2572,83 @@ export default function App() {
                                   </div>
                                 );
                               }
+                              return null;
                             }
-
-                            if (paragraph.startsWith("```")) {
-                              const codeLines = paragraph.split("\n").filter(l => !l.startsWith("```"));
+                            
+                            case 'paragraph':
+                            default: {
+                              const paragraph = block.content;
+                              if (paragraph.startsWith("[IMAGE:")) {
+                                const match = paragraph.match(/\[IMAGE:\s*([^|\]]+)(?:\|([^\]]+))?\]/);
+                                if (match) {
+                                  const src = match[1].trim();
+                                  const caption = match[2] ? match[2].trim() : "";
+                                  return (
+                                    <div key={idx} className="my-8 text-center" id={`article-image-${idx}`}>
+                                      <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md bg-slate-100 dark:bg-slate-900/40">
+                                        <img 
+                                          src={src} 
+                                          alt={caption || "SEO Visualization"} 
+                                          className="w-full h-auto max-h-[420px] object-cover hover:scale-[1.02] transition-transform duration-500" 
+                                          referrerPolicy="no-referrer" 
+                                        />
+                                      </div>
+                                      {caption && (
+                                        <p className={`text-xs mt-3 italic font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
+                                          {caption}
+                                        </p>
+                                      )}
+                                    </div>
+                                  );
+                                }
+                              }
                               return (
-                                <pre key={idx} className="p-5 rounded-2xl font-mono text-xs overflow-x-auto bg-slate-950 text-slate-300 border border-slate-800 leading-relaxed shadow-inner">
-                                  <code>{codeLines.join("\n")}</code>
-                                </pre>
+                                <p key={idx} className={`leading-relaxed text-sm text-left ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
+                                  {renderFormattedText(paragraph)}
+                                </p>
                               );
                             }
+                          }
+                        };
 
-                            if (paragraph.startsWith("[IMAGE:")) {
-                              const match = paragraph.match(/\[IMAGE:\s*([^|\]]+)(?:\|([^\]]+))?\]/);
-                              if (match) {
-                                const src = match[1].trim();
-                                const caption = match[2] ? match[2].trim() : "";
-                                return (
-                                  <div key={idx} className="my-8 text-center" id={`article-image-${idx}`}>
-                                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md bg-slate-100 dark:bg-slate-900/40">
-                                      <img 
-                                        src={src} 
-                                        alt={caption || "SEO Visualization"} 
-                                        className="w-full h-auto max-h-[420px] object-cover hover:scale-[1.02] transition-transform duration-500" 
-                                        referrerPolicy="no-referrer" 
-                                      />
-                                    </div>
-                                    {caption && (
-                                      <p className={`text-xs mt-3 italic font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
-                                        {caption}
-                                      </p>
-                                    )}
-                                  </div>
-                                );
-                              }
-                            }
+                        const alsoReadIndex = idx === 3 ? 0 : idx === 7 ? 1 : -1;
+                        const alsoReadArticle = alsoReadIndex !== -1 ? otherArticles[alsoReadIndex % otherArticles.length] : null;
 
-                            return (
-                              <p key={idx} className={`leading-relaxed text-sm ${theme === "dark" ? "text-slate-300" : "text-black"}`}>
-                                {renderFormattedText(paragraph)}
-                              </p>
-                            );
-                          };
-
-                          const alsoReadIndex = idx === 3 ? 0 : idx === 7 ? 1 : -1;
-                          const alsoReadArticle = alsoReadIndex !== -1 ? otherArticles[alsoReadIndex % otherArticles.length] : null;
-
-                          return (
-                            <React.Fragment key={idx}>
-                              {renderParagraphElement()}
-                              {alsoReadArticle && (
-                                <div 
-                                  className={`p-5 rounded-2xl border-l-4 border-red-500 my-8 text-left transition-all hover:-translate-y-0.5 duration-300 ${
-                                    theme === "dark" 
-                                      ? "bg-slate-900/25 border-slate-800 hover:border-red-500/50 hover:bg-slate-900/35" 
-                                      : "bg-red-50/15 border-slate-200/80 hover:border-red-500/50 hover:bg-red-50/25 shadow-sm"
+                        return (
+                          <React.Fragment key={idx}>
+                            {renderBlockElement()}
+                            {alsoReadArticle && (
+                              <div 
+                                className={`p-5 rounded-2xl border-l-4 border-red-500 my-8 text-left transition-all hover:-translate-y-0.5 duration-300 ${
+                                  theme === "dark" 
+                                    ? "bg-slate-900/25 border-slate-800 hover:border-red-500/50 hover:bg-slate-900/35" 
+                                    : "bg-red-50/15 border-slate-200/80 hover:border-red-500/50 hover:bg-red-50/25 shadow-sm"
+                                }`}
+                              >
+                                <div className="flex items-center gap-1.5 mb-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono block">
+                                    Also Read
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    setSelectedArticle(alsoReadArticle);
+                                    window.location.hash = `#article=${alsoReadArticle.id}`;
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                  }}
+                                  className={`text-sm font-extrabold hover:text-red-500 transition-colors text-left ${
+                                    theme === "dark" ? "text-white" : "text-slate-900"
                                   }`}
                                 >
-                                  <div className="flex items-center gap-1.5 mb-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-500 font-mono block">
-                                      Also Read
-                                    </span>
-                                  </div>
-                                  <button
-                                    onClick={() => {
-                                      setSelectedArticle(alsoReadArticle);
-                                      window.location.hash = `#article=${alsoReadArticle.id}`;
-                                      window.scrollTo({ top: 0, behavior: "smooth" });
-                                    }}
-                                    className={`text-sm font-extrabold hover:text-red-500 transition-colors text-left ${
-                                      theme === "dark" ? "text-white" : "text-slate-900"
-                                    }`}
-                                  >
-                                    {alsoReadArticle.title}
-                                  </button>
-                                </div>
-                              )}
-                            </React.Fragment>
-                          );
-                        })}
-                    </div>
+                                  {alsoReadArticle.title}
+                                </button>
+                              </div>
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
+                      </div>
 
                     {/* Related Articles Section */}
                     {relatedArticles.length > 0 && (

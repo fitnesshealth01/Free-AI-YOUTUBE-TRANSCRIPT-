@@ -8,6 +8,22 @@ import { GoogleGenAI } from '@google/genai';
 import { EDUCATIONAL_ARTICLES } from './src/educationalGuides';
 import { DEDICATED_TOOL_DETAILS } from './src/toolDetails';
 
+// Helper to format title strings to be under 60 characters (SEO standard) for Google search results
+function getShortSeoTitle(rawTitle: string, suffix: string = " | TranscriptG"): string {
+  const maxLen = 60;
+  if (rawTitle.length + suffix.length <= maxLen) {
+    return rawTitle + suffix;
+  }
+  const targetLen = maxLen - suffix.length;
+  let truncated = rawTitle.substring(0, targetLen);
+  const lastSpace = truncated.lastIndexOf(" ");
+  if (lastSpace > 20) {
+    truncated = truncated.substring(0, lastSpace);
+  }
+  truncated = truncated.replace(/[\s\-,:(（）)—_–]+$/, "");
+  return truncated + suffix;
+}
+
 dotenv.config();
 
 const app = express();
@@ -340,9 +356,9 @@ app.get('/sitemap.xml', (req, res) => {
 
   toolsList.forEach(tool => {
     xml += `
-  <!-- ${tool.replace('_', ' ').toUpperCase()} Dedicated Tool Landing Page -->
+  <!-- ${tool.replace(/_/g, ' ').toUpperCase()} Dedicated Tool Landing Page -->
   <url>
-    <loc>${appUrl}/tools/${tool}</loc>
+    <loc>${appUrl}/tools/${tool.replace(/_/g, '-')}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -387,7 +403,7 @@ app.get('/api/indexing/urls', (req, res) => {
   const urls = [
     { url: `${appUrl}/`, type: 'Home', label: 'Main Home Page' },
     ...toolsList.map(tool => ({
-      url: `${appUrl}/tools/${tool}`,
+      url: `${appUrl}/tools/${tool.replace(/_/g, '-')}`,
       type: 'Tool',
       label: `Tool: ${tool.replace(/_/g, ' ').toUpperCase()}`
     })),
@@ -1557,6 +1573,13 @@ async function bootstrap() {
     };
 
     const serveIndexWithSEO = (req: any, res: any) => {
+      const reqPath = req.path || "/";
+      // Perform 301 Redirect for legacy underscore URLs to hyphenated URLs (SEO best practice)
+      if (reqPath.startsWith('/tools/') && reqPath.includes('_')) {
+        const redirectedPath = reqPath.replace(/_/g, '-');
+        return res.redirect(301, redirectedPath);
+      }
+
       fs.readFile(path.join(distPath, 'index.html'), 'utf8', (err, data) => {
         if (err) {
           console.error("Error reading index.html for SEO:", err);
@@ -1566,7 +1589,7 @@ async function bootstrap() {
         const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
         const host = req.get('host') || 'transcriptg.com';
         const baseUrl = process.env.APP_URL || `${protocol}://${host}`;
-        const canonicalUrl = `${baseUrl}${req.path === '/' ? '' : req.path}`;
+        const canonicalUrl = `${baseUrl}${reqPath === '/' ? '' : reqPath}`;
 
         // Initialize default meta tags values (Home Page)
         let seoTitle = "Free YouTube Transcript Generator & Downloader | TranscriptG";
@@ -1574,13 +1597,31 @@ async function bootstrap() {
         let seoKeywords = "youtube transcript generator, transcript generator, youtube to text, youtube transcript, free youtube downloader, youtube summarizer, video transcript, youtube to blog, chapters generator, transcriptg";
         let schemaHtml = "";
 
-        const reqPath = req.path || "/";
-        const toolId = reqPath.startsWith('/tools/') ? reqPath.split('/tools/')[1] : null;
+        const rawToolId = reqPath.startsWith('/tools/') ? reqPath.split('/tools/')[1] : null;
+        // Map hyphens to underscores for backwards/internal compatibility lookup
+        const toolId = rawToolId ? rawToolId.replace(/-/g, '_') : null;
         const articleId = reqPath.startsWith('/articles/') ? reqPath.split('/articles/')[1] : null;
 
-        if (toolId && toolNamesMap[toolId]) {
+        if (reqPath === '/about' || reqPath === '/about-us') {
+          seoTitle = "About Us & Disclaimer | TranscriptG";
+          seoDesc = "Learn about TranscriptG, the secure, browser-based ecosystem for transcribing, summarizing, translating, and repurposing YouTube videos.";
+          seoKeywords = "about transcriptg, youtube content tools, client-side transcript security, youtube productivity suite";
+        } else if (reqPath === '/privacy' || reqPath === '/privacy-policy') {
+          seoTitle = "Privacy Policy | TranscriptG";
+          seoDesc = "Our GDPR and CCPA compliant Privacy Policy. Discover how TranscriptG guarantees total data privacy with secure client-side computation.";
+          seoKeywords = "privacy policy, GDPR compliance, secure transcribing, client-side data protection, data safety";
+        } else if (reqPath === '/terms' || reqPath === '/terms-of-service') {
+          seoTitle = "Terms of Service | TranscriptG";
+          seoDesc = "Read our terms of service and usage conditions. TranscriptG provides free AI tools with strict adherence to web safety standards.";
+          seoKeywords = "terms of service, user agreement, website terms, usage guidelines, copyright safety";
+        } else if (reqPath === '/contact' || reqPath === '/contact-us') {
+          seoTitle = "Contact Support | TranscriptG";
+          seoDesc = "Get in touch with the TranscriptG team for support, technical assistance, partnerships, or sponsor inquiries.";
+          seoKeywords = "contact support, customer service, support team, technical inquiry, contact transcriptg";
+        } else if (toolId && toolNamesMap[toolId]) {
           const tool = toolNamesMap[toolId];
-          seoTitle = `${tool.name} - Free ${tool.seo} Tool | TranscriptG`;
+          // Title under 60 chars for perfect Google display results
+          seoTitle = `${tool.seo} | TranscriptG`;
           seoDesc = `${tool.desc} 100% Free, secure client-side AI analysis toolkit with zero sign-ups.`;
           seoKeywords = tool.keywords;
 
@@ -1609,7 +1650,7 @@ async function bootstrap() {
             "@type": "WebApplication",
             "name": `${tool.name} - Free YouTube AI Toolkit`,
             "description": tool.desc,
-            "url": `${baseUrl}/tools/${toolId}`,
+            "url": `${baseUrl}/tools/${toolId.replace(/_/g, '-')}`,
             "operatingSystem": "All",
             "applicationCategory": "BusinessApplication",
             "browserRequirements": "Requires HTML5 compatible web browser.",
@@ -1633,7 +1674,8 @@ async function bootstrap() {
         } else if (articleId) {
           const article = EDUCATIONAL_ARTICLES.find(a => a.id === articleId);
           if (article) {
-            seoTitle = `${article.title} - Creator Academy | TranscriptG`;
+            // Under 60 characters for perfect SEO search engine display
+            seoTitle = getShortSeoTitle(article.title, " | TranscriptG");
             seoDesc = article.description;
             seoKeywords = `${article.category.toLowerCase()}, youtube seo, content repurposing, transcriptg creator academy, transcriptg blog`;
 
