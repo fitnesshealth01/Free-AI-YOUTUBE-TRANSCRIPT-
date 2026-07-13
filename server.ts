@@ -1476,97 +1476,97 @@ async function bootstrap() {
     const toolNamesMap: Record<string, { name: string, seo: string, desc: string, keywords: string }> = {
       transcript: { 
         name: "AI YouTube Transcript", 
-        seo: "YouTube Transcript Generator", 
+        seo: "Free YouTube Transcript Generator (No Sign-Up)", 
         desc: "Run high-fidelity AI YouTube Transcript extraction with our premium YouTube Transcript AI to convert YouTube Video to Text instantly.", 
         keywords: "AI YouTube Transcript, YouTube Transcript AI, AI Transcript Generator, YouTube AI Transcript Generator, YouTube Video Transcript Generator, Automatic YouTube Transcript Generator, AI Video Transcription, Convert YouTube Video To Text, YouTube Transcript Extractor, Speech To Text AI, YouTube Transcript Generator, Free YouTube Transcript Generator, Generate YouTube Transcript, YouTube Subtitle To Text, YouTube Text Converter, Extract Transcript From YouTube Video" 
       },
       summary: { 
         name: "AI Video Summary", 
-        seo: "AI YouTube Video Summarizer", 
+        seo: "[100% Free] YouTube Video AI Summarizer (No Login)", 
         desc: "Generate a detailed AI Video Summary with the best AI YouTube Video Summarizer and extract high-value key takeaways.", 
         keywords: "AI Video Summary, AI YouTube Video Summarizer, YouTube Summary AI, YouTube Video Summarizer, AI Video Summarizer, Summarize YouTube Videos With AI, Video Summary Generator, AI Video Notes Generator" 
       },
       blog: { 
         name: "AI Blog Generator", 
-        seo: "YouTube To Blog Generator", 
+        seo: "YouTube to Blog Generator (Unlimited SEO Articles)", 
         desc: "Convert any YouTube video into a fully formatted, SEO-ready article with our advanced YouTube To Blog Generator.", 
         keywords: "AI Blog Generator, YouTube To Blog Generator, YouTube Video To Article Converter, Convert YouTube Video To Blog Post, AI Article Writer, Video To Blog AI, Content Repurposing AI, SEO Blog Generator, YouTube To Blog Article" 
       },
       social: { 
         name: "AI Social Media Generator", 
-        seo: "YouTube Social Media Generator", 
+        seo: "AI YouTube Social Media Post Generator (Free)", 
         desc: "Draft viral, high-retention content with the premier AI Social Media Generator and YouTube Social Media Generator.", 
         keywords: "AI Social Media Generator, YouTube Social Media Generator, AI Content Repurposing Tool, YouTube To Social Media Posts, AI Twitter Post Generator, AI LinkedIn Post Generator, Video Content Repurposing, Social Media Content AI, YouTube Social Media Generator" 
       },
       chapters: { 
         name: "AI Video Chapters Generator", 
-        seo: "YouTube Chapters Creator", 
+        seo: "Free YouTube Chapters Creator with Timestamps", 
         desc: "Create perfectly organized timelines with our AI Video Chapters Generator and YouTube Chapters Creator.", 
         keywords: "AI Video Chapters Generator, YouTube Chapters Creator, Automatic YouTube Chapters, YouTube Timestamp Generator, AI Timestamp Generator, Video Chapter Maker, Generate YouTube Chapters" 
       },
       seo: { 
         name: "AI YouTube SEO Toolkit", 
-        seo: "YouTube SEO Keywords Generator", 
+        seo: "YouTube SEO Keywords Generator & Optimizer Tool", 
         desc: "Boost video discovery with our comprehensive AI YouTube SEO Toolkit and YouTube SEO Keywords Generator.", 
         keywords: "AI YouTube SEO Toolkit, YouTube SEO AI Tool, YouTube SEO Keywords Generator, YouTube Keyword Research Tool, AI YouTube Keyword Generator, YouTube Ranking Tool, Video SEO Optimizer, YouTube SEO Assistant" 
       },
       quotes: { 
         name: "AI Quote Extractor", 
-        seo: "YouTube Quotes Extractor", 
+        seo: "Extract Quotes From YouTube Video (Free AI Tool)", 
         desc: "Capture viral soundbites using our premium AI Quote Extractor and YouTube Quotes Extractor.", 
         keywords: "AI Quote Extractor, YouTube Quotes Extractor, Extract Quotes From YouTube Videos, Video Quote Generator, AI Quote Finder, YouTube Quote Generator, Extract Best Moments From Video" 
       },
       translation: { 
         name: "YouTube Subtitle Translator", 
-        seo: "AI Video Translator", 
+        seo: "Free AI Video Translator & Subtitle Translator", 
         desc: "Reach global viewers with our YouTube Subtitle Translator and AI Video Translator.", 
         keywords: "YouTube Subtitle Translator, AI Video Translator, YouTube Translation AI, Translate YouTube Videos, Automatic Subtitle Translator, AI Subtitle Generator, Multi Language Video Translator, AI Translation Engine" 
       },
       knowledge_graph: { 
         name: "YouTube Mind Map Generator", 
-        seo: "AI Knowledge Graph Generator", 
+        seo: "YouTube to Mind Map Creator (Free AI Generator)", 
         desc: "Visualize complex educational concepts with the premium YouTube Mind Map Generator.", 
         keywords: "YouTube Mind Map Generator, AI Knowledge Graph Generator, Video Mind Map AI, Convert Video Into Mind Map, AI Learning Map, Visual Video Summary, AI Concept Map Generator, AI Knowledge Graph" 
       },
       faq: { 
         name: "YouTube FAQ Generator", 
-        seo: "AI FAQ Creator", 
+        seo: "Free YouTube FAQ Creator (Generate Q&A Instantly)", 
         desc: "Instantly draft matching queries and answers using our YouTube FAQ Generator.", 
         keywords: "YouTube FAQ Generator, AI FAQ Creator, Video FAQ Generator, Generate Questions From YouTube Videos, AI Question Generator, Video Question Answer Generator, YouTube Content Analyzer, YouTube FAQ Creator" 
       },
       study: { 
         name: "YouTube To Flashcards", 
-        seo: "AI Study Tool", 
+        seo: "Convert YouTube Video to Flashcards (AI Study Tool)", 
         desc: "Master any academic or business tutorial using our YouTube To Flashcards converter.", 
         keywords: "YouTube To Flashcards, AI Study Tool, YouTube Learning Assistant AI, Convert Video Into Flashcards, AI Flashcard Generator, Video Notes Generator, Study From YouTube Videos, AI Study Mode" 
       },
       action_items: { 
         name: "AI Action Items Generator", 
-        seo: "YouTube Action Plan Builder", 
+        seo: "Convert Video to Action Plan (AI Checklist Maker)", 
         desc: "Draft checklist frameworks and schedules with the AI Action Items Generator.", 
         keywords: "AI Action Items Generator, YouTube Action Plan Builder, Extract Tasks From Videos, AI Task Generator, Video Productivity Assistant, AI Summary To Action Plan, AI Action Items" 
       },
       shorts_clipper: { 
-        name: "YouTube Shorts AI Clipper", 
-        seo: "AI Shorts Generator", 
+        name: "YouTube Shorts AI Clipper & Viral Clip Maker", 
+        seo: "YouTube Shorts AI Clipper (Viral Video Cutter)", 
         desc: "Extract viral micro-assets using our premium YouTube Shorts AI Clipper.", 
         keywords: "YouTube Shorts AI Clipper, AI Shorts Generator, YouTube Shorts Clip Maker, Long Video To Shorts AI, AI Viral Hook Generator, Create YouTube Shorts Automatically, Shorts Content Generator, AI Shorts Clipper & Hook Generator" 
       },
       thumbnail_grabber: { 
         name: "YouTube Thumbnail Downloader", 
-        seo: "YouTube HD Thumbnail Grabber", 
+        seo: "YouTube HD Thumbnail Downloader (Free Grabber)", 
         desc: "Extract HD thumbnails and score clickability using our YouTube Thumbnail Downloader.", 
         keywords: "YouTube Thumbnail Downloader, YouTube HD Thumbnail Grabber, YouTube Thumbnail Extractor, Download YouTube Thumbnail, YouTube CTR Optimizer, Thumbnail Analyzer AI, YouTube Thumbnail Tool, YouTube HD Thumbnail Grabber & CTR Optimizer" 
       },
       script_writer: { 
         name: "AI YouTube Script Writer", 
-        seo: "Video Script Generator AI", 
+        seo: "AI YouTube Script Writer & Video Script Generator", 
         desc: "Write and rehearse engaging scripts with the AI YouTube Script Writer.", 
         keywords: "AI YouTube Script Writer, Video Script Generator AI, AI Storyboard Generator, YouTube Script Generator, AI Video Script Writer, Create YouTube Scripts With AI, Video Storytelling AI, Content Planning AI, AI Video Script Writer & Storyboarder" 
       },
       video_downloader: {
         name: "YouTube HD Video Downloader",
-        seo: "Free YouTube Downloader",
+        seo: "[100% Free] YouTube Video Downloader (Unlimited HD)",
         desc: "Download public YouTube videos, clips, and audio tracks in high-quality formats with no limits.",
         keywords: "youtube video downloader, download youtube video, youtube mp4 downloader, save youtube video, youtube downloader hd, free youtube clip saver, download youtube shorts"
       }

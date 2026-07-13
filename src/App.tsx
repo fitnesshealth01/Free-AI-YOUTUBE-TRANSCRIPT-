@@ -7,7 +7,7 @@ import {
   ArrowRight, Users, GraduationCap, Building2, Briefcase, RefreshCw,
   Sun, Moon, ExternalLink, ThumbsUp, Layers, Award, Zap, X, Shield, Play, Pause, Eye, EyeOff, Flame, Hash,
   TrendingUp, TrendingDown, DollarSign, Target, Percent, Globe, Award as Medallion, Activity,
-  Twitter, Linkedin, Instagram, Facebook, Github
+  Twitter, Linkedin, Instagram, Facebook, Github, Bookmark
 } from "lucide-react";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, 
@@ -21,6 +21,7 @@ import { WorkspaceSkeleton, PinterestSkeleton } from "./components/Skeletons";
 import { Breadcrumb } from "./components/Breadcrumb";
 import SiteAuditDashboard from "./components/SiteAuditDashboard";
 import { SEOPage } from "./components/SEOPage";
+import InteractiveDemoWidget from "./components/InteractiveDemoWidget";
 
 const CoreToolsSplit = React.lazy(() => import("./components/CoreToolsSplit"));
 const MarketingToolsSplit = React.lazy(() => import("./components/MarketingToolsSplit"));
@@ -2807,18 +2808,33 @@ export default function App() {
 
             return (
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fadeIn" id="dedicated-tool-landing">
-                {/* Back Breadcrumb */}
-                <button 
-                  onClick={() => setSelectedLandingTool(null)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-xl border mb-8 transition-all ${
+                {/* Back Breadcrumb & Bookmark Utility Banner Grid */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                  <button 
+                    onClick={() => setSelectedLandingTool(null)}
+                    className={`inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl border transition-all ${
+                      theme === "dark" 
+                        ? "border-slate-800 bg-slate-900/50 text-slate-300 hover:bg-slate-800" 
+                        : "border-slate-200 bg-white text-slate-700 hover:bg-gray-50 shadow-sm"
+                    }`}
+                  >
+                    <ArrowRight className="w-3.5 h-3.5 rotate-180" />
+                    <span>Back to All Utilities</span>
+                  </button>
+
+                  <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl border text-xs leading-relaxed max-w-xl transition-all ${
                     theme === "dark" 
-                      ? "border-slate-800 bg-slate-900/50 text-slate-300 hover:bg-slate-800" 
-                      : "border-slate-200 bg-white text-slate-700 hover:bg-gray-50 shadow-sm"
-                  }`}
-                >
-                  <ArrowRight className="w-3.5 h-3.5 rotate-180" />
-                  <span>Back to All Utilities</span>
-                </button>
+                      ? "bg-slate-900/40 border-slate-800/80 text-slate-300" 
+                      : "bg-red-50/40 border-red-150 text-slate-700 shadow-sm"
+                  }`}>
+                    <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center shrink-0">
+                      <Bookmark className="w-4 h-4 text-red-500 animate-pulse" />
+                    </div>
+                    <div>
+                      <span className="font-extrabold text-red-500">✨ Bookmark Direct Access:</span> Press <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 text-[10px] font-mono border border-slate-700">Ctrl+D</kbd> (or <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 text-[10px] font-mono border border-slate-700">⌘+D</kbd> on Mac) to bookmark <strong>TranscriptG</strong>. Return directly to bypass search noise & get unlimited free daily usage!
+                    </div>
+                  </div>
+                </div>
 
                 {/* Main Hero Header Grid */}
                 <div className={`p-8 sm:p-12 rounded-3xl border mb-10 relative overflow-hidden ${
@@ -2894,6 +2910,22 @@ export default function App() {
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* INTERACTIVE DEMO WIDGET & VISUAL STEP-BY-STEP GRAPHIC */}
+                <div className="mb-10">
+                  <div className="max-w-3xl mx-auto text-center mb-8">
+                    <span className="text-xs font-bold text-red-500 uppercase tracking-wider block mb-1">Interactive Engagement Hub</span>
+                    <h2 className="text-2xl font-extrabold">10-Second Interactive Demo Simulator</h2>
+                    <p className={`text-sm mt-1 ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                      Experience the lightning-fast, zero-login extraction workflow of {toolData.name} first-hand before pasting your own URLs.
+                    </p>
+                  </div>
+                  <InteractiveDemoWidget 
+                    theme={theme}
+                    toolId={selectedLandingTool}
+                    toolName={toolData.name}
+                  />
                 </div>
 
                 {/* THE LIVE RUNNING SANDBOX / SIMULATOR SECTION */}

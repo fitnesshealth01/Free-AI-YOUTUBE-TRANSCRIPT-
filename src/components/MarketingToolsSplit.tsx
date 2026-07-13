@@ -1,5 +1,5 @@
 import React from "react";
-import { Copy, Sparkles, AlertCircle, RefreshCw } from "lucide-react";
+import { Copy, Sparkles, AlertCircle, RefreshCw, Check, Zap } from "lucide-react";
 import { LANGUAGES } from "../lib/languages";
 
 interface MarketingToolsSplitProps {
@@ -35,6 +35,28 @@ export default function MarketingToolsSplit({
 
   const [metaTitle, setMetaTitle] = React.useState("");
   const [metaDesc, setMetaDesc] = React.useState("");
+
+  // Real-time CTR audit values based on Neil Patel SEO mistakes & correctness guidelines
+  const isTitleOptimal = metaTitle.length >= 35 && metaTitle.length <= 60;
+  const isDescOptimal = metaDesc.length >= 80 && metaDesc.length <= 160;
+
+  const powerWords = ["secrets", "guide", "free", "template", "how to", "best", "formula", "easy", "step-by-step", "tutorial", "learn", "hacks", "proven", "checklist", "tips", "mistakes", "wrong", "fix", "perfect", "boost", "secret"];
+  const hasPowerWord = powerWords.some(word => metaTitle.toLowerCase().includes(word));
+
+  const hasNumber = /\d/.test(metaTitle);
+
+  const hasBrandDelimiter = metaTitle.includes("|") || metaTitle.includes("-");
+
+  const highIntentWords = ["download", "get", "convert", "save", "analyze", "generate", "extract", "summarize", "find", "use", "instantly", "free", "best", "now", "easy"];
+  const hasHighIntentWord = highIntentWords.some(word => metaDesc.toLowerCase().includes(word));
+
+  let calculatedScore = 40;
+  if (isTitleOptimal) calculatedScore += 10;
+  if (isDescOptimal) calculatedScore += 10;
+  if (hasPowerWord) calculatedScore += 15;
+  if (hasNumber) calculatedScore += 15;
+  if (hasBrandDelimiter) calculatedScore += 5;
+  if (hasHighIntentWord) calculatedScore += 5;
 
   React.useEffect(() => {
     if (selectedVideo) {
@@ -419,43 +441,159 @@ export default function MarketingToolsSplit({
                   </div>
                 </div>
 
-                {/* Google Search Preview Card */}
+                {/* Google Search Preview Card & CTR Audit */}
                 <div className={`p-4 rounded-xl border flex flex-col justify-between ${
                   theme === "dark" ? "bg-slate-950 border-slate-900" : "bg-gray-50 border-slate-200"
                 }`}>
-                  <div>
-                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block mb-3">
-                      Google Desktop Search Preview
-                    </span>
-                    <div className="space-y-1">
-                      {/* URL breadcrumb */}
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
-                        <span className="font-medium">https://www.youtube.com</span>
-                        <span className="text-slate-600">›</span>
-                        <span className="text-slate-500">watch</span>
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block mb-2">
+                        Google Desktop Search Preview
+                      </span>
+                      <div className="space-y-1">
+                        {/* URL breadcrumb */}
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+                          <span className="font-medium">https://www.youtube.com</span>
+                          <span className="text-slate-600">›</span>
+                          <span className="text-slate-500">watch</span>
+                        </div>
+                        {/* Google Title */}
+                        <h3 className="text-[17px] hover:underline cursor-pointer font-sans leading-tight text-blue-600 dark:text-blue-400 font-medium truncate">
+                          {metaTitle || "Please specify a title..."}
+                        </h3>
+                        {/* Description */}
+                        <p className={`text-[12px] leading-relaxed font-sans ${
+                          theme === "dark" ? "text-slate-300" : "text-slate-600"
+                        }`}>
+                          {metaDesc || "Please specify a description..."}
+                        </p>
                       </div>
-                      {/* Google Title */}
-                      <h3 className="text-[17px] hover:underline cursor-pointer font-sans leading-tight text-blue-600 dark:text-blue-400 font-medium truncate">
-                        {metaTitle || "Please specify a title..."}
-                      </h3>
-                      {/* Description */}
-                      <p className={`text-[12px] leading-relaxed font-sans ${
-                        theme === "dark" ? "text-slate-300" : "text-slate-600"
-                      }`}>
-                        {metaDesc || "Please specify a description..."}
-                      </p>
+                    </div>
+
+                    {/* Neil Patel's Real-time CTR Audit Checklist */}
+                    <div className={`p-3 rounded-xl border text-[11px] space-y-2.5 ${
+                      theme === "dark" ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-100"
+                    }`}>
+                      <span className="text-[10px] font-extrabold text-red-500 uppercase tracking-wider block">
+                        CTR & SEO Best Practice Audit
+                      </span>
+                      
+                      <div className="space-y-2">
+                        {/* Title Length Check */}
+                        <div className="flex items-start gap-2">
+                          <div className={`mt-0.5 rounded-full p-0.5 shrink-0 ${
+                            isTitleOptimal ? "bg-emerald-500/10 text-emerald-400" : "bg-amber-500/10 text-amber-500"
+                          }`}>
+                            <Check className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <span className={theme === "dark" ? "text-slate-300" : "text-slate-700"}>
+                              Title Length: <strong>{metaTitle.length} chars</strong>
+                            </span>
+                            <span className="block text-[10px] text-slate-400">
+                              {isTitleOptimal ? "Optimal! Will display fully in Google results." : "Optimal target is 35-60 characters to avoid truncation."}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Description Length Check */}
+                        <div className="flex items-start gap-2">
+                          <div className={`mt-0.5 rounded-full p-0.5 shrink-0 ${
+                            isDescOptimal ? "bg-emerald-500/10 text-emerald-400" : "bg-amber-500/10 text-amber-500"
+                          }`}>
+                            <Check className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <span className={theme === "dark" ? "text-slate-300" : "text-slate-700"}>
+                              Description Length: <strong>{metaDesc.length} chars</strong>
+                            </span>
+                            <span className="block text-[10px] text-slate-400">
+                              {isDescOptimal ? "Optimal length for rich search snippet." : "Aim for 80-160 characters for high conversion."}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Power Word Hook Check */}
+                        <div className="flex items-start gap-2">
+                          <div className={`mt-0.5 rounded-full p-0.5 shrink-0 ${
+                            hasPowerWord ? "bg-emerald-500/10 text-emerald-400" : "bg-slate-800 text-slate-500"
+                          }`}>
+                            <Check className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <span className={theme === "dark" ? "text-slate-300" : "text-slate-700"}>
+                              Power Word/Angle Hook
+                            </span>
+                            <span className="block text-[10px] text-slate-400">
+                              {hasPowerWord 
+                                ? "Excellent! Found power angle words that increase curiosity." 
+                                : "Add emotional angles: 'Free', 'Guide', 'Secrets', 'Hacks', 'Mistakes'."}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Digits/Numbers Hook Check */}
+                        <div className="flex items-start gap-2">
+                          <div className={`mt-0.5 rounded-full p-0.5 shrink-0 ${
+                            hasNumber ? "bg-emerald-500/10 text-emerald-400" : "bg-slate-800 text-slate-500"
+                          }`}>
+                            <Check className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <span className={theme === "dark" ? "text-slate-300" : "text-slate-700"}>
+                              Number / List Hook (CTR Booster)
+                            </span>
+                            <span className="block text-[10px] text-slate-400">
+                              {hasNumber 
+                                ? "Great job! Titles with numbers draw up to 36% more clicks." 
+                                : "Add numbers/stats (e.g., '10 Tips', '2026 Guide', '3 Secrets') to boost click-throughs."}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Brand Identifier Check */}
+                        <div className="flex items-start gap-2">
+                          <div className={`mt-0.5 rounded-full p-0.5 shrink-0 ${
+                            hasBrandDelimiter ? "bg-emerald-500/10 text-emerald-400" : "bg-slate-800 text-slate-500"
+                          }`}>
+                            <Check className="w-3 h-3" />
+                          </div>
+                          <div>
+                            <span className={theme === "dark" ? "text-slate-300" : "text-slate-700"}>
+                              Brand Footprint Tag
+                            </span>
+                            <span className="block text-[10px] text-slate-400">
+                              {hasBrandDelimiter 
+                                ? "Brand suffix included! Builds query trust and authority." 
+                                : "Append '| YourBrand' to title. Direct brand searches improve organic ranking signals."}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Neil Patel CTR Boost Quote Callout */}
+                    <div className={`p-3 rounded-xl border text-[11px] leading-relaxed flex gap-2 ${
+                      theme === "dark" 
+                        ? "bg-red-500/5 border-red-500/20 text-slate-300" 
+                        : "bg-red-50/70 border-red-100 text-slate-700"
+                    }`}>
+                      <Zap className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                      <div>
+                        <strong className="text-red-500 block mb-0.5">Neil Patel's CTR Optimizer Rule</strong>
+                        "传统 SEO (raw rankings/traffic) is a vanity metric. Focus on CTR. Optimizing and doubling your Click-Through-Rate instantly doubles your conversions without needing any new content."
+                      </div>
                     </div>
                   </div>
                   
                   {/* Performance Indicators */}
                   <div className="border-t border-slate-850 pt-3 mt-4 flex items-center justify-between text-[10px] font-semibold text-slate-400">
                     <span className="flex items-center gap-1">
-                      Score: 
+                      Calculated CTR Potential: 
                       <span className={`font-bold ${
-                        metaTitle.length >= 35 && metaTitle.length <= 60 && metaDesc.length >= 80 && metaDesc.length <= 160
-                          ? "text-emerald-500" : "text-amber-500"
+                        calculatedScore >= 80 ? "text-emerald-500" : calculatedScore >= 60 ? "text-amber-500" : "text-red-400"
                       }`}>
-                        {metaTitle.length >= 35 && metaTitle.length <= 60 && metaDesc.length >= 80 && metaDesc.length <= 160 ? "100/100 (Optimal)" : "75/100 (Improve length)"}
+                        {calculatedScore}/100 {calculatedScore >= 80 ? "(Excellent)" : calculatedScore >= 60 ? "(Moderate)" : "(Needs Work)"}
                       </span>
                     </span>
                     <span className="italic">TranscriptG Real-time Audit</span>

@@ -6,34 +6,34 @@ export const DEDICATED_TOOL_DETAILS: Record<string, {
   faqs: { q: string; a: string }[];
 }> = {
   transcript: {
-    tagline: "Run high-fidelity AI YouTube Transcript extraction with our premium YouTube Transcript AI to convert YouTube Video to Text instantly.",
-    badge: "Free YouTube AI Transcript Generator",
+    tagline: "Run high-fidelity AI YouTube Transcript extraction with our premium YouTube Transcript AI. Designed to instantly Extract YouTube transcript for ChatGPT and Convert YouTube video to Notion notes or Word documents with zero formatting loss.",
+    badge: "Free YouTube AI Transcript & ChatGPT Extractor",
     features: [
-      "AI Transcript Generator: Instantly generate clean, beautifully punctuated text blocks from any public video.",
-      "YouTube AI Transcript Generator: Extract automated, punctuated subtitle tracks in just seconds with zero latency.",
+      "AI Transcript Generator: Instantly generate clean, beautifully punctuated text blocks optimized to Extract YouTube transcript for ChatGPT.",
+      "YouTube AI Transcript Generator: Convert YouTube video to Notion notes with structured headers and instant block-compatibility.",
       "Automatic YouTube Transcript Generator: Syncs interactive clickable timestamps perfectly with video timeline playback.",
       "YouTube Transcript Extractor: Easily convert YouTube video to text, enabling fast reading, content scanning, and easy copy-pasting."
     ],
     howItWorks: "Our high-speed AI Video Transcription algorithm connects with advanced Speech To Text AI pipelines to parse and align spoken words, serving as the ultimate YouTube Video Transcript Generator.",
     faqs: [
-      { q: "How does the AI YouTube Transcript tool extract subtitles?", a: "It operates as a high-speed YouTube Transcript AI and AI Transcript Generator, extracting video captions and utilizing punctuation models to convert YouTube video to text." },
-      { q: "Can I use this YouTube Video Transcript Generator for long webinars?", a: "Yes, our Automatic YouTube Transcript Generator supports videos of any length, converting files into standard text blocks or downloadable subtitles." },
+      { q: "How do I extract a YouTube transcript for ChatGPT?", a: "With TranscriptG, simply run your video transcription, click 'Copy Raw Text' or 'Copy Timestamped Text', and paste it directly into ChatGPT with a prompt like 'Summarize this video:'. It is perfectly optimized to bypass clipboard formatting bugs." },
+      { q: "Can I convert a YouTube video to Notion notes?", a: "Yes! Copy the formatted markdown output from TranscriptG and paste it directly into your Notion workspace. It instantly preserves headers, timestamps, and structure for your study database." },
       { q: "Is this YouTube Transcript Extractor completely free?", a: "Yes, this YouTube AI Transcript Generator is 100% free with no registration or limits, allowing you to convert YouTube video to text anytime." }
     ]
   },
   summary: {
-    tagline: "Generate a detailed AI Video Summary with the best AI YouTube Video Summarizer and extract high-value key takeaways.",
+    tagline: "Generate a detailed AI Video Summary with the best AI YouTube Video Summarizer. Create detailed summaries of YouTube videos for ChatGPT, Notion databases, or study logs instantly.",
     badge: "YouTube Summary AI",
     features: [
-      "AI Video Summarizer: Create multi-tier executive summaries and topic breakdowns.",
-      "AI YouTube Video Summarizer: Extract structural notes and central themes automatically.",
+      "AI Video Summarizer: Create multi-tier executive summaries and topic breakdowns for ChatGPT prompts.",
+      "AI YouTube Video Summarizer: Extract structural notes and central themes automatically optimized for Notion tables.",
       "YouTube Summary AI: Generate rapid bulleted takeaways of major facts and figures.",
       "AI Video Notes Generator: Turn hours of video content into high-level concise paragraphs."
     ],
     howItWorks: "Our Video Summary Generator leverages advanced natural language models to summarize YouTube videos with AI, producing rich summaries of key narrative blocks.",
     faqs: [
-      { q: "How detailed are the outputs of the AI Video Summary?", a: "Our AI YouTube Video Summarizer employs state-of-the-art context windowing to ensure all main points, data references, and concepts are preserved." },
-      { q: "Can I customize the YouTube Summary AI layout?", a: "Absolutely! The AI Video Notes Generator lets you toggle between quick executive briefs, full outlines, or bullet takeaways." },
+      { q: "How do I import a YouTube video summary to Notion?", a: "Run the AI Video Summary tool, click 'Copy Markdown', then paste it into any Notion page. The sub-headers, lists, and bold text will map 1:1 natively." },
+      { q: "Can I feed the summary output into ChatGPT for further questioning?", a: "Absolutely! The output is clean and compact, fitting perfectly within ChatGPT or Claude context limits to enable deep Q&A on the video." },
       { q: "How does this Video Summary Generator save me time?", a: "Instead of watching hours of media, you can summarize YouTube videos with AI in just seconds, giving you structured key notes instantly." }
     ]
   },
@@ -166,18 +166,18 @@ export const DEDICATED_TOOL_DETAILS: Record<string, {
     ]
   },
   study: {
-    tagline: "Master any academic or business tutorial using our YouTube To Flashcards converter.",
-    badge: "AI Study Tool",
+    tagline: "Master any academic or business tutorial using our YouTube To Flashcards converter. Seamlessly convert YouTube video to Anki flashcards or import structured YouTube study notes to Obsidian.",
+    badge: "AI Study Tool & Obsidian Integration",
     features: [
-      "YouTube To Flashcards: Turn any complex educational lecture into a double-sided card deck.",
+      "YouTube To Flashcards: Turn any complex educational lecture into a double-sided card deck ready for Anki export.",
       "AI Study Tool: Test your retention with auto-graded multiple-choice video quizzes.",
-      "YouTube Learning Assistant AI: Generate formal study outlines organized by core concepts.",
+      "YouTube Learning Assistant AI: Generate formal study outlines organized by core concepts, perfect to import YouTube transcript to Obsidian.",
       "Convert Video Into Flashcards: Rapid active-recall drills to memorize definitions."
     ],
     howItWorks: "The tool processes lectures to act as an AI Flashcard Generator and Video Notes Generator, allowing students to efficiently study from YouTube videos.",
     faqs: [
-      { q: "How do I utilize the YouTube To Flashcards generator?", a: "Paste a lecture link, and the AI Study Tool will build a custom interactive deck to convert video into flashcards." },
-      { q: "Is the YouTube Learning Assistant AI grading accurate?", a: "Yes, our AI Flashcard Generator and Video Notes Generator grade answers with precise references to the video." },
+      { q: "How do I convert a YouTube video to Anki flashcards?", a: "Run our study tool, click 'Copy Flashcards', and use Anki's text import feature to turn them into active-recall study decks in seconds." },
+      { q: "Can I import my YouTube study notes and outlines to Obsidian?", a: "Yes! The output is formatted in clean Markdown, so you can copy and paste or save directly into your Obsidian vault as a new node." },
       { q: "Can I study from YouTube videos offline?", a: "Yes! All components are client-side responsive, keeping your study logs fully secure." }
     ]
   },
