@@ -306,7 +306,10 @@ function generateDynamicVideoFallback(videoId: string, videoTitle: string, autho
 
 // SEO & AdSense Readiness Routes
 app.get('/robots.txt', (req, res) => {
-  const appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+  let appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+  if (appUrl.startsWith('http://') && !appUrl.includes('localhost') && !appUrl.includes('127.0.0.1')) {
+    appUrl = appUrl.replace(/^http:\/\//, 'https://');
+  }
   res.type('text/plain');
   res.send(`User-agent: *
 Allow: /
@@ -315,7 +318,10 @@ Sitemap: ${appUrl}/sitemap.xml
 });
 
 app.get('/sitemap.xml', (req, res) => {
-  const appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+  let appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+  if (appUrl.startsWith('http://') && !appUrl.includes('localhost') && !appUrl.includes('127.0.0.1')) {
+    appUrl = appUrl.replace(/^http:\/\//, 'https://');
+  }
   const today = new Date().toISOString().split('T')[0];
   
   // Dynamically extract the tools list from DEDICATED_TOOL_DETAILS and add any other standalone/landing tools
