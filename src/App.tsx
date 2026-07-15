@@ -359,7 +359,7 @@ export default function App() {
   // Theme and routing state
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     const saved = localStorage.getItem("theme");
-    return (saved as "light" | "dark") || "light";
+    return (saved as "light" | "dark") || "dark";
   });
   const [activeTool, setActiveTool] = useState<string>("transcript");
   const [selectedVideo, setSelectedVideo] = useState<DemoVideoData | null>(null);

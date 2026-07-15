@@ -79,6 +79,25 @@
       }
     </style>
 
+    <!-- Inline Theme-Lock Script: Prevents FOUC/White Flash by setting classes and styles before DOM render -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          var theme = saved || 'dark';
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.style.backgroundColor = '#09090b';
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.backgroundColor = '#fdfbf7';
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Google AdSense Verification (Automatic Verification Script Placeholder) -->
     <!-- AdSense will scan this head tag on custom domains to verify ownership and terms compliance -->
 
@@ -160,7 +179,128 @@
         <p style="font-size: 1.2rem; color: #94a3b8; line-height: 1.6; max-width: 640px; margin: 0 auto;">Instantly convert YouTube video to text, generate high-quality AI summaries, extract SEO keywords, and download transcripts for free. No registration required.</p>
       </header>
       
-      <main style="max-width: 800px; margin: 0 auto; padding: 0 2rem 4rem; color: #cbd5e1; line-height: 1.8; background-color: #080B12;">
+      <main style="max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; color: #cbd5e1; line-height: 1.8; background-color: #080B12;">
+        <!-- Clickable Tools Grid fallback for AdSense / Search Crawlers / No-JS Environments -->
+        <section style="margin-bottom: 4rem;">
+          <h2 style="font-size: 1.8rem; color: #f8fafc; text-align: center; margin-bottom: 2rem; font-weight: 700; letter-spacing: -0.03em; border-bottom: 2px solid #1e293b; padding-bottom: 0.5rem;">Access 16+ Free AI YouTube Applications</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; width: 100%;">
+            
+            <!-- Tool 1: AI YouTube Transcript -->
+            <a href="/tools/transcript" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">AI Transcript</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI YouTube Transcript</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Extract precise spoken transcripts with absolute frame and speaker synchronization.</p>
+            </a>
+
+            <!-- Tool 2: AI Video Summary -->
+            <a href="/tools/summary" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">AI Summary</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Video Summary</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Get high-fidelity summaries, key takeaways, action items, and structured checklists.</p>
+            </a>
+
+            <!-- Tool 3: AI Blog Generator -->
+            <a href="/tools/blog" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Content Writer</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Blog Generator</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Repurpose any video stream into a fully styled, SEO-ready blog post with correct formatting.</p>
+            </a>
+
+            <!-- Tool 4: AI Social Media Generator -->
+            <a href="/tools/social" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Social Poster</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Social Media Poster</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Generate engaging viral posts and hooks for Twitter, LinkedIn, Instagram, and more.</p>
+            </a>
+
+            <!-- Tool 5: AI Video Chapters Generator -->
+            <a href="/tools/chapters" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Chapters AI</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Chapters Creator</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Generate organized video timelines, headings, and detailed timestamp milestones.</p>
+            </a>
+
+            <!-- Tool 6: AI YouTube SEO Toolkit -->
+            <a href="/tools/seo" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">SEO Keywords</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI YouTube SEO Toolkit</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Boost video discovery with optimized keywords, high-converting titles, and meta tags.</p>
+            </a>
+
+            <!-- Tool 7: AI Quote Extractor -->
+            <a href="/tools/quotes" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Quote Extractor</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Quote Extractor</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Isolate powerful speaker assertions, inspirational quotes, and high-impact moments.</p>
+            </a>
+
+            <!-- Tool 8: YouTube Subtitle Translator -->
+            <a href="/tools/translation" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">AI Translation</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">YouTube Subtitle Translator</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Translate video scripts and subtitles into Spanish, French, German, and 15+ languages.</p>
+            </a>
+
+            <!-- Tool 9: YouTube Mind Map Generator -->
+            <a href="/tools/knowledge-graph" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Knowledge Map</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Mind Map Generator</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Generate interactive conceptual nodes to visualize educational subjects graphically.</p>
+            </a>
+
+            <!-- Tool 10: YouTube FAQ Generator -->
+            <a href="/tools/faq" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">FAQ Creator</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI YouTube FAQ Creator</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Draft matching questions and answers based strictly on video content logic.</p>
+            </a>
+
+            <!-- Tool 11: YouTube To Flashcards -->
+            <a href="/tools/study" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Study Cards</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">YouTube To Flashcards</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Master tutorial videos with automated flashcards and interactive self-quizzes.</p>
+            </a>
+
+            <!-- Tool 12: AI Action Items Generator -->
+            <a href="/tools/action-items" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Checklist Maker</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI Action Items Generator</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Create precise action checklists, schedules, and step-by-step task tracking templates.</p>
+            </a>
+
+            <!-- Tool 13: YouTube Shorts AI Clipper -->
+            <a href="/tools/shorts-clipper" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Shorts Clipper</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">YouTube Shorts AI Clipper</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Extract viral high-retention segments and hooks for TikTok, Shorts, and Reels.</p>
+            </a>
+
+            <!-- Tool 14: YouTube Thumbnail Downloader -->
+            <a href="/tools/thumbnail-grabber" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Thumbnail CTR</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">YouTube Thumbnail Downloader</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Extract HD thumbnails and score CTR potential using clickability heatmaps.</p>
+            </a>
+
+            <!-- Tool 15: AI YouTube Script Writer -->
+            <a href="/tools/script-writer" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">Script Writer</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">AI YouTube Script Writer</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Draft viral, high-retention scripts and plan narrative visual pacing with AI.</p>
+            </a>
+
+            <!-- Tool 16: YouTube HD Video Downloader -->
+            <a href="/tools/video-downloader" style="display: flex; flex-direction: column; padding: 1.5rem; background-color: #0c0f1a; border: 1px solid #1e293b; border-radius: 16px; text-decoration: none; color: #cbd5e1; transition: all 0.2s ease-in-out;">
+              <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: bold; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">HD Downloader</span>
+              <h3 style="font-size: 1.15rem; color: #f43f5e; margin: 0 0 0.5rem 0; font-weight: 800;">YouTube Video Downloader</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0;">Download public YouTube videos and audio tracks in high-quality formats.</p>
+            </a>
+
+          </div>
+        </section>
+
         <section style="margin-bottom: 3rem;">
           <h2 style="font-size: 1.8rem; color: #f8fafc; margin-bottom: 1.5rem; border-bottom: 2px solid #1e293b; padding-bottom: 0.5rem; font-weight: 700; letter-spacing: -0.03em;">How to Generate and Download a YouTube Transcript</h2>
           <ol style="padding-left: 1.5rem; margin-bottom: 1rem; color: #cbd5e1; space-y: 0.75rem;">
