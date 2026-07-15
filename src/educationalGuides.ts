@@ -19,7 +19,7 @@ export const EDUCATIONAL_ARTICLES: EducationalArticle[] = [
     category: "AI & Creator Tech",
     readTime: "18 min read",
     date: "July 9, 2026",
-    author: "Elena Rostov, Lead NLP Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "transcript",
     featuredImage: "/src/assets/images/ai_youtube_assistant_1783644206507.jpg",
     content: `H1: Your Next AI Assistant Might Learn From YouTube Videos — Here's Why
@@ -199,7 +199,7 @@ CTA: Try TranscriptG today and convert any video into searchable intelligence.`
     category: "Content Repurposing",
     readTime: "16 min read",
     date: "July 9, 2026",
-    author: "Elena Rostov, Lead NLP Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "transcript",
     content: `Imagine this: It's 10:00 PM. You've had a long day of classes, client meetings, or coding. You need to master a highly complex concept—maybe it's a deep dive into Rust's borrow checker, a comprehensive guide on modern monetary policy, or an advanced marketing framework. You search YouTube and find the perfect video. It’s highly recommended, has thousands of positive comments, and... it is 2 hours and 42 minutes long.
 
@@ -360,7 +360,7 @@ Stop watching. Start indexing.`
     category: "YouTube SEO",
     readTime: "12 min read",
     date: "July 8, 2026",
-    author: "Elena Rostov, Lead NLP Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `If you are relying on YouTube’s default automatic captions, you are actively throttling your channel's organic traffic. This isn't a speculative marketing theory; it is a fundamental reality of how search engine crawlers and Natural Language Processing (NLP) pipelines process unstructured audio streams.
 
@@ -393,7 +393,7 @@ Instead of trusting the machine to guess your words, run your video URLs through
     category: "AdSense & Monetization",
     readTime: "15 min read",
     date: "July 7, 2026",
-    author: "Marcus Vance, AdTech Infrastructure Lead",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `The dreaded "Low Value Content" or "Valueless Template" rejection email from Google AdSense is the bane of independent tool developers. You spend weeks writing clean code, building a high-performance interactive utility, and polishing the user interface, only to have a bot tell you your site lacks sufficient value.
 
@@ -436,7 +436,7 @@ By implementing these structural content hubs and respecting the physical layout
     category: "AI & Creator Tech",
     readTime: "14 min read",
     date: "July 5, 2026",
-    author: "Devon Carter, Principal Systems Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "video_downloader",
     content: `If you’ve ever tried to write a script to download high-definition video from platforms like YouTube, Netflix, or Twitch, you've likely encountered a strange phenomenon: when you grab the highest resolution stream (1080p, 4K, or 120fps), the file has absolutely no audio. Conversely, when you download the high-quality audio file, there is no video.
 
@@ -473,7 +473,7 @@ By shifting the processing load from the cloud to the client, browser-based util
     category: "Content Repurposing",
     readTime: "11 min read",
     date: "July 3, 2026",
-    author: "Sophie Dubois, SEO Infrastructure Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "blog",
     content: `Converting your YouTube video transcripts into blog posts is an incredible first step. But simply pasting text onto a page and hoping Google ranks it is a passive strategy. If you want to dominate search engine results pages (SERPs), you must speak to the search bot in its native language: **Structured Data**.
 
@@ -548,7 +548,7 @@ By explicitly feeding this structured time map to Google’s crawl bot, you turn
     category: "YouTube SEO",
     readTime: "11 min read",
     date: "July 2, 2026",
-    author: "Devon Carter, Lead Video Strategist",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "script_writer",
     content: `Every single YouTube channel, from tiny independent creators to multi-million-subscriber studios, shares a common visual scar: the **15-second retention cliff**. 
 
@@ -586,7 +586,7 @@ By feeding your raw content ideas, core bullet points, or past transcripts into 
     category: "Subtitles & SRT",
     readTime: "10 min read",
     date: "June 29, 2026",
-    author: "Elena Rostov, Localization Expert",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "translation",
     content: `Only 25% of internet users speak English. If you publish content exclusively in one language, you are locking yourself out of 75% of your potential global market. Localizing your video subtitles is the single highest ROI strategy to double your traffic and build an international brand.
 
@@ -616,7 +616,7 @@ When you upload manual subtitles in languages like German, Spanish, French, Japa
     category: "Subtitles & SRT",
     readTime: "9 min read",
     date: "June 25, 2026",
-    author: "Sophie Dubois, UX Research Lead",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "translation",
     content: `We live in a muted world. According to extensive user experience studies across platforms like TikTok, Instagram, Facebook, and LinkedIn, **over 85% of mobile video content is consumed entirely on mute.**
 
@@ -650,7 +650,7 @@ To maximize mobile viewer retention, always structure your subtitle files accord
     category: "Academic Study",
     readTime: "11 min read",
     date: "June 18, 2026",
-    author: "Elena Rostov, Cognitive Psychologist & Lecturer",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "study",
     content: `Passive studying is the single biggest waste of academic effort. Research across cognitive psychology platforms confirms that highlighting textbooks, reading summaries, and re-watching recorded video lectures have a near-zero impact on long-term memory retention.
 
@@ -684,7 +684,7 @@ If you make a mistake on a card in Box 3, it drops immediately back to Box 1. Th
     category: "YouTube SEO",
     readTime: "10 min read",
     date: "June 12, 2026",
-    author: "Marcus Vance, Lead Visual Content Strategist",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "thumbnail_grabber",
     content: `You can write the most elegant script on the internet, spend weeks editing your footage, and deliver unparalleled educational value—but if a user does not click your thumbnail, **your video's views remain at exactly zero.**
 
@@ -715,7 +715,7 @@ Here is the step-by-step auditing sequence used by top-tier content agencies:
     category: "Content Repurposing",
     readTime: "12 min read",
     date: "June 05, 2026",
-    author: "Marcus Vance, Content Architecture Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "social",
     content: `Most content creators fall into a highly inefficient production trap: they spend 90% of their energy researching, filming, and editing a single master video, and 10% of their energy on distribution. Once the video is live, they post a simple link on social media and hope for the best.
 
@@ -751,7 +751,7 @@ By repurposing your master videos into native text assets, you build a powerful,
     category: "AI & Creator Tech",
     readTime: "13 min read",
     date: "May 28, 2026",
-    author: "Elena Rostov, Lead NLP Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `When transcribing solo lectures, standard Automatic Speech Recognition (ASR) engines perform reasonably well. However, when you import dynamic interview streams, dual-speaker podcasts, or panel debates, standard engines collapse. The resulting text is a chaotic, unreadable paragraph where separate arguments are blended into a single voice.
 
@@ -779,7 +779,7 @@ Modern browser-based transcript planners like **TranscriptG** utilize advanced v
     category: "YouTube SEO",
     readTime: "11 min read",
     date: "May 22, 2026",
-    author: "Sophie Dubois, SEO Infrastructure Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `If you are still spending hours research-scraping "hidden tags" using browser extensions to boost your YouTube search rankings, you are wasting your time. 
 
@@ -809,7 +809,7 @@ Instead of relying on tags, you must structure your video description to feed th
     category: "Subtitles & SRT",
     readTime: "12 min read",
     date: "May 15, 2026",
-    author: "Sophie Dubois, UX Research Lead",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "translation",
     content: `Subtitle files look simple—just lines of text with arrow markers and timers. But underneath their clean text lies a complex timeline format. If you build or use a custom player, or upload caption tracks to social engines, a single formatting error can break your rendering pipeline or cause subtitles to drift out of sync.
 
@@ -847,7 +847,7 @@ If a user edits their transcript or merges segments, a smart parser must calcula
     category: "Content Repurposing",
     readTime: "10 min read",
     date: "May 08, 2026",
-    author: "Elena Rostov, Cognitive Psychologist & Lecturer",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "social",
     content: `On platforms like TikTok, Shorts, and Reels, the primary ranking metric is not clicks or shares—it is **watch time percentage**. If a high percentage of viewers watch your video all the way to the end, the algorithm pushes it to wider feeds. 
 
@@ -877,7 +877,7 @@ Drafting these complex loop-aware scripts is mathematically tedious. Fortunately
     category: "Academic Study",
     readTime: "12 min read",
     date: "April 30, 2026",
-    author: "Elena Rostov, Cognitive Psychologist & Lecturer",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "study",
     content: `The Feynman Technique is simple: to master a complex subject, you must explain it to a five-year-old in plain, non-jargon language. If you struggle to simplify a concept, you have found a gap in your understanding.
 
@@ -900,7 +900,7 @@ By turning passive lecture streams into interactive, simple study guides, you re
     category: "AdSense & Monetization",
     readTime: "14 min read",
     date: "April 22, 2026",
-    author: "Marcus Vance, AdTech Infrastructure Lead",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `Getting AdSense approval is only half the battle. Once your site is running ads, your goal shifts to maximizing your **eCPM** (effective Cost Per Mille)—the amount advertisers pay you for every thousand impressions.
 
@@ -930,7 +930,7 @@ To maximize your programmatic income, implement these high-performance layout pa
     category: "AI & Creator Tech",
     readTime: "11 min read",
     date: "April 15, 2026",
-    author: "Devon Carter, Principal Systems Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "video_downloader",
     content: `You can record the most insightful content on the planet, but if your audio is thin, boomy, or full of sudden volume spikes, viewers will mute or close your video. In auditory cognitive science, this is known as **auditory fatigue**.
 
@@ -955,7 +955,7 @@ By delivering professional, polished, and balanced audio, you reduce user fatigu
     category: "YouTube SEO",
     readTime: "11 min read",
     date: "April 08, 2026",
-    author: "Elena Rostov, Lead NLP Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `When you launch a new web app, a companion blog, or publish high-value educational resources like this academy, you expect search engine traffic to arrive. But days pass, and your new pages don't show up on Google. When you run a \`site:yourdomain.com\` search, the results are empty.
 
@@ -991,7 +991,7 @@ By executing a programmatic POST request to Google's API endpoint, you explicitl
     category: "Subtitles & SRT",
     readTime: "13 min read",
     date: "April 02, 2026",
-    author: "Elena Rostov, Localization Expert",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "translation",
     content: `The launch of multi-language audio tracks has completely changed YouTube's global distribution. Creators can now upload multiple language voiceovers onto a single video, allowing viewers to choose their preferred audio track under the settings menu.
 
@@ -1019,7 +1019,7 @@ This gives you 90% of the SEO benefit and global indexing reach at 1% of the cos
     category: "Content Repurposing",
     readTime: "12 min read",
     date: "March 25, 2026",
-    author: "Marcus Vance, Content Architecture Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "social",
     content: `Building a high-quality email list is the ultimate insurance policy for your content business. Unlike social media profiles, your email list is a direct asset that search engine algorithms cannot take away from you.
 
@@ -1047,7 +1047,7 @@ Export the result as a PDF or ePUB file, set up a simple landing page using your
     category: "AI & Creator Tech",
     readTime: "15 min read",
     date: "July 10, 2026",
-    author: "Alex Mercer, Tech & Games Policy Analyst",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "transcript",
     featuredImage: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
     content: `H1: Behind the Xbox Collapse: The $80B Cloud Bet That Triggered a Silicon Valley Visa Crisis
@@ -1125,7 +1125,7 @@ CTA: Start building your own independent content brand today with TranscriptG.`
     category: "YouTube SEO",
     readTime: "35 min read",
     date: "July 11, 2026",
-    author: "Elena Rostov, Lead SEO Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     featuredImage: "/src/assets/images/seo_keyword_research_1783759208896.jpg",
     content: `H1: The Ultimate SEO Keyword Research Masterclass: How to Find, Track, and Rank for High-Traffic Terms
@@ -1345,7 +1345,7 @@ CTA: Turn your search research into high-ranking content. Optimize your web pres
     category: "Content Repurposing",
     readTime: "15 min read",
     date: "July 11, 2026",
-    author: "Elena Rostov, Lead Content Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     featuredImage: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
     content: `H1: The Ultimate Guide to Repurposing YouTube Videos for SEO: Turn Video Views into Organic Web Traffic
@@ -1431,7 +1431,7 @@ CTA: Ready to convert your video catalog into high-ranking search traffic? Try t
     category: "AI & Creator Tech",
     readTime: "12 min read",
     date: "July 11, 2026",
-    author: "Elena Rostov, Lead Content Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "transcript",
     featuredImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
     content: `H1: Top 5 Best Free YouTube Transcript Tools: Generate Video Text Instantly without Hidden Fees
@@ -1511,7 +1511,7 @@ CTA: Ready to experience the future of secure, unlimited video transcription? Op
     category: "Content Repurposing",
     readTime: "18 min read",
     date: "July 11, 2026",
-    author: "Elena Rostov, Lead Content Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "blog",
     featuredImage: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=1200&q=80",
     content: `H1: YouTube Video to Blog Post: The Definitive Guide to Repurposing Video into High-Ranking Articles
@@ -1593,7 +1593,7 @@ CTA: Start building your content engine today. Take your best video, paste its l
     category: "Academic Study",
     readTime: "14 min read",
     date: "July 11, 2026",
-    author: "Elena Rostov, Lead Content Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "study",
     featuredImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
     content: `H1: Revolutionizing Study: The Best AI Tools for Student Video Learning and Academic Research
@@ -1675,7 +1675,7 @@ CTA: Ready to ace your exams in half the time? Open TranscriptG now and turn you
     category: "YouTube SEO",
     readTime: "20 min read",
     date: "July 11, 2026",
-    author: "Elena Rostov, Lead SEO Architect",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     featuredImage: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?auto=format&fit=crop&w=1200&q=80",
     content: `H1: YouTube SEO Keyword Research Masterclass: 7 Secrets to Find High-Traffic, Low-Competition Video Queries
@@ -1749,7 +1749,7 @@ CTA: Ready to unlock the secrets of your competitors' video success? Use Transcr
     category: "YouTube SEO",
     readTime: "15 min read",
     date: "July 13, 2026",
-    author: "Neil Patel's Masterclass Analysis",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "seo",
     content: `H1: The Brand Search Signal Engine & Direct Nav CTR Booster: Why Keyword SEO is a Trap
 
@@ -1822,7 +1822,7 @@ CTA: Ready to audit your video metadata for search engine success? Open our AI Y
     category: "Academic Study",
     readTime: "25 min read",
     date: "July 13, 2026",
-    author: "TranscriptG Educational Labs",
+    author: "TranscriptG Editorial Team",
     relatedToolId: "transcript",
     content: `H1: How to Extract YouTube Transcripts for ChatGPT and Convert Videos to Notion Notes: The Ultimate 2026 Masterclass
 

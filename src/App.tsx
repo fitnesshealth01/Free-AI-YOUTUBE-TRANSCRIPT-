@@ -3286,18 +3286,22 @@ export default function App() {
             <div className="absolute bottom-10 right-10 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
             <div className="max-w-5xl mx-auto text-center relative z-10 flex flex-col items-center">
-              {/* Premium Announcement pill */}
-              <div className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-slate-300 text-[10px] sm:text-xs font-medium mb-4 sm:mb-8 self-center">
-                <Sparkles className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-amber-400" />
-                <span>Next-Generation AI Content Engine powered by Gemini 2.5</span>
+              {/* Trust Indicators Pill */}
+              <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-slate-300 text-[10px] sm:text-xs font-semibold mb-4 sm:mb-6 self-center">
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span>✓ Free to Use • ✓ No Signup Required • ✓ Fast Generation</span>
               </div>
 
-              <h1 className="text-3xl sm:text-7xl font-light tracking-tight mb-4 sm:mb-6 leading-tight font-display">
-                The Ultimate Free <br className="hidden sm:inline" />
+              <h1 className="text-4xl sm:text-7xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight font-display">
+                Free YouTube <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 bg-clip-text text-transparent italic font-normal">
-                  AI YouTube Toolkit
+                  Transcript Generator
                 </span>
               </h1>
+
+              <p className={`text-base sm:text-lg max-w-3xl mx-auto mb-8 font-medium leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-slate-700"}`}>
+                Generate accurate transcripts from YouTube videos instantly. Convert any video into text, summaries, translations, blogs, social posts, and more with our free AI tools.
+              </p>
               
               {/* Container for Tool switcher and input fields */}
               <div className="flex flex-col w-full">
@@ -3405,9 +3409,25 @@ export default function App() {
                     </div>
                   )}
 
-                  <p className={`text-sm sm:text-base max-w-3xl mx-auto mb-8 font-normal leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-550"}`}>
-                    Transform any public YouTube video into written transcripts, SEO blogs, engaging social threads, summaries, interactive study guides, and visual knowledge graphs in seconds. No credit card, no sign-up, 100% free forever.
-                  </p>
+                  {/* Trust badges below URL input */}
+                  <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mb-8 max-w-2xl mx-auto text-xs font-semibold">
+                    <span className="flex items-center gap-1.5 text-emerald-500">
+                      <Check className="w-4 h-4" />
+                      Free to Use
+                    </span>
+                    <span className="flex items-center gap-1.5 text-emerald-500">
+                      <Check className="w-4 h-4" />
+                      No Signup Required
+                    </span>
+                    <span className="flex items-center gap-1.5 text-emerald-500">
+                      <Check className="w-4 h-4" />
+                      Fast Transcript Generation
+                    </span>
+                    <span className="flex items-center gap-1.5 text-emerald-500">
+                      <Check className="w-4 h-4" />
+                      Multiple AI-Powered Tools
+                    </span>
+                  </div>
 
                   {/* Quick Launch High-Fidelity Demos */}
                   <div className="mb-14">
@@ -3553,23 +3573,23 @@ export default function App() {
               )}
               </div>
 
-              {/* Platform Statistics */}
+              {/* Platform Benefits */}
               <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 p-6 rounded-2xl max-w-4xl mx-auto border ${theme === "dark" ? "bg-slate-900/40 border-slate-800/80" : "bg-white border-slate-200"} shadow-xl`}>
                 <div className="text-center">
-                  <span className="text-3xl font-extrabold block text-red-500">250,000+</span>
-                  <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>Transcripts Generated</span>
-                </div>
-                <div className="text-center">
-                  <span className="text-3xl font-extrabold block text-rose-500">100%</span>
+                  <span className="text-3xl font-extrabold block text-red-500">100%</span>
                   <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>Free No Sign-Up</span>
                 </div>
                 <div className="text-center">
-                  <span className="text-3xl font-extrabold block text-amber-500">&lt; 30s</span>
-                  <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>Average Processing</span>
+                  <span className="text-3xl font-extrabold block text-rose-500">Instant</span>
+                  <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>High-Speed Output</span>
                 </div>
                 <div className="text-center">
-                  <span className="text-3xl font-extrabold block text-emerald-500">12+</span>
-                  <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>Pro Creator Tools</span>
+                  <span className="text-3xl font-extrabold block text-amber-500">Secure</span>
+                  <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-550"}`}>Private Pipeline</span>
+                </div>
+                <div className="text-center">
+                  <span className="text-3xl font-extrabold block text-emerald-500">17+</span>
+                  <span className={`text-xs font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>AI Video Tools</span>
                 </div>
               </div>
 
@@ -3767,51 +3787,42 @@ export default function App() {
             </div>
           </section>
 
-          {/* Testimonial Placeholder Carousel */}
+          {/* Why Users Choose TranscriptG Section */}
           <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Success Stories</span>
-              <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">Loved by 10,000+ Creators Worldwide</h2>
+              <span className="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Platform Benefits</span>
+              <h2 className="text-3xl sm:text-5xl font-light tracking-tight font-display">Why Choose TranscriptG?</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className={`p-6 rounded-2xl border ${theme === "dark" ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-200"}`}>
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {"★".repeat(5)}
+                <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center mb-5">
+                  <Clock className="w-5 h-5 text-red-500" />
                 </div>
-                <p className={`text-sm italic mb-6 leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>
-                  "TranscriptG is hands down the best free tool I have ever used. I can transcribe my entire 30-minute videos and generate a beautifully structured, highly readable SEO blog post in less than three seconds. It has completely transformed my blog workflow!"
+                <h3 className="font-bold text-lg mb-3">Save Hours of Manual Work</h3>
+                <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                  Convert lengthy YouTube videos, lectures, interviews, and podcasts into clean, fully punctuated text transcripts in under 30 seconds. Perfect for quick scanning and reference.
                 </p>
-                <div>
-                  <span className="font-bold text-sm block">Sarah Mitchell</span>
-                  <span className="text-xs text-red-500 font-semibold">Tech Reviewer (120k subs)</span>
-                </div>
               </div>
 
               <div className={`p-6 rounded-2xl border ${theme === "dark" ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-200"}`}>
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {"★".repeat(5)}
+                <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center mb-5">
+                  <Sparkles className="w-5 h-5 text-rose-500" />
                 </div>
-                <p className={`text-sm italic mb-6 leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>
-                  "I use the study mode for my university computer science courses. I just paste the lectures and study notes, and the interactive quiz generates flashcards that save me days of study prep. Truly life-changing software."
+                <h3 className="font-bold text-lg mb-3">AI-Powered Content Repurposing</h3>
+                <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                  Automatically repurpose raw video transcripts into professional SEO-optimized blog posts, formatted summaries, detailed video chapters, and engaging social media threads.
                 </p>
-                <div>
-                  <span className="font-bold text-sm block">Alex Rodriguez</span>
-                  <span className="text-xs text-rose-500 font-semibold">CS Student at MIT</span>
-                </div>
               </div>
 
               <div className={`p-6 rounded-2xl border ${theme === "dark" ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-200"}`}>
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {"★".repeat(5)}
+                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center mb-5">
+                  <BookOpen className="w-5 h-5 text-amber-500" />
                 </div>
-                <p className={`text-sm italic mb-6 leading-relaxed ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>
-                  "No signup, no subscription, no credit card. The prompt is literal—I pasted a URL and got LinkedIn and Twitter posts ready. Unbelievable UX, visually spectacular theme."
+                <h3 className="font-bold text-lg mb-3">Learn and Study More Effectively</h3>
+                <p className={`text-sm leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                  Create interactive quizzes, comprehensive outlines, and custom flashcards directly from academic lectures or video guides to accelerate knowledge retention.
                 </p>
-                <div>
-                  <span className="font-bold text-sm block">Jessica Chen</span>
-                  <span className="text-xs text-amber-500 font-semibold">SaaS Marketing Director</span>
-                </div>
               </div>
             </div>
           </section>
