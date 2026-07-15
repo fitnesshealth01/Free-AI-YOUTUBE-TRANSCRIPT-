@@ -326,7 +326,7 @@ app.get('/sitemap.xml', (req, res) => {
   
   // Dynamically extract the tools list from DEDICATED_TOOL_DETAILS and add any other standalone/landing tools
   const toolsFromDetails = Object.keys(DEDICATED_TOOL_DETAILS || {});
-  const toolsList = Array.from(new Set([...toolsFromDetails, 'video_downloader']));
+  const toolsList = Array.from(new Set([...toolsFromDetails, 'video_downloader', 'revenue_calculator']));
 
   // Dynamically extract the articles from EDUCATIONAL_ARTICLES
   const articlesList = (EDUCATIONAL_ARTICLES || []).map(article => article.id);
@@ -394,6 +394,9 @@ app.get('/ads.txt', (req, res) => {
   if (pubId.startsWith('ca-')) {
     pubId = pubId.substring(3);
   }
+  if (!pubId.startsWith('pub-')) {
+    pubId = 'pub-' + pubId;
+  }
   res.type('text/plain');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0`);
 });
@@ -403,7 +406,7 @@ app.get('/api/indexing/urls', (req, res) => {
   const appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
   
   const toolsFromDetails = Object.keys(DEDICATED_TOOL_DETAILS || {});
-  const toolsList = Array.from(new Set([...toolsFromDetails, 'video_downloader']));
+  const toolsList = Array.from(new Set([...toolsFromDetails, 'video_downloader', 'revenue_calculator']));
   const articlesList = (EDUCATIONAL_ARTICLES || []).map(article => article.id);
 
   const urls = [
@@ -1618,6 +1621,12 @@ async function bootstrap() {
         seo: "[100% Free] YouTube Video Downloader (Unlimited HD)",
         desc: "Download public YouTube videos, clips, and audio tracks in high-quality formats with no limits.",
         keywords: "youtube video downloader, download youtube video, youtube mp4 downloader, save youtube video, youtube downloader hd, free youtube clip saver, download youtube shorts"
+      },
+      revenue_calculator: {
+        name: "YouTube Creator Revenue Calculator",
+        seo: "Free YouTube Creator Revenue Calculator & RPM Tool",
+        desc: "Estimate your YouTube channel's AdSense RPM, earnings, and monetization split using our YouTube Creator Revenue Calculator.",
+        keywords: "YouTube Creator Revenue Calculator, YouTube CPM Calculator, Calculate YouTube Revenue, YouTube Money Calculator, AdSense RPM Calculator, YouTube Earnings Estimator, YouTube Channel Worth, YouTube Sponsorship Calculator, Monetization Estimator YouTube, Calculate YouTube Sponsorship Fee"
       }
     };
 
@@ -1824,7 +1833,17 @@ async function bootstrap() {
           schemaHtml = `<script type="application/ld+json">\n${JSON.stringify(homeAppSchema, null, 2)}\n</script>\n<script type="application/ld+json">\n${JSON.stringify(homeFaqSchema, null, 2)}\n</script>`;
         }
         
+        let adsenseClient = process.env.ADSENSE_PUB_ID || 'pub-9246342607636743';
+        if (adsenseClient.startsWith('ca-')) {
+          adsenseClient = adsenseClient.substring(3);
+        }
+        if (!adsenseClient.startsWith('pub-')) {
+          adsenseClient = 'pub-' + adsenseClient;
+        }
+        const adsenseFullClient = 'ca-' + adsenseClient;
+
         let html = data
+          .replace(/ca-pub-9246342607636743/g, adsenseFullClient)
           .replace(/<title>[^<]*<\/title>/g, `<title>${seoTitle}</title>`)
           .replace(/<meta name="description" content="[^"]*"\s*\/?>/g, `<meta name="description" content="${seoDesc}" />`)
           .replace(/<meta name="keywords" content="[^"]*"\s*\/?>/g, `<meta name="keywords" content="${seoKeywords}" />`)

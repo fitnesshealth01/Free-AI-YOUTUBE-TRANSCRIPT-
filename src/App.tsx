@@ -436,7 +436,8 @@ export default function App() {
     { id: "action_items", name: "AI Action Items Generator", icon: CheckSquare, desc: "Draft checklist frameworks and schedules with the AI Action Items Generator.", seo: "YouTube Action Plan Builder" },
     { id: "shorts_clipper", name: "YouTube Shorts AI Clipper", icon: Zap, desc: "Extract viral micro-assets using our premium YouTube Shorts AI Clipper.", seo: "AI Shorts Generator" },
     { id: "thumbnail_grabber", name: "YouTube Thumbnail Downloader", icon: Layers, desc: "Extract HD thumbnails and score clickability using our YouTube Thumbnail Downloader.", seo: "YouTube HD Thumbnail Grabber" },
-    { id: "script_writer", name: "AI YouTube Script Writer", icon: Sparkles, desc: "Write and rehearse engaging scripts with the AI YouTube Script Writer.", seo: "Video Script Generator AI" }
+    { id: "script_writer", name: "AI YouTube Script Writer", icon: Sparkles, desc: "Write and rehearse engaging scripts with the AI YouTube Script Writer.", seo: "Video Script Generator AI" },
+    { id: "revenue_calculator", name: "YouTube Creator Revenue Calculator", icon: TrendingUp, desc: "Accurately estimate your YouTube channel's AdSense RPM, earnings, and monetization split using our YouTube Creator Revenue Calculator.", seo: "YouTube Creator Revenue Calculator" }
   ];
 
   // Specific Tool State Managers
@@ -673,6 +674,20 @@ export default function App() {
       if (toolId) {
         // Map hyphens to underscores for backwards/internal state compatibility
         const internalToolId = toolId.replace(/-/g, '_');
+        if (internalToolId === "revenue_calculator") {
+          setSelectedLandingTool(null);
+          setSelectedVideo(null);
+          setSelectedChannel(null);
+          setSelectedArticle(null);
+          setSelectedPage(null);
+          setTimeout(() => {
+            const el = document.getElementById("creator-revenue-calculator-section");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 150);
+          return;
+        }
         const isDownloader = internalToolId === "video_downloader";
         const matchedTool = tools.find(t => t.id === internalToolId) || isDownloader;
         if (matchedTool) {
@@ -2358,9 +2373,19 @@ export default function App() {
                         </p>
                         <button
                           onClick={() => {
-                            setSelectedLandingTool(relatedTool.id);
-                            window.location.hash = `#tool=${relatedTool.id}`;
-                            setSelectedArticle(null);
+                            if (relatedTool.id === "revenue_calculator") {
+                              setSelectedArticle(null);
+                              setTimeout(() => {
+                                const el = document.getElementById("creator-revenue-calculator-section");
+                                if (el) {
+                                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                }
+                              }, 120);
+                            } else {
+                              setSelectedLandingTool(relatedTool.id);
+                              window.location.hash = `#tool=${relatedTool.id}`;
+                              setSelectedArticle(null);
+                            }
                           }}
                           className="w-full py-2.5 bg-red-500 hover:bg-red-600 text-white font-bold text-[11px] rounded-lg tracking-wider uppercase transition-colors"
                         >
@@ -2888,10 +2913,20 @@ export default function App() {
                           </div>
                           <button
                             onClick={() => {
-                              setSelectedLandingTool(relatedTool.id);
-                              window.location.hash = `#tool=${relatedTool.id}`;
-                              setSelectedArticle(null);
-                              window.scrollTo({ top: 0, behavior: "smooth" });
+                              if (relatedTool.id === "revenue_calculator") {
+                                setSelectedArticle(null);
+                                setTimeout(() => {
+                                  const el = document.getElementById("creator-revenue-calculator-section");
+                                  if (el) {
+                                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                  }
+                                }, 120);
+                              } else {
+                                setSelectedLandingTool(relatedTool.id);
+                                window.location.hash = `#tool=${relatedTool.id}`;
+                                setSelectedArticle(null);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }
                             }}
                             className="px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-extrabold text-xs rounded-xl tracking-wider uppercase shadow-md hover:shadow-lg transition-all flex items-center gap-2"
                           >
