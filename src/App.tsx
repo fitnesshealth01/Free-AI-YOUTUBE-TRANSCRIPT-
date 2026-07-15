@@ -757,6 +757,32 @@ export default function App() {
     setIsMobileMenuOpen(false);
   };
 
+  // Activates a specific tool and scrolls smoothly to its workspace
+  const handleActivateTool = (toolId: string) => {
+    setSelectedArticle(null);
+    setSelectedPage(null);
+
+    if (selectedVideo) {
+      setActiveTool(toolId);
+      setTimeout(() => {
+        const el = document.getElementById("tool-interface");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    } else {
+      setSelectedLandingTool(toolId);
+      setTimeout(() => {
+        const el = document.getElementById("dedicated-tool-landing");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }, 100);
+    }
+  };
+
   // Auto scroll to top when an article is opened
   useEffect(() => {
     if (selectedArticle) {
@@ -6208,10 +6234,11 @@ export default function App() {
       )}
 
       {/* YouTube Creator Earnings & Revenue Calculator Section */}
-      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="creator-revenue-calculator-section">
+      <section className="mt-16 pt-16 border-t border-slate-200/50 dark:border-zinc-900 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="creator-revenue-calculator-section">
         <YouTubeCreatorCalculator 
           theme={theme} 
           showToast={showToast} 
+          onActivateTool={handleActivateTool}
         />
       </section>
 

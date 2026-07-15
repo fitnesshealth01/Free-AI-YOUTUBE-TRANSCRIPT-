@@ -19,6 +19,7 @@ import {
 interface YouTubeCreatorCalculatorProps {
   theme: string;
   showToast: (msg: string) => void;
+  onActivateTool?: (toolId: string) => void;
 }
 
 interface NicheOption {
@@ -46,7 +47,7 @@ const LOCATIONS = [
   { id: "mixed", name: "Global Mixed Audience", multiplier: 0.85, desc: "A healthy mix of global viewers from all regions." }
 ];
 
-export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCreatorCalculatorProps) {
+export default function YouTubeCreatorCalculator({ theme, showToast, onActivateTool }: YouTubeCreatorCalculatorProps) {
   // Input states
   const [monthlyViews, setMonthlyViews] = useState<number>(100000);
   const [selectedNiche, setSelectedNiche] = useState<string>("tech");
@@ -162,7 +163,7 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Inputs Section */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 flex flex-col gap-6">
             
             {/* Range 1: Monthly Views */}
             <div className="space-y-2">
@@ -339,7 +340,7 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
           </div>
 
           {/* Outputs/Projection Card Section */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 flex flex-col gap-6">
             
             <div className={`p-5 sm:p-6 rounded-2xl border overflow-hidden relative ${
               theme === "dark" 
@@ -442,8 +443,12 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
                 </button>
                 <button
                   onClick={() => {
-                    const el = document.getElementById("active-tool-workspace");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                    if (onActivateTool) {
+                      onActivateTool("seo");
+                    } else {
+                      const el = document.getElementById("active-tool-workspace");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }
                     showToast("Jumped to YouTube SEO Toolkit to optimize CTR!");
                   }}
                   className="flex-1 py-2.5 px-4 rounded-xl text-xs font-black bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/10 transition-all cursor-pointer flex items-center justify-center gap-1"
@@ -478,7 +483,7 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
         </div>
       ) : (
         /* Strategy Plan Tab */
-        <div className="space-y-6">
+        <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Strategy Step 1 */}
@@ -497,8 +502,12 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
               <div className="pt-2">
                 <button
                   onClick={() => {
-                    const el = document.getElementById("active-tool-workspace");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                    if (onActivateTool) {
+                      onActivateTool("translation");
+                    } else {
+                      const el = document.getElementById("active-tool-workspace");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }
                     showToast("Loading subtitle translator tool...");
                   }}
                   className="text-xs font-bold text-red-400 flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
@@ -524,8 +533,12 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
               <div className="pt-2">
                 <button
                   onClick={() => {
-                    const el = document.getElementById("active-tool-workspace");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                    if (onActivateTool) {
+                      onActivateTool("blog");
+                    } else {
+                      const el = document.getElementById("active-tool-workspace");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }
                     showToast("Loading AI Blog Generator tool...");
                   }}
                   className="text-xs font-bold text-red-400 flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
@@ -551,8 +564,12 @@ export default function YouTubeCreatorCalculator({ theme, showToast }: YouTubeCr
               <div className="pt-2">
                 <button
                   onClick={() => {
-                    const el = document.getElementById("active-tool-workspace");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                    if (onActivateTool) {
+                      onActivateTool("seo");
+                    } else {
+                      const el = document.getElementById("active-tool-workspace");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }
                     showToast("Loading AI YouTube SEO Toolkit...");
                   }}
                   className="text-xs font-bold text-red-400 flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
