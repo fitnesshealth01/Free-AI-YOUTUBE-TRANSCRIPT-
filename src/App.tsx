@@ -5,10 +5,11 @@ import {
   Compass, HelpCircle, Trophy, BarChart3, Clock, AlertCircle, 
   Lightbulb, Check, ChevronDown, ChevronRight, MessageSquare, 
   ArrowRight, Users, GraduationCap, Building2, Briefcase, RefreshCw,
-  Sun, Moon, ExternalLink, ThumbsUp, Layers, Award, Zap, X, Shield, Play, Pause, Eye, EyeOff, Flame, Hash,
+  Sun, Moon, ExternalLink, ThumbsUp, Layers, Award, Zap, X, Shield, Play, Pause, Eye, EyeOff, Flame, Hash, Menu,
   TrendingUp, TrendingDown, DollarSign, Target, Percent, Globe, Award as Medallion, Activity,
   Twitter, Linkedin, Instagram, Facebook, Github, Bookmark
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, 
   ResponsiveContainer, PieChart, Pie, Cell, Legend as ChartLegend
@@ -19,7 +20,7 @@ import { EDUCATIONAL_ARTICLES, EducationalArticle } from "./educationalGuides";
 const REVERSED_ARTICLES = [...EDUCATIONAL_ARTICLES].reverse();
 import { WorkspaceSkeleton, PinterestSkeleton } from "./components/Skeletons";
 import { Breadcrumb } from "./components/Breadcrumb";
-import SiteAuditDashboard from "./components/SiteAuditDashboard";
+import YouTubeCreatorCalculator from "./components/YouTubeCreatorCalculator";
 import { SEOPage } from "./components/SEOPage";
 import InteractiveDemoWidget from "./components/InteractiveDemoWidget";
 
@@ -476,6 +477,7 @@ export default function App() {
 
   // Router for Dedicated Landing Pages
   const [selectedLandingTool, setSelectedLandingTool] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Live SEO Custom Sandbox States
   const [seoTitleDraft, setSeoTitleDraft] = useState<string>("");
@@ -713,6 +715,47 @@ export default function App() {
       window.removeEventListener("popstate", handleRouting);
     };
   }, []);
+
+  // Smoothly navigates to homepage sections from any sub-route or sub-view
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, targetId: string) => {
+    e.preventDefault();
+    
+    // Clear sub-page router states to show the core landing home page
+    setSelectedLandingTool(null);
+    setSelectedArticle(null);
+    setSelectedPage(null);
+    setSelectedVideo(null);
+    setSelectedChannel(null);
+    setInputUrl("");
+    setChannelInputUrl("");
+
+    // Reset path to root / in browser address bar without forcing a reload
+    if (window.location.pathname !== "/") {
+      window.history.pushState(null, "", "/");
+    }
+
+    // Set hash in location
+    window.location.hash = targetId;
+
+    // Scroll smoothly to the target section with custom offset timeout
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // Fallbacks for dynamically mounted calculator elements
+        const backupEl = document.getElementById("creator-revenue-calculator-section");
+        if (backupEl) {
+          backupEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    }, 120);
+
+    // Close the mobile dropdown menu
+    setIsMobileMenuOpen(false);
+  };
 
   // Auto scroll to top when an article is opened
   useEffect(() => {
@@ -1769,27 +1812,49 @@ export default function App() {
             </div>
           </a>
 
-          <nav className="hidden md:flex items-center gap-6" aria-label="Main Navigation">
-            <a href="#features-anchor" className="text-sm font-medium hover:text-red-500 transition-colors">Features</a>
-            <a href="#how-it-works" className="text-sm font-medium hover:text-red-500 transition-colors">How It Works</a>
-            <a href="#creator-academy" className="text-sm font-medium hover:text-red-500 transition-colors">Creator Academy</a>
-            <a href="#why-choose-us" className="text-sm font-medium hover:text-red-500 transition-colors">Why TranscriptG</a>
-            <a href="#faq-section" className="text-sm font-medium hover:text-red-500 transition-colors">FAQs</a>
-            <button 
-              onClick={() => {
-                const el = document.getElementById("ux-audit-lab-section");
-                if (el) {
-                  el.scrollIntoView({ behavior: "smooth" });
-                } else {
-                  // Fallback if not rendered
-                  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-                }
-              }} 
-              className="text-sm font-bold text-amber-500 hover:text-amber-400 transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-0 p-0"
-              id="nav-audit-btn"
+          <nav className="hidden lg:flex items-center gap-6" aria-label="Main Navigation">
+            <a 
+              href="#features-anchor" 
+              onClick={(e) => handleNavClick(e, "features-anchor")}
+              className="text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
             >
-              <Activity className="w-4 h-4 animate-pulse" />
-              <span>UX & Heatmap Audit</span>
+              Features
+            </a>
+            <a 
+              href="#how-it-works" 
+              onClick={(e) => handleNavClick(e, "how-it-works")}
+              className="text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
+            >
+              How It Works
+            </a>
+            <a 
+              href="#creator-academy" 
+              onClick={(e) => handleNavClick(e, "creator-academy")}
+              className="text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
+            >
+              Creator Academy
+            </a>
+            <a 
+              href="#why-choose-us" 
+              onClick={(e) => handleNavClick(e, "why-choose-us")}
+              className="text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
+            >
+              Why TranscriptG
+            </a>
+            <a 
+              href="#faq-section" 
+              onClick={(e) => handleNavClick(e, "faq-section")}
+              className="text-sm font-medium hover:text-red-500 transition-colors cursor-pointer"
+            >
+              FAQs
+            </a>
+            <button 
+              onClick={(e) => handleNavClick(e, "creator-revenue-calculator-section")} 
+              className="text-sm font-bold text-red-500 hover:text-red-400 transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-0 p-0"
+              id="nav-calculator-btn"
+            >
+              <TrendingUp className="w-4 h-4 animate-pulse" />
+              <span>Revenue Calculator</span>
             </button>
           </nav>
 
@@ -1828,8 +1893,103 @@ export default function App() {
             >
               {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
+
+            {/* Mobile/Tablet Menu Button Toggle */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`p-2.5 rounded-xl border lg:hidden transition-all cursor-pointer ${
+                theme === "dark" 
+                  ? "bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white" 
+                  : "bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200 hover:text-slate-900"
+              }`}
+              aria-label="Toggle Navigation Menu"
+              id="mobile-menu-toggle-btn"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Dropdown Panel */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className={`lg:hidden border-t overflow-hidden ${
+                theme === "dark" 
+                  ? "bg-slate-950/95 border-slate-900/80 text-slate-200" 
+                  : "bg-white/95 border-slate-200/80 text-slate-800"
+              }`}
+            >
+              <div className="px-4 py-5 space-y-4 flex flex-col">
+                <a 
+                  href="#features-anchor" 
+                  onClick={(e) => handleNavClick(e, "features-anchor")}
+                  className={`text-sm font-semibold py-2.5 px-3 rounded-xl transition-all flex items-center gap-2.5 ${
+                    theme === "dark" ? "hover:bg-slate-900 text-slate-200" : "hover:bg-slate-100 text-slate-800"
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                  Features
+                </a>
+                <a 
+                  href="#how-it-works" 
+                  onClick={(e) => handleNavClick(e, "how-it-works")}
+                  className={`text-sm font-semibold py-2.5 px-3 rounded-xl transition-all flex items-center gap-2.5 ${
+                    theme === "dark" ? "hover:bg-slate-900 text-slate-200" : "hover:bg-slate-100 text-slate-800"
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                  How It Works
+                </a>
+                <a 
+                  href="#creator-academy" 
+                  onClick={(e) => handleNavClick(e, "creator-academy")}
+                  className={`text-sm font-semibold py-2.5 px-3 rounded-xl transition-all flex items-center gap-2.5 ${
+                    theme === "dark" ? "hover:bg-slate-900 text-slate-200" : "hover:bg-slate-100 text-slate-800"
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                  Creator Academy
+                </a>
+                <a 
+                  href="#why-choose-us" 
+                  onClick={(e) => handleNavClick(e, "why-choose-us")}
+                  className={`text-sm font-semibold py-2.5 px-3 rounded-xl transition-all flex items-center gap-2.5 ${
+                    theme === "dark" ? "hover:bg-slate-900 text-slate-200" : "hover:bg-slate-100 text-slate-800"
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Why TranscriptG
+                </a>
+                <a 
+                  href="#faq-section" 
+                  onClick={(e) => handleNavClick(e, "faq-section")}
+                  className={`text-sm font-semibold py-2.5 px-3 rounded-xl transition-all flex items-center gap-2.5 ${
+                    theme === "dark" ? "hover:bg-slate-900 text-slate-200" : "hover:bg-slate-100 text-slate-800"
+                  }`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                  FAQs
+                </a>
+                
+                {/* Revenue Calculator Button */}
+                <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/60">
+                  <button 
+                    onClick={(e) => handleNavClick(e, "creator-revenue-calculator-section")}
+                    className="w-full py-3 px-4 rounded-xl text-xs font-black bg-gradient-to-r from-red-500 to-rose-600 text-white flex items-center justify-center gap-2 shadow-lg shadow-red-500/10 cursor-pointer"
+                  >
+                    <TrendingUp className="w-4 h-4 animate-pulse" />
+                    <span>Open Revenue Calculator</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Main Content Landmark */}
@@ -3637,7 +3797,7 @@ export default function App() {
           </section>
 
           {/* Interactive Benchmarks / Comparison Segment */}
-          <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <section className="py-20 px-4 sm:px-6 lg:px-8" id="how-it-works">
             <div className="max-w-5xl mx-auto">
               
               <div className="text-center max-w-2xl mx-auto mb-16">
@@ -6047,9 +6207,9 @@ export default function App() {
         </div>
       )}
 
-      {/* Site Audit & Heatmap static section */}
-      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="ux-audit-lab-section">
-        <SiteAuditDashboard 
+      {/* YouTube Creator Earnings & Revenue Calculator Section */}
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="creator-revenue-calculator-section">
+        <YouTubeCreatorCalculator 
           theme={theme} 
           showToast={showToast} 
         />
