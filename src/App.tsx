@@ -2632,18 +2632,7 @@ export default function App() {
                                     Also Read
                                   </span>
                                 </div>
-                                <button
-                                  onClick={() => {
-                                    setSelectedArticle(alsoReadArticle);
-                                    window.location.hash = `#article=${alsoReadArticle.id}`;
-                                    window.scrollTo({ top: 0, behavior: "smooth" });
-                                  }}
-                                  className={`text-sm font-extrabold hover:text-red-500 transition-colors text-left ${
-                                    theme === "dark" ? "text-white" : "text-slate-900"
-                                  }`}
-                                >
-                                  {alsoReadArticle.title}
-                                </button>
+                                <a href={`/articles/${alsoReadArticle.id}`} onClick={(e) => { e.preventDefault(); setSelectedArticle(alsoReadArticle); window.location.hash = `#article=${alsoReadArticle.id}`; window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`text-sm font-extrabold hover:text-red-500 transition-colors text-left block ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}></a>
                               </div>
                             )}
                           </React.Fragment>
@@ -2684,17 +2673,7 @@ export default function App() {
                                   {art.description}
                                 </p>
                               </div>
-                              <button
-                                onClick={() => {
-                                  setSelectedArticle(art);
-                                  window.location.hash = `#article=${art.id}`;
-                                  window.scrollTo({ top: 0, behavior: "smooth" });
-                                }}
-                                className="mt-4 text-xs font-bold text-red-500 hover:text-red-600 transition-colors inline-flex items-center gap-1.5 self-start"
-                              >
-                                <span>Read Article</span>
-                                <ArrowRight className="w-3 h-3" />
-                              </button>
+                              <a href={`/articles/${art.id}`} onClick={(e) => { e.preventDefault(); setSelectedArticle(art); window.location.hash = `#article=${art.id}`; window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="mt-4 text-xs font-bold text-red-500 hover:text-red-600 transition-colors inline-flex items-center gap-1.5 self-start cursor-pointer"></a>
                             </div>
                           ))}
                         </div>
@@ -2747,10 +2726,12 @@ export default function App() {
                           .filter(a => a.id !== selectedArticle.id)
                           .slice(0, 5)
                           .map(article => (
-                            <div 
+                            <a 
+                              href={`/articles/${article.id}`}
                               key={article.id} 
-                              className="group cursor-pointer space-y-1.5"
-                              onClick={() => {
+                              className="group cursor-pointer space-y-1.5 block"
+                              onClick={(e) => {
+                                e.preventDefault();
                                 setSelectedArticle(article);
                                 window.location.hash = `#article=${article.id}`;
                                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2769,7 +2750,7 @@ export default function App() {
                               }`}>
                                 {article.description}
                               </p>
-                            </div>
+                            </a>
                           ))}
                       </div>
                     </div>
@@ -3613,17 +3594,20 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {tools.map((tool, idx) => {
                   const ToolIcon = tool.icon;
+                  const seoFriendlyToolId = tool.id.replace(/_/g, '-');
                   return (
-                    <div 
+                    <a 
+                      href={`/tools/${seoFriendlyToolId}`}
                       key={tool.id} 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
                         setSelectedLandingTool(tool.id);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className={`p-6 rounded-2xl border cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group ${
+                      className={`p-6 rounded-2xl border block cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group ${
                         theme === "dark" 
-                          ? "bg-[#0c0f1a] border-slate-800/80 hover:border-slate-700 hover:bg-[#0e1324]" 
-                          : "bg-white border-slate-200 hover:shadow-lg hover:border-slate-300"
+                          ? "bg-[#0c0f1a] border-slate-800/80 hover:border-slate-700 hover:bg-[#0e1324] text-white" 
+                          : "bg-white border-slate-200 hover:shadow-lg hover:border-slate-300 text-slate-800"
                       }`}
                       id={`feature-card-${tool.id}`}
                     >
@@ -3644,7 +3628,7 @@ export default function App() {
                           <ArrowRight className="w-3.5 h-3.5" />
                         </div>
                       </div>
-                    </div>
+                    </a>
                   );
                 })}
               </div>
@@ -3929,14 +3913,21 @@ export default function App() {
                             </span>
                           </div>
 
-                          <h3 
-                            className={`text-base font-bold tracking-tight leading-snug hover:text-red-500 transition-colors cursor-pointer ${theme === "dark" ? "text-white" : "text-slate-800"}`}
-                            onClick={() => setSelectedArticle(article)}
-                          >
-                            {article.title}
+                          <h3 className="text-base font-bold tracking-tight leading-snug">
+                            <a 
+                              href={`/articles/${article.id}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setSelectedArticle(article);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }}
+                              className={`hover:text-red-500 transition-colors block ${theme === "dark" ? "text-white" : "text-slate-800"}`}
+                            >
+                              {article.title}
+                            </a>
                           </h3>
 
-                          <p className={`text-xs line-clamp-3 leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-650"}`}>
+                          <p className={`text-xs line-clamp-3 leading-relaxed ${theme === "dark" ? "text-slate-400" : "text-slate-655"}`}>
                             {article.description}
                           </p>
                         </div>
@@ -3951,13 +3942,18 @@ export default function App() {
                             </span>
                           </div>
                           
-                          <button 
-                            onClick={() => setSelectedArticle(article)}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-red-500 hover:text-rose-600 transition-colors"
+                          <a 
+                            href={`/articles/${article.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setSelectedArticle(article);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="inline-flex items-center gap-1 text-[11px] font-bold text-red-500 hover:text-rose-600 transition-colors cursor-pointer"
                           >
                             <span>Read Guide</span>
                             <ArrowRight className="w-3 h-3" />
-                          </button>
+                          </a>
                         </div>
                       </div>
                     </article>
@@ -6021,18 +6017,25 @@ export default function App() {
                     EXPLORE RELATED UTILITIES
                   </span>
                   <div className="flex flex-wrap gap-2">
-                    {tools.filter(t => t.id !== activeTool).slice(0, 4).map((tool) => (
-                      <button
-                        key={tool.id}
-                        onClick={() => setActiveTool(tool.id)}
-                        className={`text-xs px-3 py-1.5 rounded-xl border flex items-center gap-1.5 ${
-                          theme === "dark" ? "border-slate-800 bg-slate-900/40 hover:bg-slate-900 hover:border-slate-700 text-slate-400 hover:text-white" : "border-slate-200 bg-white hover:bg-gray-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 shadow-sm"
-                        }`}
-                      >
-                        {React.createElement(tool.icon, { className: "w-3.5 h-3.5" })}
-                        <span>{tool.name}</span>
-                      </button>
-                    ))}
+                    {tools.filter(t => t.id !== activeTool).slice(0, 4).map((tool) => {
+                      const seoFriendlyToolId = tool.id.replace(/_/g, '-');
+                      return (
+                        <a
+                          href={`/tools/${seoFriendlyToolId}`}
+                          key={tool.id}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setActiveTool(tool.id);
+                          }}
+                          className={`text-xs px-3 py-1.5 rounded-xl border flex items-center gap-1.5 cursor-pointer ${
+                            theme === "dark" ? "border-slate-800 bg-slate-900/40 hover:bg-slate-900 hover:border-slate-700 text-slate-400 hover:text-white" : "border-slate-200 bg-white hover:bg-gray-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 shadow-sm"
+                          }`}
+                        >
+                          {React.createElement(tool.icon, { className: "w-3.5 h-3.5" })}
+                          <span>{tool.name}</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
 
