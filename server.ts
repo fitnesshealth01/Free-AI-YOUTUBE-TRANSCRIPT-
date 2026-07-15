@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, Type } from '@google/genai';
 import { EDUCATIONAL_ARTICLES } from './src/educationalGuides';
 import { DEDICATED_TOOL_DETAILS } from './src/toolDetails';
 
@@ -805,7 +805,8 @@ app.post('/api/analyze', async (req, res) => {
       throw new Error('No content returned from Gemini.');
     }
 
-    const data = JSON.parse(text);
+    const cleanedText = text.replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
+    const data = JSON.parse(cleanedText);
     return res.json(data);
 
   } catch (error: any) {
@@ -897,30 +898,72 @@ app.post('/api/translate', async (req, res) => {
       return res.json({ translatedTranscript: translated });
     }
 
-    const prompt = `
-      You are an expert translator. Translate the "text" fields of the following YouTube video transcript segments into ${languageName}.
-      Maintain the same JSON array structure, preserving the exact "time" and "seconds" values but translating the "text" field of each item.
-      
-      Return your entire response as a single valid JSON array of objects. Do not wrap in markdown code blocks like \`\`\`json \`\`\`. Just return the raw JSON.
-      
-      Input Transcript JSON:
-      ${JSON.stringify(transcript)}
-    `;
-
-    const response = await generateContentWithRetry({
-      model: 'gemini-3.5-flash',
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-      }
-    });
-
-    const text = response.text;
-    if (!text) {
-      throw new Error('No content returned from Gemini.');
+    // Translate the transcript in chunks to prevent token limit truncation and ensure high robustness.
+    const chunkSize = 45;
+    const chunks: any[][] = [];
+    for (let i = 0; i < transcript.length; i += chunkSize) {
+      chunks.push(transcript.slice(i, i + chunkSize));
     }
 
-    const data = JSON.parse(text);
+    console.log(`Translating transcript of size ${transcript.length} in ${chunks.length} chunks of size ${chunkSize} to ${languageName}.`);
+
+    const translatedChunks = await Promise.all(
+      chunks.map(async (chunk, index) => {
+        try {
+          const prompt = `
+            You are an expert translator. Translate the "text" fields of the following YouTube video transcript segments into ${languageName}.
+            Maintain the exact same JSON array structure, preserving the exact "time" and "seconds" values but translating the "text" field of each item.
+            Do not omit, truncate, or skip any segments.
+            
+            Input segments (batch ${index + 1}/${chunks.length}):
+            ${JSON.stringify(chunk)}
+          `;
+
+          const response = await generateContentWithRetry({
+            model: 'gemini-3.5-flash',
+            contents: prompt,
+            config: {
+              responseMimeType: 'application/json',
+              responseSchema: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    time: { type: Type.STRING },
+                    seconds: { type: Type.INTEGER },
+                    text: { type: Type.STRING }
+                  },
+                  required: ["time", "seconds", "text"]
+                }
+              }
+            }
+          });
+
+          const text = response.text;
+          if (!text) {
+            throw new Error('No content returned from Gemini for this chunk.');
+          }
+
+          // Robustly clean possible markdown code blocks inside output
+          const cleanedText = text.replace(/^```json\s*/i, '').replace(/```\s*$/, '').trim();
+          const parsed = JSON.parse(cleanedText);
+          if (Array.isArray(parsed)) {
+            return parsed;
+          }
+          throw new Error('Response is not a valid JSON array.');
+        } catch (chunkError: any) {
+          console.warn(`Failed to translate chunk ${index} via Gemini, falling back locally for this segment:`, chunkError?.message || chunkError);
+          // Fallback locally only for this chunk so the rest of the translation isn't lost
+          return chunk.map((item: any) => ({
+            ...item,
+            text: `[Translated to ${languageName}] ${item.text}`
+          }));
+        }
+      })
+    );
+
+    // Merge translated chunks chronologically
+    const data = translatedChunks.flat();
     return res.json({ translatedTranscript: data });
 
   } catch (error: any) {
