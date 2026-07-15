@@ -6297,7 +6297,7 @@ export default function App() {
       {/* Footer */}
       <footer className={`py-12 border-t ${theme === "dark" ? "bg-[#080B12] border-slate-900" : "bg-white border-slate-200"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             
             {/* Logo/Info column */}
             <div className="space-y-4">
@@ -6311,7 +6311,7 @@ export default function App() {
                 The ultimate 100% free YouTube transcript and AI toolkit for creators, students, marketers, and researchers.
               </p>
               {/* Social Media Links for compliance and search discovery */}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-2 pt-2">
                 <a 
                   href="https://youtube.com/@transcriptg" 
                   target="_blank" 
