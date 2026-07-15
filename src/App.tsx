@@ -6152,82 +6152,94 @@ export default function App() {
               <span className="text-xs font-bold uppercase tracking-wider block mb-4 text-red-500 font-mono">Transcript & Capture</span>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/transcript"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("transcript");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube Transcript Downloader
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/transcript"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("transcript");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     Free YouTube Subtitle Grabber
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/transcript"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("transcript");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube Video To Text Converter
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/translation"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("translation");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Subtitle & Text Translator
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/quotes"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("quotes");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Quote Extractor
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/action-items"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("action_items");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Action Items & Task List
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -6237,82 +6249,94 @@ export default function App() {
               <span className="text-xs font-bold uppercase tracking-wider block mb-4 text-rose-500 font-mono">Content Repurposing</span>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/blog"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("blog");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     Convert YouTube to Blog Article
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/summary"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("summary");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI YouTube Summary Tool
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/social"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("social");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube Social Media Poster
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/chapters"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("chapters");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Video Chapters Creator
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/shorts-clipper"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("shorts_clipper");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Shorts Clipper & Hook Finder
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/script-writer"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("script_writer");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Video Script Writer & pacing
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -6322,69 +6346,79 @@ export default function App() {
               <span className="text-xs font-bold uppercase tracking-wider block mb-4 text-amber-500 font-mono">Downloads, SEO & Study</span>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/seo"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("seo");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube SEO Tags & Metadata
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/study"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("study");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube Flashcards Study Mode
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/faq"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("faq");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube FAQ Auto-Generator
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/knowledge-graph"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("knowledge_graph");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     AI Knowledge Graph Mind Map
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => {
+                  <a 
+                    href="/tools/thumbnail-grabber"
+                    onClick={(e) => {
+                      e.preventDefault();
                       setSelectedLandingTool("thumbnail_grabber");
                       setSelectedVideo(null);
                       setSelectedChannel(null);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors"
+                    className="hover:text-red-500 text-slate-400 bg-transparent text-left border-none p-0 cursor-pointer focus:outline-none transition-colors inline-block"
                   >
                     YouTube HD Thumbnail Grabber
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>
